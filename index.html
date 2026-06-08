@@ -248,6 +248,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
       <div class="cd-eyebrow"><i class="ti ti-coffee"></i> Tu café de esta semana</div>
       <div class="cd-headline" id="cd-headline"></div>
       <div class="cd-spinner" id="draw-spinner"></div>
+      <button class="btn primary" id="cd-launch" style="margin-top:4px" onclick="drawCoffee()"><i class="ti ti-confetti"></i> ¡Sortear mi café!</button>
       <div class="cd-veil-wrap" id="cd-match" style="display:none">
         <div class="cd-veil"><i class="ti ti-question-mark"></i></div>
         <div id="cd-card"></div>
@@ -342,7 +343,9 @@ var lastDrawnId = null;
       img.src = CONFIG.empresaLogo;
       img.alt = CONFIG.empresaNombre || 'Logo';
       img.className = 'mz-logo-img';
+      var textDiv = marks[i].nextElementSibling;       // bloque de texto al lado del icono
       marks[i].parentNode.replaceChild(img, marks[i]);
+      if (textDiv) textDiv.style.display = 'none';      // ocultar texto: el logo ya lo incluye
     }
   }
   // Acceso directo a administración por URL (#admin)
@@ -588,7 +591,17 @@ function showResult(){
 
   showScreen('s-result');
   lastDrawnId = null;
-  drawCoffee();
+
+  // Estado en reposo: invitar a sortear (no se lanza solo)
+  document.getElementById('cd-headline').innerHTML = '<b>' + esc(playerName) + '</b>, ¿con quién te toca café esta semana?';
+  document.getElementById('draw-spinner').className = 'cd-spinner idle';
+  document.getElementById('draw-spinner').innerHTML = '<div class="cd-face"><div class="cd-av"><i class="ti ti-coffee"></i></div></div>';
+  document.getElementById('cd-launch').style.display = 'inline-flex';
+  document.getElementById('cd-match').style.display = 'none';
+  document.getElementById('cd-match').classList.remove('revealed');
+  document.getElementById('cd-actions').style.display = 'none';
+  document.getElementById('cd-closing').style.display = 'none';
+  document.getElementById('r-recap-wrap').style.display = 'none';
 }
 
 function drawCoffee(){
@@ -599,6 +612,7 @@ function drawCoffee(){
   lastDrawnId = chosen.id;
 
   // Reset UI del sorteo
+  document.getElementById('cd-launch').style.display = 'none';
   document.getElementById('cd-headline').innerHTML = '<b>'+esc(playerName)+'</b>, tu café de esta semana es con…';
   document.getElementById('cd-match').style.display = 'none';
   document.getElementById('cd-match').classList.remove('revealed');
@@ -612,14 +626,20 @@ function drawCoffee(){
 function runRoulette(cands, chosen, done){
   var el = document.getElementById('draw-spinner');
   el.className = 'cd-spinner spinning';
-  var ticks = (cands.length > 1) ? 15 : 1;
-  var i = 0;
+  // Más vueltas y más lento para que se aprecie cada compañero
+  var ticks = (cands.length > 1) ? 20 : 1;
+  var i = 0, prev = null;
+  function pickDifferent(){
+    if(cands.length < 2) return chosen;
+    var c; do { c = cands[Math.floor(Math.random()*cands.length)]; } while(prev && c.id === prev.id);
+    prev = c; return c;
+  }
   function step(){
     if(i < ticks){
-      var show = cands.length > 1 ? cands[Math.floor(Math.random()*cands.length)] : chosen;
-      el.innerHTML = faceHTML(show);
+      el.innerHTML = faceHTML(pickDifferent());
       var t = i / ticks;
-      var delay = 55 + (t*t) * 230;   // ease-out: empieza rápido, frena
+      // ease-out cúbico: empieza a ritmo visible y frena mucho al final
+      var delay = 120 + (t*t*t) * 360;   // ~120ms al inicio, ~480ms al final
       i++;
       setTimeout(step, delay);
     } else {
@@ -648,6 +668,7 @@ function landMatch(chosen, cands){
   // Revelar la ficha tras un instante
   setTimeout(function(){ match.classList.add('revealed'); }, 450);
   document.getElementById('cd-actions').style.display = 'block';
+  document.getElementById('cd-redraw').style.display = (cands.length > 1) ? 'inline-flex' : 'none';
   setTimeout(function(){ document.getElementById('cd-closing').style.display = 'block'; }, 700);
 
   // Recap del resto del equipo

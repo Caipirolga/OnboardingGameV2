@@ -15,7 +15,7 @@ window.CONFIG = {
   // --- Datos de la empresa ---
   empresaNombre: 'Mostaza Comunicación',
   empresaColor: '#d4ac39',          // color de acento del juego
-  empresaLogo: 'logo.png',          // ruta o URL del logo. '' = icono por defecto
+  empresaLogo: 'logo.svg',          // ruta o URL del logo. '' = icono por defecto
 
   // --- Acceso de administración ---
   adminUser: 'admin',
