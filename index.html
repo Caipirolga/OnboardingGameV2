@@ -246,7 +246,6 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
     </div>
     <!-- Sorteo del café -->
     <div class="coffee-draw">
-      <div class="cd-eyebrow"><i class="ti ti-coffee"></i> Tu café de esta semana</div>
       <div class="cd-headline" id="cd-headline"></div>
       <div class="cd-spinner" id="draw-spinner"></div>
       <button class="btn primary" id="cd-launch" style="margin-top:18px" onclick="drawCoffee()">Quiero saberlo</button>
@@ -685,7 +684,7 @@ function showResult(){
   // Estado en reposo: invitar a sortear (no se lanza solo)
   document.getElementById('cd-headline').innerHTML = 'Y ahora que ya los conoces un poco… ¿con quién te toca tomarte un café?';
   document.getElementById('draw-spinner').className = 'cd-spinner idle';
-  document.getElementById('draw-spinner').innerHTML = '<div class="cd-face"><div class="cd-av"><i class="ti ti-coffee"></i></div></div>';
+  document.getElementById('draw-spinner').innerHTML = '<div class="cd-face"><div class="cd-av"><i class="ti ti-coffee" style="font-size:46px"></i></div></div>';
   document.getElementById('cd-launch').style.display = 'inline-flex';
   document.getElementById('cd-match').style.display = 'none';
   document.getElementById('cd-match').classList.remove('revealed');
