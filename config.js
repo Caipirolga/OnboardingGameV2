@@ -19,7 +19,7 @@ window.CONFIG = {
 
   // --- Acceso de administración ---
   adminUser: 'admin',
-  adminPass: 'entrar',
+  adminPass: 'm0stazaM',
 
   // --- Pistas (orden = orden en que se revelan en el juego) ---
   // campo = nombre EXACTO de la columna en Airtable
