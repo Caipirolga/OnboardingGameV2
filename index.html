@@ -141,7 +141,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
   <div class="mz-hero"><h1>¿Quién es quién?</h1><p>Conoce a tu nuevo equipo jugando</p></div>
   <div class="content">
     <div class="field"><label>Tu nombre</label><input type="text" id="l-name" placeholder="Ej: María García" autocomplete="given-name"></div>
-    <button class="btn primary" style="width:100%;margin-top:8px" onclick="playerLogin()"><i class="ti ti-player-play"></i> Empezar a jugar</button>
+    <button class="btn primary" style="width:100%;margin-top:8px" onclick="playerLogin()">Empezar a jugar</button>
     <button class="btn outline-dark" style="width:100%;margin-top:10px" onclick="openSignup()">¿Eres nuevo? Crea tu perfil</button>
     <p style="text-align:center;margin-top:22px"><a href="#admin" class="admin-link" onclick="goAdminLogin();return false;">Administración</a></p>
   </div>
@@ -151,14 +151,14 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 <div class="screen" id="s-admin-login">
   <div class="mz-header">
     <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Administración</span><span class="mz-tag">Acceso RRHH</span></div></div>
-    <button class="btn white sm" onclick="logout()"><i class="ti ti-arrow-left"></i> Volver</button>
+    <button class="btn white sm" onclick="logout()">Volver</button>
   </div>
   <div class="content" style="padding-top:1.75rem">
     <p style="font-size:12px;color:var(--mz-gray);margin-bottom:1rem">Acceso reservado para la gestión de perfiles.</p>
     <div class="field"><label>Usuario</label><input type="text" id="l-user" placeholder="rrhh" autocomplete="username"></div>
     <div class="field"><label>Contraseña</label><input type="password" id="l-pass" placeholder="..." autocomplete="current-password"></div>
     <div id="login-err" class="banner err" style="display:none;margin-top:8px"><i class="ti ti-alert-circle"></i><span>Usuario o contraseña incorrectos</span></div>
-    <button class="btn primary" style="width:100%;margin-top:12px" onclick="adminLogin()"><i class="ti ti-arrow-right"></i> Entrar</button>
+    <button class="btn primary" style="width:100%;margin-top:12px" onclick="adminLogin()">Entrar</button>
     <p style="font-size:10px;color:var(--mz-gray);text-align:center;margin-top:12px">Usuario <strong id="adm-hint-u">rrhh</strong> · contraseña en config.js</p>
   </div>
 </div>
@@ -176,11 +176,11 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 <div class="screen" id="s-error">
   <div class="mz-header">
     <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Onboarding Game</span></div></div>
-    <button class="btn white sm" onclick="logout()"><i class="ti ti-logout"></i> Salir</button>
+    <button class="btn white sm" onclick="logout()">Salir</button>
   </div>
   <div class="content">
     <div class="banner err"><i class="ti ti-alert-triangle"></i><span id="err-msg">No se pudieron cargar los perfiles.</span></div>
-    <button class="btn primary" style="width:100%" onclick="reloadData()"><i class="ti ti-refresh"></i> Reintentar</button>
+    <button class="btn primary" style="width:100%" onclick="reloadData()">Reintentar</button>
   </div>
 </div>
 
@@ -188,7 +188,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 <div class="screen" id="s-game-intro">
   <div class="mz-header">
     <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Onboarding Game</span></div></div>
-    <button class="btn white sm" onclick="logout()"><i class="ti ti-logout"></i> Salir</button>
+    <button class="btn white sm" onclick="logout()">Salir</button>
   </div>
   <div class="mz-hero"><h1 id="gi-welcome">¡Hola!</h1><p>Descubre a tus compañeros a través de pistas</p></div>
   <div class="content">
@@ -201,7 +201,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
       <div class="score-row-item"><span style="color:var(--mz-gray);font-weight:600">Error</span><span style="font-weight:800;color:var(--mz-red)">-50 pts</span></div>
     </div>
     <div id="gi-warn" class="banner warn" style="display:none"><i class="ti ti-alert-triangle"></i><span>Aún no hay suficientes perfiles. Pide a RRHH que los añada en Airtable.</span></div>
-    <button class="btn primary" style="width:100%" onclick="startGame()" id="gi-btn"><i class="ti ti-player-play"></i> Empezar</button>
+    <button class="btn primary" style="width:100%" onclick="startGame()" id="gi-btn">Empezar</button>
   </div>
 </div>
 
@@ -214,7 +214,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
   <div class="content">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
       <span class="game-pill"><i class="ti ti-users"></i> <span id="g-qnum">1</span>/<span id="g-qtot">5</span></span>
-      <button class="hint-btn" id="g-hint" onclick="revealClue()"><i class="ti ti-bulb"></i> Ver pista</button>
+      <button class="hint-btn" id="g-hint" onclick="revealClue()">Ver pista</button>
     </div>
     <div class="pbar"><div class="pbar-fill" id="g-pbar" style="width:0%"></div></div>
     <div id="g-clues"></div>
@@ -231,7 +231,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 <div class="screen" id="s-result">
   <div class="mz-header">
     <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Onboarding Game</span></div></div>
-    <button class="btn white sm" onclick="logout()"><i class="ti ti-logout"></i> Salir</button>
+    <button class="btn white sm" onclick="logout()">Salir</button>
   </div>
   <div class="result-banner">
     <div style="font-size:36px;margin-bottom:8px" id="r-emoji"></div>
@@ -255,7 +255,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
       </div>
       <div id="cd-actions" style="display:none;margin-top:14px">
         <div id="cd-coffee-slot"></div>
-        <button class="btn white sm" id="cd-redraw" style="margin-top:10px" onclick="drawCoffee()"><i class="ti ti-dice-3"></i> Sortear otra persona</button>
+        <button class="btn white sm" id="cd-redraw" style="margin-top:10px" onclick="drawCoffee()">Sortear otra persona</button>
       </div>
       <p class="cd-closing" id="cd-closing" style="display:none">El onboarding va de conocer a la gente, no de memorizar nombres. Ese café es el verdadero objetivo.</p>
     </div>
@@ -264,9 +264,9 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
       <div id="r-cards"></div>
     </div>
     <div style="display:flex;gap:8px;justify-content:center;margin-top:1.25rem;flex-wrap:wrap">
-      <button class="btn outline-dark" onclick="showScreen('s-game-intro')"><i class="ti ti-refresh"></i> Jugar de nuevo</button>
+      <button class="btn outline-dark" onclick="showScreen('s-game-intro')">Jugar de nuevo</button>
       <button class="btn outline-dark" onclick="openSignup()">Crear mi perfil</button>
-      <button class="btn outline" onclick="logout()"><i class="ti ti-logout"></i> Salir</button>
+      <button class="btn outline" onclick="logout()">Salir</button>
     </div>
   </div>
 </div>
@@ -275,7 +275,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 <div class="screen" id="s-admin">
   <div class="mz-header">
     <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Panel de perfiles</span></div></div>
-    <button class="btn white sm" onclick="logout()"><i class="ti ti-logout"></i> Salir</button>
+    <button class="btn white sm" onclick="logout()">Salir</button>
   </div>
   <div class="content">
     <div class="banner warn"><i class="ti ti-info-circle"></i><span>Los perfiles se editan directamente en <strong>Airtable</strong> (tabla «Perfiles»). Aquí solo se muestran los datos cargados.</span></div>
@@ -283,7 +283,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
       <div class="stat"><div class="stat-val" id="a-total">0</div><div class="stat-lbl">perfiles</div></div>
       <div class="stat"><div class="stat-val" id="a-complete">0</div><div class="stat-lbl">jugables</div></div>
     </div>
-    <button class="btn outline-dark sm" style="margin-bottom:1rem" onclick="reloadData(true)"><i class="ti ti-refresh"></i> Recargar desde Airtable</button>
+    <button class="btn outline-dark sm" style="margin-bottom:1rem" onclick="reloadData(true)">Recargar desde Airtable</button>
     <div id="a-list"></div>
   </div>
 </div>
@@ -292,7 +292,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 <div class="screen" id="s-signup">
   <div class="mz-header">
     <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Crear mi perfil</span><span class="mz-tag">Nuevo en el equipo</span></div></div>
-    <button class="btn white sm" onclick="logout()"><i class="ti ti-arrow-left"></i> Volver</button>
+    <button class="btn white sm" onclick="logout()">Volver</button>
   </div>
   <div class="mz-hero"><h1>¡Cuéntanos quién eres!</h1><p>Tu perfil entrará en el juego tras una breve revisión</p></div>
   <div class="content">
@@ -301,13 +301,13 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
       <div class="field"><label>Tu email *</label><input type="email" id="su-email" placeholder="maria@empresa.com"></div>
       <div id="su-clues"></div>
       <div id="su-err" class="banner err" style="display:none"><i class="ti ti-alert-circle"></i><span id="su-err-msg"></span></div>
-      <button class="btn primary" id="su-submit" style="width:100%;margin-top:6px" onclick="submitSignup()"><i class="ti ti-send"></i> Enviar mi perfil</button>
+      <button class="btn primary" id="su-submit" style="width:100%;margin-top:6px" onclick="submitSignup()">Enviar mi perfil</button>
       <p style="font-size:10px;color:var(--mz-gray);text-align:center;margin-top:10px">La foto la añade el equipo de RRHH; mientras tanto se mostrarán tus iniciales.</p>
     </div>
     <div id="signup-done" style="display:none;text-align:center;padding:1rem 0">
       <div style="font-size:16px;font-weight:800;color:var(--mz-black);margin-bottom:6px;margin-top:1rem">¡Perfil enviado!</div>
       <p style="font-size:13px;color:var(--mz-gray);line-height:1.5">Gracias. Tu perfil quedará disponible en el juego en cuanto el equipo lo revise. ¡Bienvenida/o!</p>
-      <button class="btn primary" style="margin-top:16px" onclick="logout()"><i class="ti ti-home"></i> Volver al inicio</button>
+      <button class="btn primary" style="margin-top:16px" onclick="logout()">Volver al inicio</button>
     </div>
   </div>
 </div>
@@ -749,7 +749,7 @@ function landMatch(chosen, cands){
   // Botón de café (o aviso si no hay email)
   var slot = document.getElementById('cd-coffee-slot');
   if(chosen.email){
-    slot.innerHTML = '<button class="btn coffee" onclick="inviteCoffee('+JSON.stringify(chosen.name)+','+JSON.stringify(chosen.email)+')"><i class="ti ti-coffee"></i> Quedar para el café con '+esc(chosen.name.split(' ')[0])+'</button>';
+    slot.innerHTML = '<button class="btn coffee" onclick="inviteCoffee('+JSON.stringify(chosen.name)+','+JSON.stringify(chosen.email)+')">Quedar para el café con '+esc(chosen.name.split(' ')[0])+'</button>';
   } else {
     slot.innerHTML = '<p class="cd-empty">'+esc(chosen.name.split(' ')[0])+' no tiene email en su ficha — ¡búscale en persona!</p>';
   }
