@@ -157,7 +157,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
     <p style="font-size:12px;color:var(--mz-gray);margin-bottom:1rem">Acceso reservado para la gestión de perfiles.</p>
     <div class="field"><label>Usuario</label><input type="text" id="l-user" placeholder="rrhh" autocomplete="username"></div>
     <div class="field"><label>Contraseña</label><input type="password" id="l-pass" placeholder="..." autocomplete="current-password"></div>
-    <div id="login-err" class="banner err" style="display:none;margin-top:8px"><i class="ti ti-alert-circle"></i><span>Usuario o contraseña incorrectos</span></div>
+    <div id="login-err" class="banner err" style="display:none;margin-top:8px"><span>Usuario o contraseña incorrectos</span></div>
     <button class="btn primary" style="width:100%;margin-top:12px" onclick="adminLogin()">Entrar</button>
     <p style="font-size:10px;color:var(--mz-gray);text-align:center;margin-top:12px">Usuario <strong id="adm-hint-u">rrhh</strong> · contraseña en config.js</p>
   </div>
@@ -179,7 +179,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
     <button class="btn white sm" onclick="logout()">Salir</button>
   </div>
   <div class="content">
-    <div class="banner err"><i class="ti ti-alert-triangle"></i><span id="err-msg">No se pudieron cargar los perfiles.</span></div>
+    <div class="banner err"><span id="err-msg">No se pudieron cargar los perfiles.</span></div>
     <button class="btn primary" style="width:100%" onclick="reloadData()">Reintentar</button>
   </div>
 </div>
@@ -200,7 +200,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
       <div class="score-row-item"><span style="color:var(--mz-gray);font-weight:600">Acierto con 4-6 pistas</span><span style="font-weight:800">100 pts</span></div>
       <div class="score-row-item"><span style="color:var(--mz-gray);font-weight:600">Error</span><span style="font-weight:800;color:var(--mz-red)">-50 pts</span></div>
     </div>
-    <div id="gi-warn" class="banner warn" style="display:none"><i class="ti ti-alert-triangle"></i><span>Aún no hay suficientes perfiles. Pide a RRHH que los añada en Airtable.</span></div>
+    <div id="gi-warn" class="banner warn" style="display:none"><span>Aún no hay suficientes perfiles. Pide a RRHH que los añada en Airtable.</span></div>
     <button class="btn primary" style="width:100%" onclick="startGame()" id="gi-btn">Empezar</button>
   </div>
 </div>
@@ -222,7 +222,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
     <div class="opts" id="g-opts"></div>
     <div class="feedback" id="g-feedback" style="display:none"></div>
     <div id="g-next-row" style="display:none;justify-content:flex-end;margin-top:8px">
-      <button class="btn primary" onclick="nextQ()">Siguiente <i class="ti ti-arrow-right"></i></button>
+      <button class="btn primary" onclick="nextQ()">Siguiente</button>
     </div>
   </div>
 </div>
@@ -278,7 +278,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
     <button class="btn white sm" onclick="logout()">Salir</button>
   </div>
   <div class="content">
-    <div class="banner warn"><i class="ti ti-info-circle"></i><span>Los perfiles se editan directamente en <strong>Airtable</strong> (tabla «Perfiles»). Aquí solo se muestran los datos cargados.</span></div>
+    <div class="banner warn"><span>Los perfiles se editan directamente en <strong>Airtable</strong> (tabla «Perfiles»). Aquí solo se muestran los datos cargados.</span></div>
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1rem">
       <div class="stat"><div class="stat-val" id="a-total">0</div><div class="stat-lbl">perfiles</div></div>
       <div class="stat"><div class="stat-val" id="a-complete">0</div><div class="stat-lbl">jugables</div></div>
@@ -300,7 +300,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
       <div class="field"><label>Tu nombre y apellido *</label><input type="text" id="su-nombre" placeholder="Ej: María García"></div>
       <div class="field"><label>Tu email *</label><input type="email" id="su-email" placeholder="maria@empresa.com"></div>
       <div id="su-clues"></div>
-      <div id="su-err" class="banner err" style="display:none"><i class="ti ti-alert-circle"></i><span id="su-err-msg"></span></div>
+      <div id="su-err" class="banner err" style="display:none"><span id="su-err-msg"></span></div>
       <button class="btn primary" id="su-submit" style="width:100%;margin-top:6px" onclick="submitSignup()">Enviar mi perfil</button>
       <p style="font-size:10px;color:var(--mz-gray);text-align:center;margin-top:10px">La foto la añade el equipo de RRHH; mientras tanto se mostrarán tus iniciales.</p>
     </div>
@@ -469,7 +469,7 @@ function openSignup(){
   var box = document.getElementById('su-clues');
   box.innerHTML = CLUE_FIELDS.map(function(cf){
     var label = esc(cf.label || cf.field);
-    return '<div class="field"><label><i class="ti '+(cf.icon||'ti-star')+'" style="margin-right:4px"></i>'+label+' *</label>'+
+    return '<div class="field"><label>'+label+' *</label>'+
            '<textarea id="su-f-'+esc(cf.field)+'" rows="2" placeholder="Escribe tu respuesta…"></textarea></div>';
   }).join('');
   // Reset estado
@@ -506,7 +506,7 @@ function submitSignup(){
   var btn = document.getElementById('su-submit');
   btn.disabled = true;
   var original = btn.innerHTML;
-  btn.innerHTML = '<i class="ti ti-loader"></i> Enviando…';
+  btn.innerHTML = 'Enviando…';
 
   fetch(CONFIG.proxyUrl, {
     method: 'POST',
@@ -584,12 +584,12 @@ function renderClues(p){
   for(var i=0;i<Math.min(gClues, valid.length);i++){
     var cl = valid[i];
     var d = document.createElement('div'); d.className='clue-card';
-    d.innerHTML = '<div class="clue-lbl">'+esc(cl.label)+'</div><div class="clue-txt"><i class="ti '+(cl.icon||'ti-star')+'" style="margin-right:5px;font-size:14px"></i>'+esc(cl.text)+'</div>';
+    d.innerHTML = '<div class="clue-lbl">'+esc(cl.label)+'</div><div class="clue-txt">'+esc(cl.text)+'</div>';
     c.appendChild(d);
   }
   if(gClues < valid.length){
     var d2 = document.createElement('div'); d2.className='clue-card';
-    d2.innerHTML = '<div class="clue-lbl">Pista '+(gClues+1)+'</div><div class="clue-txt clue-locked"><i class="ti ti-lock" style="margin-right:5px"></i>Bloqueada</div>';
+    d2.innerHTML = '<div class="clue-lbl">Pista '+(gClues+1)+'</div><div class="clue-txt clue-locked">Bloqueada</div>';
     c.appendChild(d2);
   }
 }
@@ -654,7 +654,7 @@ function profileCardHTML(p){
     : '<div class="avatar-lg">'+inits(p.name)+'</div>';
   var firstClue = (p.clues[0] && p.clues[0].text || '').slice(0,35);
   var body = validClues(p).map(function(c){
-    return '<div class="profile-clue"><i class="ti '+(c.icon||'ti-star')+'" style="font-size:13px;color:var(--mz-yd);flex-shrink:0;margin-top:1px"></i><span><strong style="color:var(--mz-black)">'+esc(c.label)+':</strong> '+esc(c.text)+'</span></div>';
+    return '<div class="profile-clue"><span><strong style="color:var(--mz-black)">'+esc(c.label)+':</strong> '+esc(c.text)+'</span></div>';
   }).join('');
   return '<div class="profile-card-header">'+avEl+'<div><div class="profile-card-name">'+esc(p.name)+'</div><div style="font-size:10px;color:var(--mz-gm)">'+esc(firstClue)+'</div></div></div><div class="profile-card-body">'+body+'</div>';
 }
