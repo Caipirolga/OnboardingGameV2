@@ -142,7 +142,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
   <div class="content">
     <div class="field"><label>Tu nombre</label><input type="text" id="l-name" placeholder="Ej: María García" autocomplete="given-name"></div>
     <button class="btn primary" style="width:100%;margin-top:8px" onclick="playerLogin()"><i class="ti ti-player-play"></i> Empezar a jugar</button>
-    <button class="btn outline-dark" style="width:100%;margin-top:10px" onclick="openSignup()"><i class="ti ti-user-plus"></i> ¿Eres nuevo? Crea tu perfil</button>
+    <button class="btn outline-dark" style="width:100%;margin-top:10px" onclick="openSignup()">¿Eres nuevo? Crea tu perfil</button>
     <p style="text-align:center;margin-top:22px"><a href="#admin" class="admin-link" onclick="goAdminLogin();return false;">Administración</a></p>
   </div>
 </div>
@@ -266,7 +266,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
     </div>
     <div style="display:flex;gap:8px;justify-content:center;margin-top:1.25rem;flex-wrap:wrap">
       <button class="btn outline-dark" onclick="showScreen('s-game-intro')"><i class="ti ti-refresh"></i> Jugar de nuevo</button>
-      <button class="btn outline-dark" onclick="openSignup()"><i class="ti ti-user-plus"></i> Crear mi perfil</button>
+      <button class="btn outline-dark" onclick="openSignup()">Crear mi perfil</button>
       <button class="btn outline" onclick="logout()"><i class="ti ti-logout"></i> Salir</button>
     </div>
   </div>
@@ -306,8 +306,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
       <p style="font-size:10px;color:var(--mz-gray);text-align:center;margin-top:10px">La foto la añade el equipo de RRHH; mientras tanto se mostrarán tus iniciales.</p>
     </div>
     <div id="signup-done" style="display:none;text-align:center;padding:1rem 0">
-      <div style="font-size:40px;margin-bottom:10px">🎉</div>
-      <div style="font-size:16px;font-weight:800;color:var(--mz-black);margin-bottom:6px">¡Perfil enviado!</div>
+      <div style="font-size:16px;font-weight:800;color:var(--mz-black);margin-bottom:6px;margin-top:1rem">¡Perfil enviado!</div>
       <p style="font-size:13px;color:var(--mz-gray);line-height:1.5">Gracias. Tu perfil quedará disponible en el juego en cuanto el equipo lo revise. ¡Bienvenida/o!</p>
       <button class="btn primary" style="margin-top:16px" onclick="logout()"><i class="ti ti-home"></i> Volver al inicio</button>
     </div>
