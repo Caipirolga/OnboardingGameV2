@@ -657,7 +657,10 @@ function handleAns(chosen, correct, btn){
 
 function nextQ(){ gQ++; if(gQ>=gOrder.length){ showResult(); return; } loadQ(); }
 
-function inviteCoffee(name, email){
+function inviteCoffee(){
+  var m = window.__coffeeMatch;
+  if(!m || !m.email) return;
+  var name = m.name, email = m.email;
   var empresa = CONFIG.empresaNombre || 'el equipo';
   var subject = encodeURIComponent('¡Hola ' + name + ', nos ha tocado un café!');
   var body = encodeURIComponent('Hola ' + name + ',\n\nSoy ' + playerName + ', me acabo de incorporar a ' + empresa + ' y, jugando al juego de onboarding, nos ha tocado tomar un café juntos esta semana.\n\n¿Te va bien que lo concretemos? Me apetece conocerte.\n\nUn saludo,\n' + playerName);
@@ -774,7 +777,8 @@ function landMatch(chosen, cands){
   // Botón de café (o aviso si no hay email)
   var slot = document.getElementById('cd-coffee-slot');
   if(chosen.email){
-    slot.innerHTML = '<button class="btn coffee" onclick="inviteCoffee('+JSON.stringify(chosen.name)+','+JSON.stringify(chosen.email)+')">Quedar para el café con '+esc(chosen.name.split(' ')[0])+'</button>';
+    window.__coffeeMatch = chosen;
+    slot.innerHTML = '<button class="btn coffee" onclick="inviteCoffee()">Quedar para el café con '+esc(chosen.name.split(' ')[0])+'</button>';
   } else {
     slot.innerHTML = '<p class="cd-empty">'+esc(chosen.name.split(' ')[0])+' no tiene email en su ficha — ¡búscale en persona!</p>';
   }
