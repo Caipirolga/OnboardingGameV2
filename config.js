@@ -24,12 +24,12 @@ window.CONFIG = {
   // --- Pistas (orden = orden en que se revelan en el juego) ---
   // campo = nombre EXACTO de la columna en Airtable
   pistas: [
-    { campo: 'rol_empresa',    icono: 'ti-briefcase',  etiqueta: 'Mi rol en la empresa' },
     { campo: 'como_soy',       icono: 'ti-mood-smile', etiqueta: '¿Cómo soy?' },
     { campo: 'donde_naci',     icono: 'ti-map-pin',    etiqueta: '¿Dónde nací?' },
     { campo: 'hobby',          icono: 'ti-heart',      etiqueta: 'Mi hobby' },
     { campo: 'plan_perfecto',  icono: 'ti-sparkles',   etiqueta: 'Mi plan perfecto' },
-    { campo: 'peor_pesadilla', icono: 'ti-ghost',      etiqueta: 'Mi peor pesadilla' }
+    { campo: 'peor_pesadilla', icono: 'ti-ghost',      etiqueta: 'Mi peor pesadilla' },
+    { campo: 'rol_empresa',    icono: 'ti-briefcase',  etiqueta: 'Mi rol en la empresa' }
   ]
 
 };

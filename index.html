@@ -96,6 +96,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 .banner i{flex-shrink:0;margin-top:1px}
 .banner.warn{background:#FAEEDA;border:1.5px solid var(--mz-yellow);color:#633806}
 .banner.err{background:var(--mz-rbg);border:1.5px solid #F09595;color:var(--mz-red)}
+.banner.ok{background:#E7F6EC;border:1.5px solid #7CC894;color:#1E6B3A}
 .spinner{width:34px;height:34px;border:3px solid var(--mz-gl);border-top-color:var(--mz-yellow);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .center-pad{padding:3rem 1.5rem;text-align:center}
@@ -192,6 +193,15 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
   </div>
   <div class="mz-hero"><h1 id="gi-welcome">¡Hola!</h1><p>Descubre a tus compañeros a través de pistas</p></div>
   <div class="content">
+    <div class="score-table" style="margin-bottom:14px">
+      <p style="font-size:10px;font-weight:800;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Cómo se juega</p>
+      <ol style="margin:0;padding-left:18px;font-size:13px;color:var(--mz-black);font-weight:500;line-height:1.55">
+        <li><strong>Lee las pistas</strong> que aparecen sobre un compañero/a (pulsa «Ver pista» para descubrir más).</li>
+        <li><strong>Adivina quién es</strong> eligiendo entre las opciones.</li>
+        <li><strong>Cuantas menos pistas necesites, más puntos</strong> consigues.</li>
+        <li>Al terminar, el juego te <strong>empareja con alguien para tomar un café</strong>. ¡Ese es el verdadero objetivo!</li>
+      </ol>
+    </div>
     <div class="score-table">
       <p style="font-size:10px;font-weight:800;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Puntuación</p>
       <div class="score-row-item"><span style="color:var(--mz-gray);font-weight:600">Acierto con 1 pista</span><span style="font-weight:800">500 pts</span></div>
@@ -212,18 +222,25 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
     <span class="game-pill"><i class="ti ti-star"></i> <span id="g-score">0</span> pts</span>
   </div>
   <div class="content">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+    <div style="margin-bottom:4px">
       <span class="game-pill"><i class="ti ti-users"></i> <span id="g-qnum">1</span>/<span id="g-qtot">5</span></span>
-      <button class="hint-btn" id="g-hint" onclick="revealClue()">Ver pista</button>
     </div>
     <div class="pbar"><div class="pbar-fill" id="g-pbar" style="width:0%"></div></div>
-    <div id="g-clues"></div>
+
+    <!-- BLOQUE 1: ¿Quién es esta persona? -->
     <p style="font-size:11px;font-weight:700;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">¿Quién es esta persona?</p>
     <div class="opts" id="g-opts"></div>
     <div class="feedback" id="g-feedback" style="display:none"></div>
     <div id="g-next-row" style="display:none;justify-content:flex-end;margin-top:8px">
       <button class="btn primary" onclick="nextQ()">Siguiente</button>
     </div>
+
+    <!-- BLOQUE 2: Pistas -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:20px 0 10px">
+      <span style="font-size:11px;font-weight:700;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em">Pistas</span>
+      <button class="hint-btn" id="g-hint" onclick="revealClue()">Ver pista</button>
+    </div>
+    <div id="g-clues"></div>
   </div>
 </div>
 
@@ -334,12 +351,12 @@ var CONFIG = Object.assign({}, DEFAULT_CONFIG, (window.CONFIG || {}));
    Si config.js define "pistas", se usa eso; si no, este valor por defecto.
    Acepta claves en español (campo/icono/etiqueta) o inglés (field/icon/label). */
 var DEFAULT_CLUES = [
-  { field:'rol_empresa',    label:'Mi rol en la empresa', icon:'ti-briefcase' },
   { field:'como_soy',       label:'Cómo soy',             icon:'ti-mood-smile' },
   { field:'donde_naci',     label:'Dónde nací',           icon:'ti-map-pin' },
   { field:'hobby',          label:'Mi hobby',             icon:'ti-heart' },
   { field:'plan_perfecto',  label:'Mi plan perfecto',     icon:'ti-sparkles' },
-  { field:'peor_pesadilla', label:'Mi peor pesadilla',    icon:'ti-ghost' }
+  { field:'peor_pesadilla', label:'Mi peor pesadilla',    icon:'ti-ghost' },
+  { field:'rol_empresa',    label:'Mi rol en la empresa', icon:'ti-briefcase' }
 ];
 var CLUE_FIELDS = (Array.isArray(CONFIG.pistas) && CONFIG.pistas.length)
   ? CONFIG.pistas.map(function(c){
@@ -645,6 +662,14 @@ function inviteCoffee(name, email){
   var subject = encodeURIComponent('¡Hola ' + name + ', nos ha tocado un café!');
   var body = encodeURIComponent('Hola ' + name + ',\n\nSoy ' + playerName + ', me acabo de incorporar a ' + empresa + ' y, jugando al juego de onboarding, nos ha tocado tomar un café juntos esta semana.\n\n¿Te va bien que lo concretemos? Me apetece conocerte.\n\nUn saludo,\n' + playerName);
   window.location.href = 'mailto:' + email + '?subject=' + subject + '&body=' + body;
+  var slot = document.getElementById('cd-coffee-slot');
+  if(slot){
+    var first = (name || '').split(' ')[0];
+    slot.innerHTML =
+      '<div class="banner ok" style="text-align:left;margin-bottom:0">'
+      + '<i class="ti ti-circle-check"></i>'
+      + '<span>Correo preparado. Envíalo para quedar con <strong>'+esc(first)+'</strong>.</span></div>';
+  }
 }
 
 /* Devuelve el HTML interno de una ficha completa */
@@ -652,11 +677,10 @@ function profileCardHTML(p){
   var avEl = p.photo
     ? '<div class="avatar-lg"><img src="'+esc(p.photo)+'" alt="'+esc(p.name)+'"></div>'
     : '<div class="avatar-lg">'+inits(p.name)+'</div>';
-  var firstClue = (p.clues[0] && p.clues[0].text || '').slice(0,35);
   var body = validClues(p).map(function(c){
     return '<div class="profile-clue"><span><strong style="color:var(--mz-black)">'+esc(c.label)+':</strong> '+esc(c.text)+'</span></div>';
   }).join('');
-  return '<div class="profile-card-header">'+avEl+'<div><div class="profile-card-name">'+esc(p.name)+'</div><div style="font-size:10px;color:var(--mz-gm)">'+esc(firstClue)+'</div></div></div><div class="profile-card-body">'+body+'</div>';
+  return '<div class="profile-card-header">'+avEl+'<div><div class="profile-card-name">'+esc(p.name)+'</div></div></div><div class="profile-card-body">'+body+'</div>';
 }
 
 function faceHTML(p){
