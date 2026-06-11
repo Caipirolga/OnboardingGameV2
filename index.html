@@ -661,7 +661,8 @@ function inviteCoffee(name, email){
   var empresa = CONFIG.empresaNombre || 'el equipo';
   var subject = encodeURIComponent('¡Hola ' + name + ', nos ha tocado un café!');
   var body = encodeURIComponent('Hola ' + name + ',\n\nSoy ' + playerName + ', me acabo de incorporar a ' + empresa + ' y, jugando al juego de onboarding, nos ha tocado tomar un café juntos esta semana.\n\n¿Te va bien que lo concretemos? Me apetece conocerte.\n\nUn saludo,\n' + playerName);
-  window.location.href = 'mailto:' + email + '?subject=' + subject + '&body=' + body;
+  var url = 'https://outlook.office.com/mail/deeplink/compose?to=' + encodeURIComponent(email) + '&subject=' + subject + '&body=' + body;
+  window.open(url, '_blank');
   var slot = document.getElementById('cd-coffee-slot');
   if(slot){
     var first = (name || '').split(' ')[0];
