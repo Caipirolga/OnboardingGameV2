@@ -17,12 +17,16 @@
   Config se carga desde config.js (recomendado). Si config.js no existe,
   se usan los valores de respaldo de abajo.
 
-  ⚠️ SEGURIDAD: el token de Airtable que pongas aquí o en config.js queda
-  VISIBLE en el navegador (Ver código fuente). Cualquiera que abra el juego
-  puede leerlo y usarlo contra tu base. Usa un token de SOLO LECTURA
-  (scope data.records:read) limitado a esta base, nunca uno con permisos de
-  escritura ni de admin. Lo ideal es un pequeño proxy/función serverless que
-  guarde el token del lado servidor. Ver notas en el README.
+  SEGURIDAD: este juego NO contiene el token de Airtable. El token vive como
+  secreto dentro del Worker de Cloudflare (lado servidor) y nunca llega al
+  navegador. config.js solo guarda la "proxyUrl" (la dirección del Worker),
+  que no es ningún secreto y puede commitearse sin problema.
+  El navegador habla únicamente con el Worker; el Worker es quien habla con
+  Airtable usando el token. Por eso este montaje es seguro.
+
+  Nota: "adminPass" en config.js SÍ es visible en el navegador; es intencionado.
+  No es seguridad real, solo evita entradas accidentales al panel de admin,
+  que además es de solo lectura.
 -->
 <script src="config.js" onerror="this.dispatchEvent(new Event('cfgfail'))"></script>
 
@@ -168,8 +172,8 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 <div class="screen" id="s-loading">
   <div class="center-pad">
     <div class="spinner"></div>
-    <p style="font-size:13px;font-weight:700;color:var(--mz-black)">Cargando perfiles desde Airtable…</p>
-    <p style="font-size:11px;color:var(--mz-gray);margin-top:6px" id="load-sub">Conectando</p>
+    <p style="font-size:13px;font-weight:700;color:var(--mz-black)" id="load-main">🕵️ El detective está reuniendo pistas sobre el equipo…</p>
+    <p style="font-size:11px;color:var(--mz-gray);margin-top:6px" id="load-sub">Abriendo expedientes…</p>
   </div>
 </div>
 
@@ -334,8 +338,8 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 /* ============================================================
    CONFIGURACIÓN
    Idealmente en config.js (window.CONFIG). Si no existe, se usan
-   estos valores. RELLENA el token y el baseId.
-   ⚠️ Recuerda: el token queda visible en el navegador. Usa SOLO LECTURA.
+   estos valores. Aquí NO va ningún token: el token de Airtable está
+   en el Worker de Cloudflare. Lo único necesario es "proxyUrl".
    ============================================================ */
 var DEFAULT_CONFIG = {
   proxyUrl:       '',                   // URL del Worker de Cloudflare (desde config.js)
@@ -397,11 +401,37 @@ var lastDrawnId = null;
 /* ============================ Helpers ============================ */
 function inits(n){return (n||'').trim().split(' ').slice(0,2).map(function(w){return w[0]||'';}).join('').toUpperCase()||'?';}
 function shuffle(a){return a.slice().sort(function(){return Math.random()-0.5;});}
+/* Mensajes rotativos de la pantalla de carga (tono detective) */
+var LOADING_MSGS = [
+  '🕵️ El detective está reuniendo pistas sobre el equipo…',
+  '🔍 Interrogando a la base de datos…',
+  '🗂️ Abriendo los expedientes secretos…',
+  '🔎 Buscando sospechosos por la oficina…',
+  '☕ Repartiendo cafés entre los compañeros…',
+  '🧩 Encajando las piezas del «¿Quién es quién?»…'
+];
+var loadMsgTimer = null;
+function startLoadingMsgs(){
+  var el = document.getElementById('load-main');
+  if(!el) return;
+  stopLoadingMsgs();
+  var msgs = shuffle(LOADING_MSGS), i = 0;
+  el.textContent = msgs[0];
+  loadMsgTimer = setInterval(function(){
+    i = (i + 1) % msgs.length;
+    el.textContent = msgs[i];
+  }, 1800);
+}
+function stopLoadingMsgs(){
+  if(loadMsgTimer){ clearInterval(loadMsgTimer); loadMsgTimer = null; }
+}
+
 function showScreen(id){
   var els=document.querySelectorAll('.screen');
   for(var i=0;i<els.length;i++) els[i].classList.remove('active');
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
+  if(id === 's-loading') startLoadingMsgs(); else stopLoadingMsgs();
 }
 function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -454,7 +484,7 @@ function loadFromAirtable(){
 
 function reloadData(stayInAdmin){
   showScreen('s-loading');
-  document.getElementById('load-sub').textContent = 'Conectando con ' + (CONFIG.empresaNombre || 'Airtable');
+  document.getElementById('load-sub').textContent = 'Abriendo los expedientes de ' + (CONFIG.empresaNombre || 'la empresa') + '…';
   loadFromAirtable().then(function(list){
     people = list;
     loaded = true;
