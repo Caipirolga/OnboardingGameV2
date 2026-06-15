@@ -320,10 +320,18 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
     <div id="signup-form">
       <div class="field"><label>Tu nombre y apellido *</label><input type="text" id="su-nombre" placeholder="Ej: María García"></div>
       <div class="field"><label>Tu email *</label><input type="email" id="su-email" placeholder="maria@empresa.com"></div>
+      <div class="field">
+        <label>Tu foto (opcional)</label>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div id="su-foto-preview" style="display:none;width:64px;height:64px;border-radius:50%;overflow:hidden;border:2px solid var(--mz-yellow);flex-shrink:0"><img id="su-foto-img" alt="" style="width:100%;height:100%;object-fit:cover"></div>
+          <input type="file" id="su-foto" accept="image/*" onchange="handlePhotoPick(this)" style="font-size:12px;border:none;padding:0;flex:1;min-width:0">
+          <button type="button" class="btn outline sm" id="su-foto-clear" style="display:none;flex-shrink:0" onclick="clearPhoto()">Quitar</button>
+        </div>
+      </div>
       <div id="su-clues"></div>
       <div id="su-err" class="banner err" style="display:none"><span id="su-err-msg"></span></div>
       <button class="btn primary" id="su-submit" style="width:100%;margin-top:6px" onclick="submitSignup()">Enviar mi perfil</button>
-      <p style="font-size:10px;color:var(--mz-gray);text-align:center;margin-top:10px">La foto la añade el equipo de RRHH; mientras tanto se mostrarán tus iniciales.</p>
+      <p style="font-size:10px;color:var(--mz-gray);text-align:center;margin-top:10px">La foto es opcional. Si no la subes, se mostrarán tus iniciales. Tu perfil pasará por una breve revisión antes de entrar al juego.</p>
     </div>
     <div id="signup-done" style="display:none;text-align:center;padding:1rem 0">
       <div style="font-size:16px;font-weight:800;color:var(--mz-black);margin-bottom:6px;margin-top:1rem">¡Perfil enviado!</div>
@@ -511,6 +519,43 @@ function goAdminLogin(){
 }
 
 /* ====================== Alta de perfil ====================== */
+/* ---- Foto del alta: se comprime en el navegador antes de enviarse ----
+   Redimensiona a 1024px máx. y reexporta como JPEG (calidad 0.85), así
+   pesa pocos KB y queda muy por debajo del límite de 5 MB de Airtable. */
+var signupPhoto = '';
+function handlePhotoPick(input){
+  var file = input.files && input.files[0];
+  if(!file){ return; }
+  if(!/^image\//.test(file.type)){ toast('Selecciona un archivo de imagen'); input.value = ''; return; }
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var img = new Image();
+    img.onload = function(){
+      var max = 1024, w = img.width, h = img.height;
+      if(w >= h && w > max){ h = Math.round(h * max / w); w = max; }
+      else if(h > w && h > max){ w = Math.round(w * max / h); h = max; }
+      var canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      signupPhoto = canvas.toDataURL('image/jpeg', 0.85);
+      document.getElementById('su-foto-img').src = signupPhoto;
+      document.getElementById('su-foto-preview').style.display = 'block';
+      document.getElementById('su-foto-clear').style.display = 'inline-flex';
+    };
+    img.onerror = function(){ toast('No se pudo procesar la imagen'); };
+    img.src = e.target.result;
+  };
+  reader.onerror = function(){ toast('No se pudo leer el archivo'); };
+  reader.readAsDataURL(file);
+}
+function clearPhoto(){
+  signupPhoto = '';
+  var f = document.getElementById('su-foto'); if(f) f.value = '';
+  document.getElementById('su-foto-preview').style.display = 'none';
+  document.getElementById('su-foto-img').src = '';
+  document.getElementById('su-foto-clear').style.display = 'none';
+}
+
 function openSignup(){
   // Construir los campos de pistas según CLUE_FIELDS
   var box = document.getElementById('su-clues');
@@ -522,6 +567,7 @@ function openSignup(){
   // Reset estado
   document.getElementById('su-nombre').value = '';
   document.getElementById('su-email').value = '';
+  clearPhoto();
   document.getElementById('su-err').style.display = 'none';
   document.getElementById('signup-form').style.display = 'block';
   document.getElementById('signup-done').style.display = 'none';
@@ -548,6 +594,18 @@ function submitSignup(){
     body[cf.field] = val;
   });
   if(faltan.length){ return fail('Te falta rellenar: ' + faltan.join(', ') + '.'); }
+
+  // Foto opcional: se manda como objeto aparte (filename/contentType/data en base64).
+  // El Worker debe sacarla del body, crear el registro solo con los campos de texto,
+  // y luego subir la imagen al campo de adjunto "foto" de Airtable.
+  if(signupPhoto){
+    var c = signupPhoto.indexOf(',');
+    body.foto = {
+      filename: 'foto.jpg',
+      contentType: 'image/jpeg',
+      data: c >= 0 ? signupPhoto.slice(c + 1) : signupPhoto
+    };
+  }
 
   err.style.display = 'none';
   var btn = document.getElementById('su-submit');
