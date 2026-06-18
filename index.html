@@ -8,26 +8,11 @@
 <meta name="apple-mobile-web-app-title" content="MostazaOnboarding">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="theme-color" content="#1a1a18">
-<title>Onboarding Game V2</title>
+<title>Onboarding Game V3</title>
 <link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 
-<!--
-  Config se carga desde config.js (recomendado). Si config.js no existe,
-  se usan los valores de respaldo de abajo.
-
-  SEGURIDAD: este juego NO contiene el token de Airtable. El token vive como
-  secreto dentro del Worker de Cloudflare (lado servidor) y nunca llega al
-  navegador. config.js solo guarda la "proxyUrl" (la dirección del Worker),
-  que no es ningún secreto y puede commitearse sin problema.
-  El navegador habla únicamente con el Worker; el Worker es quien habla con
-  Airtable usando el token. Por eso este montaje es seguro.
-
-  Nota: "adminPass" en config.js SÍ es visible en el navegador; es intencionado.
-  No es seguridad real, solo evita entradas accidentales al panel de admin,
-  que además es de solo lectura.
--->
 <script src="config.js" onerror="this.dispatchEvent(new Event('cfgfail'))"></script>
 
 <style>
@@ -42,6 +27,8 @@ body,div,button,input,textarea,label{font-family:'Montserrat',sans-serif}
 .btn.outline{background:transparent;color:var(--mz-gray);border-color:var(--mz-gm)}
 .btn.outline-dark{background:transparent;color:var(--mz-black);border-color:var(--mz-black)}
 .btn.white{background:var(--mz-white);color:var(--mz-black);border-color:var(--mz-white)}
+.btn.cta-join{background:var(--mz-yellow);color:var(--mz-black);border-color:var(--mz-yellow);width:100%;justify-content:center;margin-top:10px;font-size:13px;padding:14px 18px;animation:ctapulse 2s ease-in-out infinite}
+@keyframes ctapulse{0%,100%{box-shadow:0 0 0 0 rgba(212,172,57,.5)}50%{box-shadow:0 0 0 8px rgba(212,172,57,0)}}
 .btn.coffee{background:var(--mz-yl);color:var(--mz-black);border-color:var(--mz-yellow);width:100%;justify-content:center;margin-top:10px}
 .btn.sm{padding:6px 12px;font-size:11px}
 .btn:disabled{opacity:.4;cursor:default}
@@ -65,37 +52,59 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 .stat-val{font-size:18px;font-weight:800;color:var(--mz-black)}
 .stat-lbl{font-size:9px;color:var(--mz-gray);margin-top:2px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
 .avatar-lg{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;flex-shrink:0;background:var(--mz-yellow);color:var(--mz-black);overflow:hidden;border:3px solid var(--mz-yellow)}
-.avatar-lg img,.opt-avatar img{width:100%;height:100%;object-fit:cover}
+.avatar-lg img{width:100%;height:100%;object-fit:cover}
 .field{margin-bottom:10px}
 .field label{display:block;font-size:10px;font-weight:700;color:var(--mz-gray);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
 .game-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:2px;background:var(--mz-black);font-size:11px;font-weight:700;color:var(--mz-yellow)}
 .pbar{height:4px;background:var(--mz-gl);margin:10px 0 14px}
 .pbar-fill{height:100%;background:var(--mz-yellow);transition:width .4s}
-.clue-card{background:var(--mz-white);border:1.5px solid var(--mz-gl);border-radius:4px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--mz-yellow)}
+
+/* Categorías de pistas */
+.cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}
+.cat-btn{padding:14px 10px;border-radius:6px;border:2px solid var(--mz-gl);background:var(--mz-white);color:var(--mz-black);font-size:12px;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;font-family:'Montserrat',sans-serif;display:flex;flex-direction:column;align-items:center;gap:7px;line-height:1.3}
+.cat-btn:hover,.cat-btn:active{border-color:var(--mz-yellow);background:var(--mz-yl)}
+.cat-btn i{font-size:22px;color:var(--mz-yellow)}
+.cat-btn.used{opacity:.35;cursor:default;background:var(--mz-gl)}
+.cat-btn.used:hover{border-color:var(--mz-gl);background:var(--mz-gl)}
+
+/* Pistas reveladas */
+.clue-card{background:var(--mz-white);border:1.5px solid var(--mz-gl);border-radius:4px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--mz-yellow);animation:fadein .3s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 .clue-lbl{font-size:9px;font-weight:700;color:var(--mz-yd);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em}
 .clue-txt{font-size:13px;color:var(--mz-black);font-weight:500}
-.clue-locked{color:var(--mz-gm);font-style:italic;font-weight:400}
+
+/* Opciones de nombre */
 .opts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}
 .opt-btn{padding:10px 8px;border-radius:4px;border:2px solid var(--mz-gl);background:var(--mz-white);color:var(--mz-black);font-size:12px;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;font-family:'Montserrat',sans-serif;display:flex;flex-direction:column;align-items:center;gap:6px}
 .opt-btn:hover,.opt-btn:active{border-color:var(--mz-yellow);background:var(--mz-yl)}
 .opt-btn.correct{background:var(--mz-gbg);border-color:var(--mz-green);color:var(--mz-green)}
 .opt-btn.wrong{background:var(--mz-rbg);border-color:var(--mz-red);color:var(--mz-red)}
+.opt-btn.eliminated{opacity:.3;cursor:default;text-decoration:line-through}
 .opt-avatar{width:44px;height:44px;border-radius:50%;border:2px solid var(--mz-gm);background:var(--mz-yellow);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:var(--mz-black);overflow:hidden;flex-shrink:0}
+.opt-avatar img{width:100%;height:100%;object-fit:cover}
+
+/* Foto revelada al acertar */
+.reveal-photo{display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px;background:var(--mz-gbg);border-radius:6px;margin:10px 0;animation:fadein .4s ease}
+.reveal-photo .big-av{width:90px;height:90px;border-radius:50%;border:4px solid var(--mz-green);overflow:hidden;background:var(--mz-yellow);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:var(--mz-black)}
+.reveal-photo .big-av img{width:100%;height:100%;object-fit:cover}
+.reveal-name{font-size:17px;font-weight:800;color:var(--mz-green)}
+
 .feedback{text-align:center;padding:10px;border-radius:4px;font-size:13px;font-weight:700;margin:10px 0;text-transform:uppercase}
 .feedback.ok{background:var(--mz-gbg);color:var(--mz-green);border-left:4px solid var(--mz-green)}
 .feedback.ko{background:var(--mz-rbg);color:var(--mz-red);border-left:4px solid var(--mz-red)}
-.hint-btn{background:none;border:none;cursor:pointer;font-size:11px;font-weight:700;color:var(--mz-gray);display:flex;align-items:center;gap:4px;font-family:'Montserrat',sans-serif;padding:0;text-transform:uppercase}
-.result-banner{background:var(--mz-yellow);padding:1.25rem;text-align:center}
-.result-big{font-size:44px;font-weight:800;color:var(--mz-black);line-height:1}
+
+/* Pantalla resultado */
+.result-banner{background:var(--mz-yellow);padding:1.5rem 1.25rem;text-align:center}
+.result-phrase{font-size:17px;font-weight:800;color:var(--mz-black);line-height:1.35;margin-bottom:6px}
+.result-sub{font-size:12px;color:var(--mz-black);opacity:.65;font-weight:500}
 .res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.25rem}
+
 .profile-card{background:var(--mz-white);border:1.5px solid var(--mz-gl);border-radius:4px;margin-bottom:10px;overflow:hidden}
 .profile-card-header{background:var(--mz-black);padding:12px 14px;display:flex;align-items:center;gap:12px}
 .profile-card-name{font-size:14px;font-weight:800;color:var(--mz-white)}
 .profile-card-body{padding:12px}
 .profile-clue{display:flex;gap:7px;font-size:12px;color:var(--mz-gray);margin-bottom:7px;align-items:flex-start}
-.score-table{background:var(--mz-gl);border-radius:4px;padding:.875rem;margin:1rem 0 1.25rem}
-.score-row-item{display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid var(--mz-gm)}
-.score-row-item:last-child{border-bottom:none}
+
 .banner{border-radius:4px;padding:10px 14px;font-size:12px;font-weight:600;margin-bottom:1rem;display:flex;gap:8px;align-items:flex-start}
 .banner i{flex-shrink:0;margin-top:1px}
 .banner.warn{background:#FAEEDA;border:1.5px solid var(--mz-yellow);color:#633806}
@@ -104,6 +113,8 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 .spinner{width:34px;height:34px;border:3px solid var(--mz-gl);border-top-color:var(--mz-yellow);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .center-pad{padding:3rem 1.5rem;text-align:center}
+
+/* Admin */
 .adm-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--mz-white);border:1.5px solid var(--mz-gl);border-radius:4px;margin-bottom:8px}
 .adm-av{width:38px;height:38px;border-radius:50%;background:var(--mz-yellow);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--mz-black);overflow:hidden;flex-shrink:0}
 .adm-av img{width:100%;height:100%;object-fit:cover}
@@ -112,6 +123,8 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 .tag{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;text-transform:uppercase;letter-spacing:.04em}
 .tag.ok{background:var(--mz-gbg);color:var(--mz-green)}
 .tag.ko{background:var(--mz-rbg);color:var(--mz-red)}
+
+/* Café */
 .coffee-draw{background:var(--mz-black);border-radius:4px;padding:1.5rem 1.25rem;margin-bottom:1.25rem;text-align:center}
 .cd-eyebrow{color:var(--mz-yellow);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
 .cd-headline{color:var(--mz-white);font-size:14px;font-weight:600;line-height:1.4;margin-bottom:16px;min-height:18px}
@@ -129,6 +142,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 .cd-veil-wrap.revealed .cd-veil{opacity:0;pointer-events:none}
 .cd-closing{color:var(--mz-gm);font-size:11px;font-weight:500;line-height:1.5;margin-top:16px;font-style:italic}
 .cd-empty{color:var(--mz-gm);font-size:12px;margin-top:6px}
+.score-table{background:var(--mz-gl);border-radius:4px;padding:.875rem;margin:1rem 0 1.25rem}
 </style>
 </head>
 <body>
@@ -140,14 +154,13 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
   <div class="mz-header">
     <div class="mz-brand">
       <div class="mz-mark"><i class="ti ti-puzzle"></i></div>
-      <div><span class="mz-name" id="brand-name">Onboarding Game</span><span class="mz-tag">¿Quién es quién?</span></div>
+      <div><span class="mz-name" id="brand-name">Onboarding Game</span><span class="mz-tag">Conoce a tu equipo</span></div>
     </div>
   </div>
-  <div class="mz-hero"><h1>¿Quién es quién?</h1><p>Conoce a tu nuevo equipo jugando</p></div>
+  <div class="mz-hero"><h1>¿A quién tienes al lado?</h1><p>Descubre a tus nuevos compañeros jugando</p></div>
   <div class="content">
-    <div class="field"><label>Tu nombre</label><input type="text" id="l-name" placeholder="Ej: María García" autocomplete="given-name"></div>
+    <div class="field"><label>Tu email</label><input type="email" id="l-email" placeholder="tu@empresa.com" autocomplete="email"></div>
     <button class="btn primary" style="width:100%;margin-top:8px" onclick="playerLogin()">Empezar a jugar</button>
-    <button class="btn outline-dark" style="width:100%;margin-top:10px" onclick="openSignup()">¿Eres nuevo? Crea tu perfil</button>
     <p style="text-align:center;margin-top:22px"><a href="#admin" class="admin-link" onclick="goAdminLogin();return false;">Administración</a></p>
   </div>
 </div>
@@ -162,7 +175,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
     <p style="font-size:12px;color:var(--mz-gray);margin-bottom:1rem">Acceso reservado para la gestión de perfiles.</p>
     <div class="field"><label>Usuario</label><input type="text" id="l-user" placeholder="rrhh" autocomplete="username"></div>
     <div class="field"><label>Contraseña</label><input type="password" id="l-pass" placeholder="..." autocomplete="current-password"></div>
-    <div id="login-err" class="banner err" style="display:none;margin-top:8px"><span>Usuario o contraseña incorrectos</span></div>
+    <div id="login-err" class="banner err" style="display:none"><span>Usuario o contraseña incorrectos</span></div>
     <button class="btn primary" style="width:100%;margin-top:12px" onclick="adminLogin()">Entrar</button>
     <p style="font-size:10px;color:var(--mz-gray);text-align:center;margin-top:12px">Usuario <strong id="adm-hint-u">rrhh</strong> · contraseña en config.js</p>
   </div>
@@ -172,8 +185,8 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 <div class="screen" id="s-loading">
   <div class="center-pad">
     <div class="spinner"></div>
-    <p style="font-size:13px;font-weight:700;color:var(--mz-black)" id="load-main">🕵️ El detective está reuniendo pistas sobre el equipo…</p>
-    <p style="font-size:11px;color:var(--mz-gray);margin-top:6px" id="load-sub">Abriendo expedientes…</p>
+    <p style="font-size:13px;font-weight:700;color:var(--mz-black)" id="load-main">🕵️ Preparando los expedientes…</p>
+    <p style="font-size:11px;color:var(--mz-gray);margin-top:6px" id="load-sub">Un momento…</p>
   </div>
 </div>
 
@@ -195,26 +208,20 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
     <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Onboarding Game</span></div></div>
     <button class="btn white sm" onclick="logout()">Salir</button>
   </div>
-  <div class="mz-hero"><h1 id="gi-welcome">¡Hola!</h1><p>Descubre a tus compañeros a través de pistas</p></div>
+  <div class="mz-hero"><h1 id="gi-welcome">¡Hola!</h1><p>Descubre quién se esconde detrás de cada pista</p></div>
   <div class="content">
     <div class="score-table" style="margin-bottom:14px">
       <p style="font-size:10px;font-weight:800;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Cómo se juega</p>
-      <ol style="margin:0;padding-left:18px;font-size:13px;color:var(--mz-black);font-weight:500;line-height:1.55">
-        <li><strong>Lee las pistas</strong> que aparecen sobre un compañero/a (pulsa «Ver pista» para descubrir más).</li>
-        <li><strong>Adivina quién es</strong> eligiendo entre las opciones.</li>
-        <li><strong>Cuantas menos pistas necesites, más puntos</strong> consigues.</li>
-        <li>Al terminar, el juego te <strong>empareja con alguien para tomar un café</strong>. ¡Ese es el verdadero objetivo!</li>
+      <ol style="margin:0;padding-left:18px;font-size:13px;color:var(--mz-black);font-weight:500;line-height:1.65">
+        <li><strong>Elige una categoría</strong> para ver tu primera pista sobre un compañero/a misterioso/a.</li>
+        <li><strong>Pide más pistas</strong> si las necesitas — elige la categoría que más te apetezca.</li>
+        <li><strong>Adivina quién es</strong> eligiendo entre cuatro nombres.</li>
+        <li>Al terminar, el juego te <strong>propone un café</strong> con alguien que acabas de descubrir.</li>
       </ol>
     </div>
-    <div class="score-table">
-      <p style="font-size:10px;font-weight:800;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Puntuación</p>
-      <div class="score-row-item"><span style="color:var(--mz-gray);font-weight:600">Acierto con 1 pista</span><span style="font-weight:800">500 pts</span></div>
-      <div class="score-row-item"><span style="color:var(--mz-gray);font-weight:600">Acierto con 2 pistas</span><span style="font-weight:800">400 pts</span></div>
-      <div class="score-row-item"><span style="color:var(--mz-gray);font-weight:600">Acierto con 3 pistas</span><span style="font-weight:800">300 pts</span></div>
-      <div class="score-row-item"><span style="color:var(--mz-gray);font-weight:600">Acierto con 4-6 pistas</span><span style="font-weight:800">100 pts</span></div>
-      <div class="score-row-item"><span style="color:var(--mz-gray);font-weight:600">Error</span><span style="font-weight:800;color:var(--mz-red)">-50 pts</span></div>
-    </div>
-    <div id="gi-warn" class="banner warn" style="display:none"><span>Aún no hay suficientes perfiles. Pide a RRHH que los añada en Airtable.</span></div>
+    <div id="gi-progress" class="banner ok" style="display:none"><i class="ti ti-progress"></i><span id="gi-progress-txt"></span></div>
+    <div id="gi-warn" class="banner warn" style="display:none"><i class="ti ti-alert-triangle"></i><span>Aún no hay suficientes perfiles. Pide a RRHH que los añada en Airtable.</span></div>
+    <div id="gi-done" class="banner ok" style="display:none"><i class="ti ti-circle-check"></i><span>¡Ya has jugado con todo el equipo! Puedes repetir si quieres.</span></div>
     <button class="btn primary" style="width:100%" onclick="startGame()" id="gi-btn">Empezar</button>
   </div>
 </div>
@@ -222,29 +229,40 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 <!-- ===================== GAME ===================== -->
 <div class="screen" id="s-game">
   <div class="mz-header">
-    <span style="font-size:11px;font-weight:700;color:var(--mz-yellow);text-transform:uppercase;letter-spacing:.06em">¿Quién es quién?</span>
-    <span class="game-pill"><i class="ti ti-star"></i> <span id="g-score">0</span> pts</span>
+    <span style="font-size:11px;font-weight:700;color:var(--mz-yellow);text-transform:uppercase;letter-spacing:.06em">¿A quién tienes al lado?</span>
+    <span class="game-pill"><i class="ti ti-users"></i> <span id="g-qnum">1</span>/<span id="g-qtot">5</span></span>
   </div>
   <div class="content">
-    <div style="margin-bottom:4px">
-      <span class="game-pill"><i class="ti ti-users"></i> <span id="g-qnum">1</span>/<span id="g-qtot">5</span></span>
-    </div>
     <div class="pbar"><div class="pbar-fill" id="g-pbar" style="width:0%"></div></div>
 
-    <!-- BLOQUE 1: ¿Quién es esta persona? -->
-    <p style="font-size:11px;font-weight:700;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">¿Quién es esta persona?</p>
-    <div class="opts" id="g-opts"></div>
-    <div class="feedback" id="g-feedback" style="display:none"></div>
-    <div id="g-next-row" style="display:none;justify-content:flex-end;margin-top:8px">
-      <button class="btn primary" onclick="nextQ()">Siguiente</button>
+    <!-- Pistas reveladas -->
+    <div id="g-clues-wrap" style="display:none">
+      <p style="font-size:11px;font-weight:700;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Pistas descubiertas</p>
+      <div id="g-clues"></div>
     </div>
 
-    <!-- BLOQUE 2: Pistas -->
-    <div style="display:flex;justify-content:space-between;align-items:center;margin:20px 0 10px">
-      <span style="font-size:11px;font-weight:700;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em">Pistas</span>
-      <button class="hint-btn" id="g-hint" onclick="revealClue()">Ver pista</button>
+    <!-- Foto revelada al acertar -->
+    <div id="g-reveal" style="display:none"></div>
+
+    <!-- Feedback fallo -->
+    <div class="feedback ko" id="g-feedback-ko" style="display:none"></div>
+
+    <!-- Categorías -->
+    <div id="g-cat-section">
+      <p style="font-size:11px;font-weight:700;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px" id="g-cat-label">¿Por dónde empiezas?</p>
+      <div class="cat-grid" id="g-cats"></div>
     </div>
-    <div id="g-clues"></div>
+
+    <!-- Opciones de nombre -->
+    <div id="g-opts-section" style="display:none">
+      <p style="font-size:11px;font-weight:700;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">¿Quién crees que es?</p>
+      <div class="opts" id="g-opts"></div>
+    </div>
+
+    <!-- Botón siguiente -->
+    <div id="g-next-row" style="display:none;justify-content:flex-end;margin-top:8px">
+      <button class="btn primary" onclick="nextQ()">Siguiente <i class="ti ti-arrow-right"></i></button>
+    </div>
   </div>
 </div>
 
@@ -255,16 +273,27 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
     <button class="btn white sm" onclick="logout()">Salir</button>
   </div>
   <div class="result-banner">
-    <div style="font-size:36px;margin-bottom:8px" id="r-emoji"></div>
-    <div style="font-size:18px;font-weight:800;color:var(--mz-black)" id="r-title"></div>
-    <div style="margin-top:10px"><div class="result-big" id="r-score"></div><div style="font-size:11px;font-weight:700;color:var(--mz-black);opacity:.6;text-transform:uppercase;letter-spacing:.08em;margin-top:4px">puntos · <span id="r-sublabel"></span></div></div>
+    <div style="font-size:36px;margin-bottom:10px" id="r-emoji"></div>
+    <div class="result-phrase" id="r-phrase"></div>
+    <div class="result-sub" id="r-sub"></div>
   </div>
   <div class="content">
     <div class="res-grid">
       <div class="stat"><div class="stat-val" id="r-correct"></div><div class="stat-lbl">acertadas</div></div>
       <div class="stat"><div class="stat-val" id="r-wrong"></div><div class="stat-lbl">falladas</div></div>
-      <div class="stat"><div class="stat-val" id="r-avg"></div><div class="stat-lbl">pistas/r</div></div>
+      <div class="stat"><div class="stat-val" id="r-clues"></div><div class="stat-lbl">pistas usadas</div></div>
     </div>
+
+    <!-- CTA solo para no registrados -->
+    <div id="r-join-wrap" style="display:none">
+      <div style="background:var(--mz-black);border-radius:6px;padding:1.25rem;text-align:center;margin-bottom:1.25rem">
+        <div style="font-size:24px;margin-bottom:8px">👀</div>
+        <div style="font-size:14px;font-weight:800;color:var(--mz-white);margin-bottom:6px">Ahora te toca a ti</div>
+        <div style="font-size:12px;color:var(--mz-gm);margin-bottom:14px;line-height:1.5">Ellos ya están en el juego. ¿Y tú? Crea tu ficha para que los demás también puedan descubrirte.</div>
+        <button class="btn cta-join" onclick="openSignup()"><i class="ti ti-user-plus"></i> ¡Quiero estar en el juego!</button>
+      </div>
+    </div>
+
     <!-- Sorteo del café -->
     <div class="coffee-draw">
       <div class="cd-headline" id="cd-headline"></div>
@@ -278,21 +307,21 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
         <div id="cd-coffee-slot"></div>
         <button class="btn white sm" id="cd-redraw" style="margin-top:10px" onclick="drawCoffee()">Sortear otra persona</button>
       </div>
-      <p class="cd-closing" id="cd-closing" style="display:none">El onboarding va de conocer a la gente, no de memorizar nombres. Ese café es el verdadero objetivo.</p>
+      <p class="cd-closing" id="cd-closing" style="display:none">El onboarding va de conocer a la gente. Ese café es el verdadero objetivo.</p>
     </div>
+
     <div id="r-recap-wrap" style="display:none">
       <p style="font-size:10px;font-weight:700;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">El resto del equipo que has conocido</p>
       <div id="r-cards"></div>
     </div>
     <div style="display:flex;gap:8px;justify-content:center;margin-top:1.25rem;flex-wrap:wrap">
-      <button class="btn outline-dark" onclick="showScreen('s-game-intro')">Jugar de nuevo</button>
-      <button class="btn outline-dark" onclick="openSignup()">Crear mi perfil</button>
+      <button class="btn outline-dark" onclick="showScreen('s-game-intro')">Seguir conociendo</button>
       <button class="btn outline" onclick="logout()">Salir</button>
     </div>
   </div>
 </div>
 
-<!-- ===================== ADMIN (solo lectura) ===================== -->
+<!-- ===================== ADMIN ===================== -->
 <div class="screen" id="s-admin">
   <div class="mz-header">
     <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Panel de perfiles</span></div></div>
@@ -312,10 +341,10 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 <!-- ===================== ALTA DE PERFIL ===================== -->
 <div class="screen" id="s-signup">
   <div class="mz-header">
-    <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Crear mi perfil</span><span class="mz-tag">Nuevo en el equipo</span></div></div>
-    <button class="btn white sm" onclick="logout()">Volver</button>
+    <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Únete al juego</span><span class="mz-tag">Crea tu ficha</span></div></div>
+    <button class="btn white sm" onclick="goBackFromSignup()">Volver</button>
   </div>
-  <div class="mz-hero"><h1>¡Cuéntanos quién eres!</h1><p>Tu perfil entrará en el juego tras una breve revisión</p></div>
+  <div class="mz-hero"><h1>¡Hazte visible!</h1><p>Rellena tu ficha y pasa a formar parte del juego</p></div>
   <div class="content">
     <div id="signup-form">
       <div class="field"><label>Tu nombre y apellido *</label><input type="text" id="su-nombre" placeholder="Ej: María García"></div>
@@ -330,45 +359,41 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
       </div>
       <div id="su-clues"></div>
       <div id="su-err" class="banner err" style="display:none"><span id="su-err-msg"></span></div>
-      <button class="btn primary" id="su-submit" style="width:100%;margin-top:6px" onclick="submitSignup()">Enviar mi perfil</button>
-      <p style="font-size:10px;color:var(--mz-gray);text-align:center;margin-top:10px">La foto es opcional. Si no la subes, se mostrarán tus iniciales. Tu perfil pasará por una breve revisión antes de entrar al juego.</p>
+      <button class="btn primary" id="su-submit" style="width:100%;margin-top:6px" onclick="submitSignup()">Enviar mi ficha</button>
+      <p style="font-size:10px;color:var(--mz-gray);text-align:center;margin-top:10px">La foto es opcional. Tu perfil pasará por una breve revisión antes de entrar al juego.</p>
     </div>
     <div id="signup-done" style="display:none;text-align:center;padding:1rem 0">
-      <div style="font-size:16px;font-weight:800;color:var(--mz-black);margin-bottom:6px;margin-top:1rem">¡Perfil enviado!</div>
-      <p style="font-size:13px;color:var(--mz-gray);line-height:1.5">Gracias. Tu perfil quedará disponible en el juego en cuanto el equipo lo revise. ¡Bienvenida/o!</p>
+      <div style="font-size:36px;margin-bottom:10px">🎉</div>
+      <div style="font-size:16px;font-weight:800;color:var(--mz-black);margin-bottom:6px">¡Ficha enviada!</div>
+      <p style="font-size:13px;color:var(--mz-gray);line-height:1.5">En cuanto el equipo la revise, pasarás a formar parte del juego. ¡Bienvenida/o!</p>
       <button class="btn primary" style="margin-top:16px" onclick="logout()">Volver al inicio</button>
     </div>
   </div>
 </div>
-</div>
+
+</div><!-- /app -->
 
 <script>
 /* ============================================================
    CONFIGURACIÓN
-   Idealmente en config.js (window.CONFIG). Si no existe, se usan
-   estos valores. Aquí NO va ningún token: el token de Airtable está
-   en el Worker de Cloudflare. Lo único necesario es "proxyUrl".
    ============================================================ */
 var DEFAULT_CONFIG = {
-  proxyUrl:       '',                   // URL del Worker de Cloudflare (desde config.js)
-  empresaNombre:  'Tu Empresa',
-  empresaColor:   '#d4ac39',
-  empresaLogo:    '',                   // ruta o URL del logo (ej: 'logo.png'). Vacío = icono por defecto
-  adminUser:      'rrhh',
-  adminPass:      'onboarding2024'      // ⚠️ no es seguridad real, solo evita entradas accidentales
+  proxyUrl:      '',
+  empresaNombre: 'Tu Empresa',
+  empresaColor:  '#d4ac39',
+  empresaLogo:   '',
+  adminUser:     'rrhh',
+  adminPass:     'onboarding2024'
 };
 var CONFIG = Object.assign({}, DEFAULT_CONFIG, (window.CONFIG || {}));
 
-/* Mapeo campo de Airtable -> pista del juego (orden de revelado).
-   Si config.js define "pistas", se usa eso; si no, este valor por defecto.
-   Acepta claves en español (campo/icono/etiqueta) o inglés (field/icon/label). */
 var DEFAULT_CLUES = [
-  { field:'como_soy',       label:'Cómo soy',             icon:'ti-mood-smile' },
-  { field:'donde_naci',     label:'Dónde nací',           icon:'ti-map-pin' },
-  { field:'hobby',          label:'Mi hobby',             icon:'ti-heart' },
-  { field:'plan_perfecto',  label:'Mi plan perfecto',     icon:'ti-sparkles' },
-  { field:'peor_pesadilla', label:'Mi peor pesadilla',    icon:'ti-ghost' },
-  { field:'rol_empresa',    label:'Mi rol en la empresa', icon:'ti-briefcase' }
+  { field:'como_soy',       label:'¿Cómo soy?',           icon:'ti-mood-smile' },
+  { field:'donde_naci',     label:'¿Dónde nací?',          icon:'ti-map-pin' },
+  { field:'hobby',          label:'Mi hobby',              icon:'ti-heart' },
+  { field:'plan_perfecto',  label:'Mi plan perfecto',      icon:'ti-sparkles' },
+  { field:'peor_pesadilla', label:'Mi peor pesadilla',     icon:'ti-ghost' },
+  { field:'rol_empresa',    label:'Mi rol en la empresa',  icon:'ti-briefcase' }
 ];
 var CLUE_FIELDS = (Array.isArray(CONFIG.pistas) && CONFIG.pistas.length)
   ? CONFIG.pistas.map(function(c){
@@ -376,91 +401,148 @@ var CLUE_FIELDS = (Array.isArray(CONFIG.pistas) && CONFIG.pistas.length)
     })
   : DEFAULT_CLUES;
 
-/* Estado */
+/* ============================================================
+   FRASES DE RESULTADO (según nº aciertos)
+   ============================================================ */
+var RESULT_PHRASES = {
+  all: [
+    { emoji:'🏆', phrase:'¡Increíble! Los has adivinado todos.', sub:'O ya los conocías de antes… ¡trampos@!' },
+    { emoji:'🎯', phrase:'¡Perfecto! Cero fallos, cien por cien equipo.', sub:'Así se hace. ¡Bienvenida/o al equipo!' },
+    { emoji:'🌟', phrase:'¡Los conoces a todos! ¿Seguro que acabas de llegar?', sub:'Talento natural para el reconocimiento facial.' }
+  ],
+  most: [
+    { emoji:'😎', phrase:'Casi perfecto. Solo uno/a se te ha escapado.', sub:'Sigue conociéndolos y lo clavas en la siguiente.' },
+    { emoji:'👏', phrase:'¡Muy bien! Ya tienes cara a la mayoría.', sub:'El café te ayudará a completar la colección.' },
+    { emoji:'🤙', phrase:'¡Buen ojo! Has acertado la mayoría.', sub:'Con un poco más ya serás una leyenda del onboarding.' }
+  ],
+  half: [
+    { emoji:'🙂', phrase:'Mitad y mitad. Empieza la aventura.', sub:'Aquí hay mucha gente por descubrir todavía.' },
+    { emoji:'🧩', phrase:'La mitad del equipo descifrada.', sub:'La otra mitad te espera en la próxima partida.' },
+    { emoji:'☕', phrase:'A medias. Pero para eso está el café.', sub:'¡Que empiece el networking!' }
+  ],
+  few: [
+    { emoji:'😅', phrase:'Tranquila/o, el equipo es grande y los nombres se mezclan.', sub:'Sigue jugando y en dos días los conoces todos.' },
+    { emoji:'🕵️', phrase:'Los expedientes eran difíciles de descifrar.', sub:'La práctica hace al maestro. ¡A la próxima!' },
+    { emoji:'🌱', phrase:'Todo empieza aquí. El equipo ya sabe quién eres tú.', sub:'Ahora toca que tú les pongas cara a ellos.' }
+  ],
+  none: [
+    { emoji:'🙈', phrase:'Cero aciertos. El equipo tiene mucho misterio.', sub:'O simplemente necesitas ese café con urgencia.' },
+    { emoji:'🎭', phrase:'Nadie desenmascarado. ¡El equipo es un enigma!', sub:'Tranquila/o, la primera vez siempre es así.' },
+    { emoji:'🤷', phrase:'Aún no los conoces, pero ya sabes cómo son por dentro.', sub:'Y eso, francamente, es lo que importa.' }
+  ]
+};
+
+function getResultPhrase(correct, total) {
+  var bucket;
+  if (correct === total)       bucket = RESULT_PHRASES.all;
+  else if (correct >= total * 0.75) bucket = RESULT_PHRASES.most;
+  else if (correct >= total * 0.5)  bucket = RESULT_PHRASES.half;
+  else if (correct > 0)             bucket = RESULT_PHRASES.few;
+  else                               bucket = RESULT_PHRASES.none;
+  return bucket[Math.floor(Math.random() * bucket.length)];
+}
+
+/* ============================================================
+   ESTADO
+   ============================================================ */
 var people = [];
-var playerName = '';
-var gOrder=[], gQ=0, gScore=0, gClues=0, gAnswered=false, gCorrect=0, gWrong=0, gCluesTotal=0;
+var playerEmail = '';
+var playerRegistered = false;
+var seenIds = [];        // perfiles ya vistos en partidas anteriores
 var loaded = false;
 var lastDrawnId = null;
 
-/* Aplicar color/nombre/logo de empresa */
+// Estado de partida actual
+var gOrder = [];         // índices en people[] de los 5 de esta partida
+var gQ = 0;
+var gCorrect = 0;
+var gWrong = 0;
+var gCluesTotal = 0;
+var gAnswered = false;
+var gRevealedClues = [];    // clue objects revelados para la persona actual
+var gUsedCatFields = [];    // campos ya usados en la persona actual
+var gEliminated = [];       // nombres eliminados tras fallo
+var gPartidaLog = [];       // [{ perfil_id, acertado }] para guardar al final
+
+/* ============================================================
+   INIT
+   ============================================================ */
 (function init(){
   if (CONFIG.empresaColor) document.documentElement.style.setProperty('--mz-yellow', CONFIG.empresaColor);
   var bn = document.getElementById('brand-name');
   if (bn && CONFIG.empresaNombre) bn.textContent = CONFIG.empresaNombre;
   document.getElementById('adm-hint-u').textContent = CONFIG.adminUser;
-  // Logo: si hay empresaLogo, sustituye el icono por defecto en todas las cabeceras
   if (CONFIG.empresaLogo){
     var marks = document.querySelectorAll('.mz-mark');
-    for (var i=0;i<marks.length;i++){
+    for (var i = 0; i < marks.length; i++){
       var img = document.createElement('img');
       img.src = CONFIG.empresaLogo;
       img.alt = CONFIG.empresaNombre || 'Logo';
       img.className = 'mz-logo-img';
-      var textDiv = marks[i].nextElementSibling;       // bloque de texto al lado del icono
+      var textDiv = marks[i].nextElementSibling;
       marks[i].parentNode.replaceChild(img, marks[i]);
-      if (textDiv) textDiv.style.display = 'none';      // ocultar texto: el logo ya lo incluye
+      if (textDiv) textDiv.style.display = 'none';
     }
   }
-  // Acceso directo a administración por URL (#admin)
   if (location.hash === '#admin') goAdminLogin();
 })();
 
-/* ============================ Helpers ============================ */
-function inits(n){return (n||'').trim().split(' ').slice(0,2).map(function(w){return w[0]||'';}).join('').toUpperCase()||'?';}
-function shuffle(a){return a.slice().sort(function(){return Math.random()-0.5;});}
-/* Mensajes rotativos de la pantalla de carga (tono detective) */
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function inits(n){ return (n||'').trim().split(' ').slice(0,2).map(function(w){ return w[0]||''; }).join('').toUpperCase()||'?'; }
+function shuffle(a){ return a.slice().sort(function(){ return Math.random()-0.5; }); }
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function complete(p){ return !!(p.name && validClues(p).length >= 1); }
+function validClues(p){ return p.clues.filter(function(c){ return c.text && c.text.trim(); }); }
+
+function extractPhoto(val){
+  if (!val) return '';
+  if (Array.isArray(val) && val.length){
+    var a = val[0];
+    if (a && a.thumbnails && a.thumbnails.large && a.thumbnails.large.url) return a.thumbnails.large.url;
+    if (a && a.url) return a.url;
+    return '';
+  }
+  if (typeof val === 'string') return val.trim();
+  return '';
+}
+
 var LOADING_MSGS = [
-  '🕵️ El detective está reuniendo pistas sobre el equipo…',
-  '🔍 Interrogando a la base de datos…',
+  '🕵️ Reuniendo pistas sobre el equipo…',
+  '🔍 Interrogando la base de datos…',
   '🗂️ Abriendo los expedientes secretos…',
   '🔎 Buscando sospechosos por la oficina…',
-  '☕ Repartiendo cafés entre los compañeros…',
-  '🧩 Encajando las piezas del «¿Quién es quién?»…'
+  '☕ Preparando los cafés…',
+  '🧩 Encajando las piezas del equipo…'
 ];
 var loadMsgTimer = null;
 function startLoadingMsgs(){
   var el = document.getElementById('load-main');
-  if(!el) return;
+  if (!el) return;
   stopLoadingMsgs();
   var msgs = shuffle(LOADING_MSGS), i = 0;
   el.textContent = msgs[0];
   loadMsgTimer = setInterval(function(){
-    i = (i + 1) % msgs.length;
+    i = (i+1) % msgs.length;
     el.textContent = msgs[i];
   }, 1800);
 }
-function stopLoadingMsgs(){
-  if(loadMsgTimer){ clearInterval(loadMsgTimer); loadMsgTimer = null; }
-}
+function stopLoadingMsgs(){ if (loadMsgTimer){ clearInterval(loadMsgTimer); loadMsgTimer = null; } }
 
 function showScreen(id){
-  var els=document.querySelectorAll('.screen');
-  for(var i=0;i<els.length;i++) els[i].classList.remove('active');
+  var els = document.querySelectorAll('.screen');
+  for (var i = 0; i < els.length; i++) els[i].classList.remove('active');
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
-  if(id === 's-loading') startLoadingMsgs(); else stopLoadingMsgs();
+  if (id === 's-loading') startLoadingMsgs(); else stopLoadingMsgs();
 }
-function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
-function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function toast(m){ var t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); }, 2500); }
 
-/* Una persona es jugable si tiene nombre y al menos una pista */
-function complete(p){return !!(p.name && p.clues.filter(function(c){return c.text && c.text.trim();}).length >= 1);}
-
-/* Extrae la foto: soporta campo Attachment (array) o texto (URL / base64) */
-function extractPhoto(val){
-  if(!val) return '';
-  if(Array.isArray(val) && val.length){
-    var a=val[0];
-    if(a && a.thumbnails && a.thumbnails.large && a.thumbnails.large.url) return a.thumbnails.large.url;
-    if(a && a.url) return a.url;
-    return '';
-  }
-  if(typeof val==='string') return val.trim();
-  return '';
-}
-
-/* ====================== Carga desde Airtable ====================== */
+/* ============================================================
+   MAPEO AIRTABLE
+   ============================================================ */
 function mapRecord(rec){
   var f = rec.fields || {};
   return {
@@ -469,34 +551,60 @@ function mapRecord(rec){
     email: (f.email || '').trim(),
     photo: extractPhoto(f.foto),
     clues: CLUE_FIELDS.map(function(cf){
-      return { label: cf.label, icon: cf.icon, text: (f[cf.field] || '').toString().trim() };
+      return { field: cf.field, label: cf.label, icon: cf.icon, text: (f[cf.field] || '').toString().trim() };
     })
   };
 }
 
-function loadFromAirtable(){
+/* ============================================================
+   CARGA DATOS
+   ============================================================ */
+function proxyGet(params){
   var proxy = CONFIG.proxyUrl;
-  if(!proxy){
-    return Promise.reject(new Error('Falta la URL del proxy: revisa proxyUrl en config.js.'));
-  }
-  return fetch(proxy, { method: 'GET' }).then(function(res){
-    if(!res.ok){
-      throw new Error('El proxy respondió con error ' + res.status + '.');
-    }
+  if (!proxy) return Promise.reject(new Error('Falta proxyUrl en config.js'));
+  var url = proxy + (proxy.indexOf('?') >= 0 ? '&' : '?') + params;
+  return fetch(url, { method: 'GET' }).then(function(res){
+    if (!res.ok) throw new Error('Proxy respondió con error ' + res.status);
     return res.json();
   }).then(function(data){
-    if(data && data.error){ throw new Error('Error del proxy: ' + data.error); }
+    if (data && data.error) throw new Error('Error del proxy: ' + data.error);
+    return data;
+  });
+}
+
+function loadFromAirtable(){
+  return proxyGet('action=perfiles').then(function(data){
     return (data.records || []).map(function(r){ return mapRecord(r); });
   });
 }
 
+function checkEmailRegistered(email){
+  return proxyGet('action=checkEmail&email=' + encodeURIComponent(email));
+}
+
+function loadSeenIds(email){
+  return proxyGet('action=partidas&email=' + encodeURIComponent(email)).then(function(data){
+    return data.vistos || [];
+  });
+}
+
+function savePartida(log){
+  var proxy = CONFIG.proxyUrl;
+  if (!proxy || !log.length) return Promise.resolve();
+  return fetch(proxy + (proxy.indexOf('?') >= 0 ? '&' : '?') + 'action=partida', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email_jugador: playerEmail, perfiles: log })
+  }).then(function(res){ return res.json(); }).catch(function(e){ console.warn('Error guardando partida:', e); });
+}
+
 function reloadData(stayInAdmin){
   showScreen('s-loading');
-  document.getElementById('load-sub').textContent = 'Abriendo los expedientes de ' + (CONFIG.empresaNombre || 'la empresa') + '…';
+  document.getElementById('load-sub').textContent = 'Cargando perfiles de ' + (CONFIG.empresaNombre || 'la empresa') + '…';
   loadFromAirtable().then(function(list){
     people = list;
     loaded = true;
-    if(stayInAdmin){ renderAdmin(); showScreen('s-admin'); }
+    if (stayInAdmin){ renderAdmin(); showScreen('s-admin'); }
     else enterPlayer();
   }).catch(function(err){
     document.getElementById('err-msg').textContent = err.message || 'Error desconocido al cargar Airtable.';
@@ -504,13 +612,31 @@ function reloadData(stayInAdmin){
   });
 }
 
-/* ====================== Login / navegación ====================== */
+/* ============================================================
+   LOGIN
+   ============================================================ */
 function playerLogin(){
-  var name = document.getElementById('l-name').value.trim();
-  if(!name){ toast('Introduce tu nombre'); return; }
-  playerName = name;
-  if(loaded) enterPlayer();
-  else reloadData(false);
+  var email = document.getElementById('l-email').value.trim();
+  if (!email || email.indexOf('@') < 1){ toast('Introduce tu email'); return; }
+  playerEmail = email;
+  showScreen('s-loading');
+  document.getElementById('load-sub').textContent = 'Comprobando tu perfil…';
+
+  // Carga en paralelo: perfiles + check email + historial
+  Promise.all([
+    loadFromAirtable(),
+    checkEmailRegistered(email),
+    loadSeenIds(email)
+  ]).then(function(results){
+    people = results[0];
+    loaded = true;
+    playerRegistered = results[1].registrado;
+    seenIds = results[2];
+    enterPlayer();
+  }).catch(function(err){
+    document.getElementById('err-msg').textContent = err.message || 'Error al cargar datos.';
+    showScreen('s-error');
+  });
 }
 
 function goAdminLogin(){
@@ -518,22 +644,467 @@ function goAdminLogin(){
   showScreen('s-admin-login');
 }
 
-/* ====================== Alta de perfil ====================== */
-/* ---- Foto del alta: se comprime en el navegador antes de enviarse ----
-   Redimensiona a 1024px máx. y reexporta como JPEG (calidad 0.85), así
-   pesa pocos KB y queda muy por debajo del límite de 5 MB de Airtable. */
+function adminLogin(){
+  var u = document.getElementById('l-user').value;
+  var p = document.getElementById('l-pass').value;
+  var err = document.getElementById('login-err');
+  if (u !== CONFIG.adminUser || p !== CONFIG.adminPass){ err.style.display = 'block'; return; }
+  err.style.display = 'none';
+  if (loaded){ renderAdmin(); showScreen('s-admin'); }
+  else reloadData(true);
+}
+
+function enterPlayer(){
+  var valid = people.filter(complete);
+  var unseen = valid.filter(function(p){ return seenIds.indexOf(p.id) < 0; });
+
+  // Saludo
+  var first = playerEmail.split('@')[0];
+  document.getElementById('gi-welcome').textContent = '¡Hola' + (first ? ', ' + first : '') + '!';
+
+  // Ocultar todos los banners
+  document.getElementById('gi-progress').style.display = 'none';
+  document.getElementById('gi-warn').style.display = 'none';
+  document.getElementById('gi-done').style.display = 'none';
+  document.getElementById('gi-btn').disabled = false;
+
+  if (valid.length < 2){
+    document.getElementById('gi-warn').style.display = 'flex';
+    document.getElementById('gi-btn').disabled = true;
+  } else if (unseen.length === 0){
+    document.getElementById('gi-done').style.display = 'flex';
+    // Puede repetir: limpiamos seenIds para que juegue de nuevo
+    seenIds = [];
+  } else {
+    var seen = valid.length - unseen.length;
+    if (seen > 0){
+      document.getElementById('gi-progress-txt').textContent =
+        'Ya conoces a ' + seen + ' de ' + valid.length + ' compañeros. Te quedan ' + unseen.length + ' por descubrir.';
+      document.getElementById('gi-progress').style.display = 'flex';
+    }
+  }
+
+  showScreen('s-game-intro');
+}
+
+function logout(){
+  document.getElementById('l-email').value = '';
+  document.getElementById('l-user').value = '';
+  document.getElementById('l-pass').value = '';
+  playerEmail = '';
+  playerRegistered = false;
+  seenIds = [];
+  loaded = false;
+  people = [];
+  if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  showScreen('s-login');
+}
+
+/* ============================================================
+   JUEGO
+   ============================================================ */
+function startGame(){
+  var valid = people.filter(complete);
+  var unseen = valid.filter(function(p){ return seenIds.indexOf(p.id) < 0; });
+  if (unseen.length === 0) unseen = valid; // todos vistos: repetir
+  if (unseen.length < 2){ toast('Necesitas al menos 2 perfiles jugables'); return; }
+
+  var pool = shuffle(unseen).slice(0, Math.min(unseen.length, 5));
+  gOrder = pool.map(function(p){ return people.indexOf(p); });
+  gQ = 0; gCorrect = 0; gWrong = 0; gCluesTotal = 0;
+  gPartidaLog = [];
+  lastDrawnId = null;
+  showScreen('s-game');
+  loadQ();
+}
+
+function loadQ(){
+  gAnswered = false;
+  gRevealedClues = [];
+  gUsedCatFields = [];
+  gEliminated = [];
+
+  var p = people[gOrder[gQ]];
+  document.getElementById('g-qnum').textContent = gQ + 1;
+  document.getElementById('g-qtot').textContent = gOrder.length;
+  document.getElementById('g-pbar').style.width = Math.round(gQ / gOrder.length * 100) + '%';
+
+  // Reset UI
+  document.getElementById('g-clues').innerHTML = '';
+  document.getElementById('g-clues-wrap').style.display = 'none';
+  document.getElementById('g-reveal').style.display = 'none';
+  document.getElementById('g-reveal').innerHTML = '';
+  document.getElementById('g-feedback-ko').style.display = 'none';
+  document.getElementById('g-next-row').style.display = 'none';
+  document.getElementById('g-opts-section').style.display = 'none';
+  document.getElementById('g-cat-label').textContent = '¿Por dónde empiezas?';
+
+  renderCats(p);
+  document.getElementById('g-cat-section').style.display = 'block';
+}
+
+function renderCats(p){
+  var grid = document.getElementById('g-cats');
+  grid.innerHTML = '';
+  var valid = validClues(p);
+  CLUE_FIELDS.forEach(function(cf){
+    var hasData = valid.some(function(c){ return c.field === cf.field; });
+    if (!hasData) return;
+    var used = gUsedCatFields.indexOf(cf.field) >= 0;
+    var btn = document.createElement('button');
+    btn.className = 'cat-btn' + (used ? ' used' : '');
+    btn.disabled = used;
+    btn.innerHTML = '<i class="ti ' + esc(cf.icon) + '"></i><span>' + esc(cf.label) + '</span>';
+    if (!used){
+      (function(field){ btn.onclick = function(){ revealCat(field); }; })(cf.field);
+    }
+    grid.appendChild(btn);
+  });
+
+  // Si ya usó todas las categorías disponibles → mostrar opciones automáticamente
+  var allUsed = validClues(p).every(function(c){ return gUsedCatFields.indexOf(c.field) >= 0; });
+  if (allUsed && !gAnswered) showOpts(p);
+}
+
+function revealCat(field){
+  var p = people[gOrder[gQ]];
+  if (gAnswered) return;
+  if (gUsedCatFields.indexOf(field) >= 0) return;
+
+  gUsedCatFields.push(field);
+  gCluesTotal++;
+
+  // Mostrar la pista
+  var clue = validClues(p).find(function(c){ return c.field === field; });
+  if (clue){
+    gRevealedClues.push(clue);
+    renderRevealedClues();
+  }
+
+  // Actualizar label categorías
+  document.getElementById('g-cat-label').textContent = '¿Quieres ver otra pista o ya sabes quién es?';
+
+  // Actualizar botones de categoría
+  renderCats(p);
+
+  // Mostrar botón de adivinar (si aún no está visible)
+  if (!gAnswered){
+    document.getElementById('g-opts-section').style.display = 'block';
+    renderOpts(p);
+  }
+}
+
+function renderRevealedClues(){
+  var wrap = document.getElementById('g-clues-wrap');
+  var box = document.getElementById('g-clues');
+  box.innerHTML = '';
+  gRevealedClues.forEach(function(cl){
+    var d = document.createElement('div'); d.className = 'clue-card';
+    d.innerHTML = '<div class="clue-lbl"><i class="ti ' + esc(cl.icon) + '" style="margin-right:4px"></i>' + esc(cl.label) + '</div><div class="clue-txt">' + esc(cl.text) + '</div>';
+    box.appendChild(d);
+  });
+  wrap.style.display = gRevealedClues.length ? 'block' : 'none';
+}
+
+function showOpts(p){
+  document.getElementById('g-opts-section').style.display = 'block';
+  renderOpts(p);
+}
+
+function renderOpts(p){
+  var grid = document.getElementById('g-opts');
+  grid.innerHTML = '';
+  var pool = shuffle(people.filter(complete));
+  var opts = pool.slice(0, 4);
+  if (!opts.some(function(o){ return o.name === p.name; }))
+    opts[Math.floor(Math.random() * opts.length)] = p;
+  opts = shuffle(opts);
+
+  opts.forEach(function(op){
+    var eliminated = gEliminated.indexOf(op.name) >= 0;
+    var b = document.createElement('button');
+    b.className = 'opt-btn' + (eliminated ? ' eliminated' : '');
+    b.disabled = eliminated;
+    // Solo mostrar iniciales (sin foto) hasta que acierte
+    var av = document.createElement('div'); av.className = 'opt-avatar';
+    av.textContent = inits(op.name);
+    var sp = document.createElement('span'); sp.textContent = op.name; sp.style.fontSize = '11px';
+    b.appendChild(av); b.appendChild(sp);
+    if (!eliminated){
+      (function(opname, pname){ b.onclick = function(){ handleAns(opname, pname, b); }; })(op.name, p.name);
+    }
+    grid.appendChild(b);
+  });
+}
+
+function handleAns(chosen, correct, btn){
+  if (gAnswered) return;
+  var ok = chosen === correct;
+
+  if (ok){
+    gAnswered = true;
+    gCorrect++;
+    btn.classList.add('correct');
+
+    // Revelar foto
+    var p = people[gOrder[gQ]];
+    var revEl = document.getElementById('g-reveal');
+    var avHtml = p.photo
+      ? '<div class="big-av"><img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '"></div>'
+      : '<div class="big-av">' + inits(p.name) + '</div>';
+    revEl.innerHTML = '<div class="reveal-photo">' + avHtml + '<div class="reveal-name">¡Es ' + esc(p.name) + '!</div></div>';
+    revEl.style.display = 'block';
+
+    // Ocultar sección categorías y opciones
+    document.getElementById('g-cat-section').style.display = 'none';
+    document.getElementById('g-opts-section').style.display = 'none';
+    document.getElementById('g-feedback-ko').style.display = 'none';
+    document.getElementById('g-next-row').style.display = 'flex';
+
+    gPartidaLog.push({ perfil_id: p.id, acertado: true });
+
+  } else {
+    // Fallo: eliminar ese nombre y mostrar mensaje
+    gEliminated.push(chosen);
+    btn.classList.add('wrong');
+    btn.disabled = true;
+
+    var fb = document.getElementById('g-feedback-ko');
+    var msgs = ['Mmm… no es ese/a. Sigue investigando.', 'Casi… pero no. ¡Una pista más!', 'No es ese/a. ¡Tú puedes!', 'Error de identificación. Más pistas.'];
+    fb.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+    fb.style.display = 'block';
+
+    // Si quedan menos de 2 opciones válidas → revelar automáticamente
+    var remaining = 4 - gEliminated.length;
+    if (remaining <= 1){
+      autoReveal();
+    }
+  }
+}
+
+function autoReveal(){
+  if (gAnswered) return;
+  gAnswered = true;
+  gWrong++;
+  var p = people[gOrder[gQ]];
+
+  var revEl = document.getElementById('g-reveal');
+  var avHtml = p.photo
+    ? '<div class="big-av"><img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '"></div>'
+    : '<div class="big-av">' + inits(p.name) + '</div>';
+  revEl.innerHTML = '<div class="reveal-photo" style="background:var(--mz-rbg)">' + avHtml + '<div class="reveal-name" style="color:var(--mz-red)">Era ' + esc(p.name) + '</div></div>';
+  revEl.style.display = 'block';
+
+  document.getElementById('g-cat-section').style.display = 'none';
+  document.getElementById('g-opts-section').style.display = 'none';
+  document.getElementById('g-feedback-ko').style.display = 'none';
+  document.getElementById('g-next-row').style.display = 'flex';
+
+  gPartidaLog.push({ perfil_id: p.id, acertado: false });
+}
+
+function nextQ(){
+  gQ++;
+  if (gQ >= gOrder.length){ endGame(); return; }
+  loadQ();
+}
+
+function endGame(){
+  // Guardar partida en Airtable (en background, no bloqueante)
+  savePartida(gPartidaLog).then(function(){
+    // Actualizar seenIds localmente para que enterPlayer() lo sepa
+    gPartidaLog.forEach(function(entry){
+      if (seenIds.indexOf(entry.perfil_id) < 0) seenIds.push(entry.perfil_id);
+    });
+  });
+  showResult();
+}
+
+/* ============================================================
+   RESULTADO
+   ============================================================ */
+function showResult(){
+  var total = gOrder.length;
+  var phr = getResultPhrase(gCorrect, total);
+  document.getElementById('r-emoji').textContent = phr.emoji;
+  document.getElementById('r-phrase').textContent = phr.phrase;
+  document.getElementById('r-sub').textContent = phr.sub;
+  document.getElementById('r-correct').textContent = gCorrect;
+  document.getElementById('r-wrong').textContent = gWrong;
+  document.getElementById('r-clues').textContent = gCluesTotal;
+
+  // CTA unirse solo si no está registrado
+  document.getElementById('r-join-wrap').style.display = playerRegistered ? 'none' : 'block';
+
+  // Reset café
+  lastDrawnId = null;
+  document.getElementById('cd-headline').innerHTML = 'Y ahora que ya los conoces un poco… ¿con quién te toca un café?';
+  document.getElementById('draw-spinner').className = 'cd-spinner idle';
+  document.getElementById('draw-spinner').innerHTML = '<div class="cd-face"><div class="cd-av"><i class="ti ti-coffee" style="font-size:46px"></i></div></div>';
+  document.getElementById('cd-launch').style.display = 'inline-flex';
+  document.getElementById('cd-match').style.display = 'none';
+  document.getElementById('cd-match').classList.remove('revealed');
+  document.getElementById('cd-actions').style.display = 'none';
+  document.getElementById('cd-closing').style.display = 'none';
+  document.getElementById('r-recap-wrap').style.display = 'none';
+
+  showScreen('s-result');
+}
+
+/* ============================================================
+   CAFÉ
+   ============================================================ */
+function drawCoffee(){
+  var cands = gOrder.map(function(idx){ return people[idx]; });
+  var pool = cands;
+  if (lastDrawnId && cands.length > 1) pool = cands.filter(function(p){ return p.id !== lastDrawnId; });
+  var chosen = pool[Math.floor(Math.random() * pool.length)];
+  lastDrawnId = chosen.id;
+
+  document.getElementById('cd-launch').style.display = 'none';
+  document.getElementById('cd-headline').innerHTML = '¿Con quién te toca el café?';
+  document.getElementById('cd-match').style.display = 'none';
+  document.getElementById('cd-match').classList.remove('revealed');
+  document.getElementById('cd-actions').style.display = 'none';
+  document.getElementById('cd-closing').style.display = 'none';
+  document.getElementById('r-recap-wrap').style.display = 'none';
+
+  runRoulette(cands, chosen, function(){ landMatch(chosen, cands); });
+}
+
+function faceHTML(p){
+  var av = p.photo
+    ? '<div class="cd-av"><img src="' + esc(p.photo) + '" alt=""></div>'
+    : '<div class="cd-av">' + inits(p.name) + '</div>';
+  return '<div class="cd-face">' + av + '<div class="cd-name">' + esc(p.name) + '</div></div>';
+}
+
+function runRoulette(cands, chosen, done){
+  var el = document.getElementById('draw-spinner');
+  el.className = 'cd-spinner spinning';
+  var ticks = (cands.length > 1) ? 20 : 1;
+  var i = 0, prev = null;
+  function pickDifferent(){
+    if (cands.length < 2) return chosen;
+    var c; do { c = cands[Math.floor(Math.random() * cands.length)]; } while (prev && c.id === prev.id);
+    prev = c; return c;
+  }
+  function step(){
+    if (i < ticks){
+      el.innerHTML = faceHTML(pickDifferent());
+      var t = i / ticks;
+      var delay = 120 + (t*t*t) * 360;
+      i++;
+      setTimeout(step, delay);
+    } else {
+      el.className = 'cd-spinner landed';
+      el.innerHTML = faceHTML(chosen);
+      done();
+    }
+  }
+  step();
+}
+
+function landMatch(chosen, cands){
+  // Seleccionar una pista ya revelada de esta persona para el email
+  var partLog = gPartidaLog.find(function(e){ return e.perfil_id === chosen.id; });
+  var chosenClues = validClues(chosen);
+  var pista = chosenClues.length ? chosenClues[Math.floor(Math.random() * chosenClues.length)] : null;
+
+  document.getElementById('cd-card').innerHTML = '<div class="profile-card" style="margin:0">' + profileCardHTML(chosen) + '</div>';
+  var match = document.getElementById('cd-match');
+  match.style.display = 'block';
+
+  var slot = document.getElementById('cd-coffee-slot');
+  if (chosen.email){
+    window.__coffeeMatch = { name: chosen.name, email: chosen.email, pista: pista };
+    slot.innerHTML = '<button class="btn coffee" onclick="inviteCoffee()">Quedar para el café con ' + esc(chosen.name.split(' ')[0]) + '</button>';
+  } else {
+    slot.innerHTML = '<p class="cd-empty">' + esc(chosen.name.split(' ')[0]) + ' no tiene email en su ficha — ¡búscale en persona!</p>';
+  }
+
+  setTimeout(function(){ match.classList.add('revealed'); }, 450);
+  document.getElementById('cd-actions').style.display = 'block';
+  document.getElementById('cd-redraw').style.display = (cands.length > 1) ? 'inline-flex' : 'none';
+  setTimeout(function(){ document.getElementById('cd-closing').style.display = 'block'; }, 700);
+
+  var others = cands.filter(function(p){ return p.id !== chosen.id; });
+  var rc = document.getElementById('r-cards'); rc.innerHTML = '';
+  others.forEach(function(p){
+    var d = document.createElement('div'); d.className = 'profile-card';
+    d.innerHTML = profileCardHTML(p);
+    rc.appendChild(d);
+  });
+  document.getElementById('r-recap-wrap').style.display = others.length ? 'block' : 'none';
+}
+
+function inviteCoffee(){
+  var m = window.__coffeeMatch;
+  if (!m || !m.email) return;
+  var empresa = CONFIG.empresaNombre || 'el equipo';
+  var pistaLine = m.pista ? '\n\nJugando al juego de onboarding he descubierto que ' + m.pista.text + '. ¡Tenemos mucho de qué hablar!' : '';
+  var subject = encodeURIComponent('¡Hola ' + m.name + ', nos ha tocado un café!');
+  var body = encodeURIComponent(
+    'Hola ' + m.name + ',\n\nMe acabo de incorporar a ' + empresa + ' y, jugando al juego de onboarding, nos ha tocado tomar un café juntos esta semana.' +
+    pistaLine +
+    '\n\n¿Te va bien que lo concretemos? Me apetece conocerte.\n\nUn saludo'
+  );
+  var url = 'https://outlook.office.com/mail/deeplink/compose?to=' + encodeURIComponent(m.email) + '&subject=' + subject + '&body=' + body;
+  window.open(url, '_blank');
+  var slot = document.getElementById('cd-coffee-slot');
+  if (slot){
+    slot.innerHTML = '<div class="banner ok" style="text-align:left;margin-bottom:0"><i class="ti ti-circle-check"></i><span>Correo preparado. Envíalo para quedar con <strong>' + esc(m.name.split(' ')[0]) + '</strong>.</span></div>';
+  }
+}
+
+function profileCardHTML(p){
+  var avEl = p.photo
+    ? '<div class="avatar-lg"><img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '"></div>'
+    : '<div class="avatar-lg">' + inits(p.name) + '</div>';
+  var body = validClues(p).map(function(c){
+    return '<div class="profile-clue"><span><strong style="color:var(--mz-black)">' + esc(c.label) + ':</strong> ' + esc(c.text) + '</span></div>';
+  }).join('');
+  return '<div class="profile-card-header">' + avEl + '<div><div class="profile-card-name">' + esc(p.name) + '</div></div></div><div class="profile-card-body">' + body + '</div>';
+}
+
+/* ============================================================
+   ADMIN
+   ============================================================ */
+function renderAdmin(){
+  document.getElementById('a-total').textContent = people.length;
+  document.getElementById('a-complete').textContent = people.filter(complete).length;
+  var list = document.getElementById('a-list'); list.innerHTML = '';
+  if (!people.length){ list.innerHTML = '<p style="font-size:12px;color:var(--mz-gray)">No hay perfiles en Airtable todavía.</p>'; return; }
+  people.forEach(function(p){
+    var ok = complete(p);
+    var nClues = validClues(p).length;
+    var av = p.photo ? '<div class="adm-av"><img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '"></div>' : '<div class="adm-av">' + inits(p.name) + '</div>';
+    var row = document.createElement('div'); row.className = 'adm-row';
+    row.innerHTML = av +
+      '<div style="flex:1;min-width:0"><div class="adm-name">' + esc(p.name||'(sin nombre)') + '</div>' +
+      '<div class="adm-sub">' + nClues + '/' + CLUE_FIELDS.length + ' pistas' + (p.email ? ' · ' + esc(p.email) : '') + '</div></div>' +
+      '<span class="tag ' + (ok?'ok':'ko') + '">' + (ok?'jugable':'incompleto') + '</span>';
+    list.appendChild(row);
+  });
+}
+
+/* ============================================================
+   ALTA DE PERFIL
+   ============================================================ */
 var signupPhoto = '';
+var signupFromResult = false;
+
 function handlePhotoPick(input){
   var file = input.files && input.files[0];
-  if(!file){ return; }
-  if(!/^image\//.test(file.type)){ toast('Selecciona un archivo de imagen'); input.value = ''; return; }
+  if (!file){ return; }
+  if (!/^image\//.test(file.type)){ toast('Selecciona un archivo de imagen'); input.value = ''; return; }
   var reader = new FileReader();
   reader.onload = function(e){
     var img = new Image();
     img.onload = function(){
       var max = 1024, w = img.width, h = img.height;
-      if(w >= h && w > max){ h = Math.round(h * max / w); w = max; }
-      else if(h > w && h > max){ w = Math.round(w * max / h); h = max; }
+      if (w >= h && w > max){ h = Math.round(h * max / w); w = max; }
+      else if (h > w && h > max){ w = Math.round(w * max / h); h = max; }
       var canvas = document.createElement('canvas');
       canvas.width = w; canvas.height = h;
       canvas.getContext('2d').drawImage(img, 0, 0, w, h);
@@ -548,31 +1119,36 @@ function handlePhotoPick(input){
   reader.onerror = function(){ toast('No se pudo leer el archivo'); };
   reader.readAsDataURL(file);
 }
+
 function clearPhoto(){
   signupPhoto = '';
-  var f = document.getElementById('su-foto'); if(f) f.value = '';
+  var f = document.getElementById('su-foto'); if (f) f.value = '';
   document.getElementById('su-foto-preview').style.display = 'none';
   document.getElementById('su-foto-img').src = '';
   document.getElementById('su-foto-clear').style.display = 'none';
 }
 
 function openSignup(){
-  // Construir los campos de pistas según CLUE_FIELDS
+  signupFromResult = true;
   var box = document.getElementById('su-clues');
   box.innerHTML = CLUE_FIELDS.map(function(cf){
     var label = esc(cf.label || cf.field);
-    return '<div class="field"><label>'+label+' *</label>'+
-           '<textarea id="su-f-'+esc(cf.field)+'" rows="2" placeholder="Escribe tu respuesta…"></textarea></div>';
+    return '<div class="field"><label>' + label + ' *</label>' +
+           '<textarea id="su-f-' + esc(cf.field) + '" rows="2" placeholder="Escribe tu respuesta…"></textarea></div>';
   }).join('');
-  // Reset estado
   document.getElementById('su-nombre').value = '';
-  document.getElementById('su-email').value = '';
+  document.getElementById('su-email').value = playerEmail || '';
   clearPhoto();
   document.getElementById('su-err').style.display = 'none';
   document.getElementById('signup-form').style.display = 'block';
   document.getElementById('signup-done').style.display = 'none';
   document.getElementById('su-submit').disabled = false;
   showScreen('s-signup');
+}
+
+function goBackFromSignup(){
+  if (signupFromResult) showScreen('s-result');
+  else logout();
 }
 
 function submitSignup(){
@@ -582,23 +1158,20 @@ function submitSignup(){
 
   var nombre = document.getElementById('su-nombre').value.trim();
   var email = document.getElementById('su-email').value.trim();
-  if(!nombre){ return fail('Pon tu nombre.'); }
-  if(!email || email.indexOf('@') < 1 || email.indexOf('.') < 0){ return fail('Pon un email válido.'); }
+  if (!nombre){ return fail('Pon tu nombre.'); }
+  if (!email || email.indexOf('@') < 1 || email.indexOf('.') < 0){ return fail('Pon un email válido.'); }
 
   var body = { nombre: nombre, email: email };
   var faltan = [];
   CLUE_FIELDS.forEach(function(cf){
     var el = document.getElementById('su-f-' + cf.field);
     var val = el ? el.value.trim() : '';
-    if(!val) faltan.push(cf.label || cf.field);
+    if (!val) faltan.push(cf.label || cf.field);
     body[cf.field] = val;
   });
-  if(faltan.length){ return fail('Te falta rellenar: ' + faltan.join(', ') + '.'); }
+  if (faltan.length){ return fail('Te falta rellenar: ' + faltan.join(', ') + '.'); }
 
-  // Foto opcional: se manda como objeto aparte (filename/contentType/data en base64).
-  // El Worker debe sacarla del body, crear el registro solo con los campos de texto,
-  // y luego subir la imagen al campo de adjunto "foto" de Airtable.
-  if(signupPhoto){
+  if (signupPhoto){
     var c = signupPhoto.indexOf(',');
     body.foto = {
       filename: 'foto.jpg',
@@ -610,16 +1183,16 @@ function submitSignup(){
   err.style.display = 'none';
   var btn = document.getElementById('su-submit');
   btn.disabled = true;
-  var original = btn.innerHTML;
   btn.innerHTML = 'Enviando…';
 
-  fetch(CONFIG.proxyUrl, {
+  var proxy = CONFIG.proxyUrl;
+  fetch(proxy + (proxy.indexOf('?') >= 0 ? '&' : '?') + 'action=perfil', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body)
   }).then(function(res){ return res.json().then(function(d){ return { ok: res.ok, data: d }; }); })
     .then(function(r){
-      if(!r.ok || (r.data && r.data.error)){
+      if (!r.ok || (r.data && r.data.error)){
         throw new Error((r.data && r.data.error) || 'No se pudo enviar. Inténtalo de nuevo.');
       }
       document.getElementById('signup-form').style.display = 'none';
@@ -627,290 +1200,14 @@ function submitSignup(){
       window.scrollTo(0,0);
     })
     .catch(function(e){
-      btn.disabled = false; btn.innerHTML = original;
+      btn.disabled = false; btn.innerHTML = 'Enviar mi ficha';
       fail(e.message || 'No se pudo enviar. Inténtalo de nuevo.');
     });
 }
 
-function adminLogin(){
-  var u = document.getElementById('l-user').value;
-  var p = document.getElementById('l-pass').value;
-  var err = document.getElementById('login-err');
-  if(u !== CONFIG.adminUser || p !== CONFIG.adminPass){ err.style.display='block'; return; }
-  err.style.display='none';
-  if(loaded){ renderAdmin(); showScreen('s-admin'); }
-  else reloadData(true);
-}
-
-function enterPlayer(){
-  document.getElementById('gi-welcome').textContent = '¡Hola, ' + playerName + '!';
-  var ok = people.filter(complete).length >= 2;
-  document.getElementById('gi-warn').style.display = ok ? 'none' : 'block';
-  document.getElementById('gi-btn').disabled = !ok;
-  showScreen('s-game-intro');
-}
-
-function logout(){
-  document.getElementById('l-name').value='';
-  document.getElementById('l-user').value='';
-  document.getElementById('l-pass').value='';
-  if(location.hash) history.replaceState(null, '', location.pathname + location.search);
-  showScreen('s-login');
-}
-
-/* ============================ Juego ============================ */
-function startGame(){
-  var valid = people.filter(complete);
-  if(valid.length < 2){ toast('Necesitas al menos 2 perfiles jugables'); return; }
-  gOrder = shuffle(valid.map(function(p){ return people.indexOf(p); })).slice(0, Math.min(valid.length, 8));
-  gQ=0; gScore=0; gCorrect=0; gWrong=0; gCluesTotal=0;
-  lastDrawnId = null;
-  showScreen('s-game'); loadQ();
-}
-
-function loadQ(){
-  gAnswered=false; gClues=1;
-  var p = people[gOrder[gQ]];
-  document.getElementById('g-qnum').textContent = gQ+1;
-  document.getElementById('g-qtot').textContent = gOrder.length;
-  document.getElementById('g-score').textContent = gScore;
-  document.getElementById('g-pbar').style.width = Math.round(gQ/gOrder.length*100) + '%';
-  document.getElementById('g-feedback').style.display='none';
-  document.getElementById('g-next-row').style.display='none';
-  document.getElementById('g-hint').style.display='flex';
-  renderClues(p); renderOpts(p);
-}
-
-function validClues(p){ return p.clues.filter(function(c){ return c.text && c.text.trim(); }); }
-
-function renderClues(p){
-  var c = document.getElementById('g-clues'); c.innerHTML='';
-  var valid = validClues(p);
-  for(var i=0;i<Math.min(gClues, valid.length);i++){
-    var cl = valid[i];
-    var d = document.createElement('div'); d.className='clue-card';
-    d.innerHTML = '<div class="clue-lbl">'+esc(cl.label)+'</div><div class="clue-txt">'+esc(cl.text)+'</div>';
-    c.appendChild(d);
-  }
-  if(gClues < valid.length){
-    var d2 = document.createElement('div'); d2.className='clue-card';
-    d2.innerHTML = '<div class="clue-lbl">Pista '+(gClues+1)+'</div><div class="clue-txt clue-locked">Bloqueada</div>';
-    c.appendChild(d2);
-  }
-}
-
-function revealClue(){
-  if(gAnswered) return;
-  var p = people[gOrder[gQ]];
-  var valid = validClues(p);
-  if(gClues < valid.length){ gClues++; renderClues(p); }
-  if(gClues >= valid.length) document.getElementById('g-hint').style.display='none';
-}
-
-function renderOpts(p){
-  var grid = document.getElementById('g-opts'); grid.innerHTML='';
-  var pool = shuffle(people.filter(complete));
-  var opts = pool.slice(0,4);
-  if(!opts.some(function(o){ return o.name===p.name; })) opts[Math.floor(Math.random()*opts.length)] = p;
-  shuffle(opts).forEach(function(op){
-    var b = document.createElement('button'); b.className='opt-btn';
-    var av = document.createElement('div'); av.className='opt-avatar';
-    if(op.photo){ var img=document.createElement('img'); img.src=op.photo; img.alt=op.name; av.appendChild(img); }
-    else { av.textContent = inits(op.name); }
-    var sp = document.createElement('span'); sp.textContent = op.name; sp.style.fontSize='11px';
-    b.appendChild(av); b.appendChild(sp);
-    (function(opname, pname){ b.onclick=function(){ handleAns(opname, pname, b); }; })(op.name, p.name);
-    grid.appendChild(b);
-  });
-}
-
-function handleAns(chosen, correct, btn){
-  if(gAnswered) return; gAnswered=true; gCluesTotal += gClues;
-  var ok = chosen===correct;
-  var pts = ok ? (gClues===1?500:gClues===2?400:gClues===3?300:100) : -50;
-  gScore = Math.max(0, gScore + pts);
-  if(ok){ gCorrect++; btn.classList.add('correct'); }
-  else {
-    gWrong++; btn.classList.add('wrong');
-    var bs = document.querySelectorAll('.opt-btn');
-    for(var i=0;i<bs.length;i++){ var s=bs[i].querySelector('span'); if(s && s.textContent===correct) bs[i].classList.add('correct'); }
-  }
-  var fb = document.getElementById('g-feedback');
-  fb.style.display='block'; fb.className = 'feedback ' + (ok?'ok':'ko');
-  fb.textContent = ok ? (pts===500 ? '¡Increíble! +500 pts con 1 pista' : '¡Correcto! +'+pts+' pts') : ('Era '+correct+'. -50 pts');
-  document.getElementById('g-score').textContent = gScore;
-  document.getElementById('g-hint').style.display='none';
-  document.getElementById('g-next-row').style.display='flex';
-}
-
-function nextQ(){ gQ++; if(gQ>=gOrder.length){ showResult(); return; } loadQ(); }
-
-function inviteCoffee(){
-  var m = window.__coffeeMatch;
-  if(!m || !m.email) return;
-  var name = m.name, email = m.email;
-  var empresa = CONFIG.empresaNombre || 'el equipo';
-  var subject = encodeURIComponent('¡Hola ' + name + ', nos ha tocado un café!');
-  var body = encodeURIComponent('Hola ' + name + ',\n\nSoy ' + playerName + ', me acabo de incorporar a ' + empresa + ' y, jugando al juego de onboarding, nos ha tocado tomar un café juntos esta semana.\n\n¿Te va bien que lo concretemos? Me apetece conocerte.\n\nUn saludo,\n' + playerName);
-  var url = 'https://outlook.office.com/mail/deeplink/compose?to=' + encodeURIComponent(email) + '&subject=' + subject + '&body=' + body;
-  window.open(url, '_blank');
-  var slot = document.getElementById('cd-coffee-slot');
-  if(slot){
-    var first = (name || '').split(' ')[0];
-    slot.innerHTML =
-      '<div class="banner ok" style="text-align:left;margin-bottom:0">'
-      + '<i class="ti ti-circle-check"></i>'
-      + '<span>Correo preparado. Envíalo para quedar con <strong>'+esc(first)+'</strong>.</span></div>';
-  }
-}
-
-/* Devuelve el HTML interno de una ficha completa */
-function profileCardHTML(p){
-  var avEl = p.photo
-    ? '<div class="avatar-lg"><img src="'+esc(p.photo)+'" alt="'+esc(p.name)+'"></div>'
-    : '<div class="avatar-lg">'+inits(p.name)+'</div>';
-  var body = validClues(p).map(function(c){
-    return '<div class="profile-clue"><span><strong style="color:var(--mz-black)">'+esc(c.label)+':</strong> '+esc(c.text)+'</span></div>';
-  }).join('');
-  return '<div class="profile-card-header">'+avEl+'<div><div class="profile-card-name">'+esc(p.name)+'</div></div></div><div class="profile-card-body">'+body+'</div>';
-}
-
-function faceHTML(p){
-  var av = p.photo ? '<div class="cd-av"><img src="'+esc(p.photo)+'" alt=""></div>' : '<div class="cd-av">'+inits(p.name)+'</div>';
-  return '<div class="cd-face">'+av+'<div class="cd-name">'+esc(p.name)+'</div></div>';
-}
-
-function showResult(){
-  document.getElementById('r-score').textContent = gScore;
-  document.getElementById('r-correct').textContent = gCorrect;
-  document.getElementById('r-wrong').textContent = gWrong;
-  document.getElementById('r-avg').textContent = (gCluesTotal/gOrder.length).toFixed(1);
-  var pct = gCorrect/gOrder.length;
-  var ti = pct===1 ? 2 : (pct>=0.6 ? 1 : 0);
-  document.getElementById('r-emoji').textContent = ['😅','😎','🏆'][ti];
-  document.getElementById('r-title').textContent = ['Sigue conociéndoles', '¡Muy bien, '+playerName+'!', playerName+' conoce al equipo'][ti];
-  document.getElementById('r-sublabel').textContent = playerName + ' · ' + new Date().toLocaleDateString('es');
-
-  // Botón de "sortear otra" solo si hay más de un compañero
-  document.getElementById('cd-redraw').style.display = (gOrder.length > 1) ? 'inline-flex' : 'none';
-
-  showScreen('s-result');
-  lastDrawnId = null;
-
-  // Estado en reposo: invitar a sortear (no se lanza solo)
-  document.getElementById('cd-headline').innerHTML = 'Y ahora que ya los conoces un poco… ¿con quién te toca tomarte un café?';
-  document.getElementById('draw-spinner').className = 'cd-spinner idle';
-  document.getElementById('draw-spinner').innerHTML = '<div class="cd-face"><div class="cd-av"><i class="ti ti-coffee" style="font-size:46px"></i></div></div>';
-  document.getElementById('cd-launch').style.display = 'inline-flex';
-  document.getElementById('cd-match').style.display = 'none';
-  document.getElementById('cd-match').classList.remove('revealed');
-  document.getElementById('cd-actions').style.display = 'none';
-  document.getElementById('cd-closing').style.display = 'none';
-  document.getElementById('r-recap-wrap').style.display = 'none';
-}
-
-function drawCoffee(){
-  var cands = gOrder.map(function(idx){ return people[idx]; });
-  var pool = cands;
-  if(lastDrawnId && cands.length > 1) pool = cands.filter(function(p){ return p.id !== lastDrawnId; });
-  var chosen = pool[Math.floor(Math.random()*pool.length)];
-  lastDrawnId = chosen.id;
-
-  // Reset UI del sorteo
-  document.getElementById('cd-launch').style.display = 'none';
-  document.getElementById('cd-headline').innerHTML = '<b>'+esc(playerName)+'</b>, tu café de esta semana es con…';
-  document.getElementById('cd-match').style.display = 'none';
-  document.getElementById('cd-match').classList.remove('revealed');
-  document.getElementById('cd-actions').style.display = 'none';
-  document.getElementById('cd-closing').style.display = 'none';
-  document.getElementById('r-recap-wrap').style.display = 'none';
-
-  runRoulette(cands, chosen, function(){ landMatch(chosen, cands); });
-}
-
-function runRoulette(cands, chosen, done){
-  var el = document.getElementById('draw-spinner');
-  el.className = 'cd-spinner spinning';
-  // Más vueltas y más lento para que se aprecie cada compañero
-  var ticks = (cands.length > 1) ? 20 : 1;
-  var i = 0, prev = null;
-  function pickDifferent(){
-    if(cands.length < 2) return chosen;
-    var c; do { c = cands[Math.floor(Math.random()*cands.length)]; } while(prev && c.id === prev.id);
-    prev = c; return c;
-  }
-  function step(){
-    if(i < ticks){
-      el.innerHTML = faceHTML(pickDifferent());
-      var t = i / ticks;
-      // ease-out cúbico: empieza a ritmo visible y frena mucho al final
-      var delay = 120 + (t*t*t) * 360;   // ~120ms al inicio, ~480ms al final
-      i++;
-      setTimeout(step, delay);
-    } else {
-      el.className = 'cd-spinner landed';
-      el.innerHTML = faceHTML(chosen);
-      done();
-    }
-  }
-  step();
-}
-
-function landMatch(chosen, cands){
-  // Ficha velada que se revela
-  document.getElementById('cd-card').innerHTML = '<div class="profile-card" style="margin:0">'+profileCardHTML(chosen)+'</div>';
-  var match = document.getElementById('cd-match');
-  match.style.display = 'block';
-
-  // Botón de café (o aviso si no hay email)
-  var slot = document.getElementById('cd-coffee-slot');
-  if(chosen.email){
-    window.__coffeeMatch = chosen;
-    slot.innerHTML = '<button class="btn coffee" onclick="inviteCoffee()">Quedar para el café con '+esc(chosen.name.split(' ')[0])+'</button>';
-  } else {
-    slot.innerHTML = '<p class="cd-empty">'+esc(chosen.name.split(' ')[0])+' no tiene email en su ficha — ¡búscale en persona!</p>';
-  }
-
-  // Revelar la ficha tras un instante
-  setTimeout(function(){ match.classList.add('revealed'); }, 450);
-  document.getElementById('cd-actions').style.display = 'block';
-  document.getElementById('cd-redraw').style.display = (cands.length > 1) ? 'inline-flex' : 'none';
-  setTimeout(function(){ document.getElementById('cd-closing').style.display = 'block'; }, 700);
-
-  // Recap del resto del equipo
-  var others = cands.filter(function(p){ return p.id !== chosen.id; });
-  var rc = document.getElementById('r-cards'); rc.innerHTML = '';
-  others.forEach(function(p){
-    var d = document.createElement('div'); d.className = 'profile-card';
-    d.innerHTML = profileCardHTML(p);
-    rc.appendChild(d);
-  });
-  document.getElementById('r-recap-wrap').style.display = others.length ? 'block' : 'none';
-}
-
-/* ============================ Admin ============================ */
-function renderAdmin(){
-  document.getElementById('a-total').textContent = people.length;
-  document.getElementById('a-complete').textContent = people.filter(complete).length;
-  var list = document.getElementById('a-list'); list.innerHTML='';
-  if(!people.length){ list.innerHTML = '<p style="font-size:12px;color:var(--mz-gray)">No hay perfiles en Airtable todavía.</p>'; return; }
-  people.forEach(function(p){
-    var ok = complete(p);
-    var nClues = validClues(p).length;
-    var av = p.photo ? '<div class="adm-av"><img src="'+esc(p.photo)+'" alt="'+esc(p.name)+'"></div>' : '<div class="adm-av">'+inits(p.name)+'</div>';
-    var row = document.createElement('div'); row.className='adm-row';
-    row.innerHTML = av +
-      '<div style="flex:1;min-width:0"><div class="adm-name">'+esc(p.name||'(sin nombre)')+'</div>'+
-      '<div class="adm-sub">'+nClues+'/'+CLUE_FIELDS.length+' pistas'+(p.email?' · '+esc(p.email):'')+'</div></div>'+
-      '<span class="tag '+(ok?'ok':'ko')+'">'+(ok?'jugable':'incompleto')+'</span>';
-    list.appendChild(row);
-  });
-}
-
-/* Aviso si config.js no cargó (token vacío) */
 window.addEventListener('load', function(){
-  if(!CONFIG.proxyUrl){
-    console.warn('[Onboarding V2] No hay proxyUrl configurado. Crea config.js con la URL de tu Worker de Cloudflare.');
+  if (!CONFIG.proxyUrl){
+    console.warn('[Onboarding V3] No hay proxyUrl configurado. Crea config.js con la URL de tu Worker de Cloudflare.');
   }
 });
 </script>
