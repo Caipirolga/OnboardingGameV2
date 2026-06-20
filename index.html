@@ -230,11 +230,11 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
     <div class="coffee-draw">
       <div class="cd-headline" id="cd-headline"></div>
       <div class="cd-spinner" id="draw-spinner"><div class="cd-face"><div class="cd-av"><i class="ti ti-coffee" style="font-size:46px"></i></div></div></div>
-      <button class="btn primary" id="cd-launch" style="margin-top:18px" onclick="drawCoffee()">¿Te atreves?</button>
+      <p style="font-size:12px;color:var(--mz-gm);margin-top:14px;font-style:italic;line-height:1.5">Nada conecta más que una conversación cara a cara. ¿A quién te toca conocer hoy?</p>
+      <button class="btn primary" id="cd-launch" style="margin-top:12px" onclick="drawCoffee()">¿Te atreves?</button>
       <div class="cd-veil-wrap" id="cd-match" style="display:none"><div class="cd-veil"><i class="ti ti-question-mark"></i></div><div id="cd-card"></div></div>
       <div id="cd-actions" style="display:none;margin-top:14px">
         <div id="cd-coffee-slot"></div>
-        <p class="cd-closing" id="cd-closing" style="display:none;margin-top:12px">Nada conecta más que una conversación cara a cara. ¿A quién te toca conocer hoy?</p>
         <button class="btn white sm" id="cd-redraw" style="margin-top:10px" onclick="drawCoffee()">Sortear otra persona</button>
       </div>
     </div>
@@ -351,9 +351,10 @@ var RESULT_PHRASES={
     {phrase:'Juega otra partida y así vas conociéndolos mejor.',sub:''}
   ]
 };
-function getResultPhrase(correct,total){
-  var pct=correct/total;
-  var b=pct===1?RESULT_PHRASES.perfect:pct>=0.5?RESULT_PHRASES.good:RESULT_PHRASES.low;
+function getResultPhrase(correct,wrong){
+  var total=correct+wrong;
+  var pct=total>0?correct/total:0;
+  var b=pct===1?RESULT_PHRASES.perfect:pct>=0.7?RESULT_PHRASES.good:RESULT_PHRASES.low;
   return b[Math.floor(Math.random()*b.length)];
 }
 
@@ -757,8 +758,7 @@ function endGame(){
 
 /* RESULTADO */
 function showResult(){
-  var total=PLAYERS_COUNT*CLUES_PER_PERSON;
-  var phr=getResultPhrase(gTotalCorrect,total);
+  var phr=getResultPhrase(gTotalCorrect,gTotalWrong);
   document.getElementById('r-phrase').textContent=phr.phrase;
   document.getElementById('r-correct').textContent=gTotalCorrect;
   document.getElementById('r-wrong').textContent=gTotalWrong;
@@ -789,7 +789,7 @@ function drawCoffee(){
   document.getElementById('cd-match').classList.remove('revealed');
   document.getElementById('cd-actions').style.display='none';
   document.getElementById('cd-closing').style.display='none';
-  document.getElementById('cd-headline').innerHTML='¿Con quién te toca el café?';
+  document.getElementById('cd-headline').innerHTML='Tomarme un café con…';
   runRoulette(gPlayers,chosen,function(){landMatch(chosen);});
 }
 function faceHTML(p){var av=p.photo?'<div class="cd-av"><img src="'+esc(p.photo)+'" alt=""></div>':'<div class="cd-av">'+inits(p.name)+'</div>';return'<div class="cd-face">'+av+'<div class="cd-name">'+esc(p.name)+'</div></div>';}
