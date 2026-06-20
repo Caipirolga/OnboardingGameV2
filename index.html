@@ -398,7 +398,7 @@ function showScreen(id){var els=document.querySelectorAll('.screen');for(var i=0
 function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
 
 /* MAPEO */
-function mapRecord(rec){var f=rec.fields||{};return{id:rec.id,name:(f.nombre||'').trim(),email:(f.email||'').trim(),photo:extractPhoto(f.foto),clues:ALL_CLUE_FIELDS.map(function(cf){return{field:cf.field,label:cf.label,icon:cf.icon,text:(f[cf.field]||'').toString().trim()};});};}
+function mapRecord(rec){var f=rec.fields||{};return{id:rec.id,name:(f.nombre||'').trim(),email:(f.email||'').trim(),photo:extractPhoto(f.foto),clues:ALL_CLUE_FIELDS.map(function(cf){return{field:cf.field,label:cf.label,icon:cf.icon,text:(f[cf.field]||'').toString().trim()};})};}
 
 /* RED */
 function proxyGet(params){var proxy=CONFIG.proxyUrl;if(!proxy)return Promise.reject(new Error('Falta proxyUrl en config.js'));var url=proxy+(proxy.indexOf('?')>=0?'&':'?')+params;return fetch(url,{method:'GET'}).then(function(res){if(!res.ok)throw new Error('Proxy error '+res.status);return res.json();}).then(function(data){if(data&&data.error)throw new Error(data.error);return data;});}
