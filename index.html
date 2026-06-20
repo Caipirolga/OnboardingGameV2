@@ -13,7 +13,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <script src="config.js" onerror="this.dispatchEvent(new Event('cfgfail'))"></script>
-
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--mz-yellow:#d4ac39;--mz-yl:#f5e9b8;--mz-yd:#a8872d;--mz-gray:#5a5a52;--mz-gl:#f2f2f0;--mz-gm:#c8c8c0;--mz-black:#1a1a18;--mz-white:#fff;--mz-green:#3B6D11;--mz-gbg:#EAF3DE;--mz-red:#A32D2D;--mz-rbg:#FCEBEB}
@@ -40,7 +39,6 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 .mz-mark{width:26px;height:26px;border-radius:4px;background:var(--mz-yellow);display:flex;align-items:center;justify-content:center;color:var(--mz-black);font-size:15px;flex-shrink:0}
 .mz-logo-img{height:30px;width:auto;max-width:150px;object-fit:contain;display:block}
 .admin-link{font-size:10px;color:var(--mz-gm);text-decoration:none;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
-.admin-link:hover{color:var(--mz-gray);text-decoration:underline}
 .mz-name{font-size:13px;font-weight:800;color:var(--mz-white);line-height:1;letter-spacing:.01em}
 .mz-tag{font-size:9px;color:var(--mz-gm);font-weight:600;text-transform:uppercase;letter-spacing:.06em;display:block;margin-top:2px}
 .mz-hero{background:var(--mz-yellow);padding:1.5rem 1.25rem;text-align:center}
@@ -77,35 +75,35 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 .tag.ok{background:var(--mz-gbg);color:var(--mz-green)}
 .tag.ko{background:var(--mz-rbg);color:var(--mz-red)}
 
-/* ── RULETA ── */
-.roulette-wrap{background:var(--mz-black);border-radius:8px;padding:1.5rem 1rem;text-align:center;margin-bottom:16px}
-.roulette-eyebrow{color:var(--mz-gm);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
-.roulette-card{background:var(--mz-yellow);border-radius:8px;padding:16px 14px;margin:0 auto;max-width:200px}
-.roulette-icon{font-size:30px;margin-bottom:5px}
-.roulette-label{font-size:15px;font-weight:800;color:var(--mz-black);line-height:1.2}
-.roulette-landed{font-size:13px;color:var(--mz-gm);margin-top:12px;font-weight:500;min-height:18px}
+/* ── RULETA DE COMPAÑEROS ── */
+.player-roulette{background:var(--mz-black);border-radius:8px;padding:1.5rem 1rem;text-align:center;margin-bottom:16px}
+.pr-eyebrow{color:var(--mz-gm);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px}
+.pr-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+.pr-slot{background:var(--mz-black);border:2px solid var(--mz-gray);border-radius:8px;padding:10px 6px;text-align:center;transition:all .15s}
+.pr-slot.landed{border-color:var(--mz-yellow);background:#2a2a22}
+.pr-av{width:56px;height:56px;border-radius:50%;background:var(--mz-gray);margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:var(--mz-white);overflow:hidden;border:2px solid var(--mz-gray);transition:border-color .3s}
+.pr-slot.landed .pr-av{border-color:var(--mz-yellow)}
+.pr-slot.landed .pr-av img{width:100%;height:100%;object-fit:cover}
+.pr-name{font-size:11px;font-weight:700;color:var(--mz-gm);min-height:14px;transition:color .3s}
+.pr-slot.landed .pr-name{color:var(--mz-yellow)}
+.pr-ready{color:var(--mz-yellow);font-size:12px;font-weight:700;margin-top:4px;min-height:18px}
 
 /* ── JUGADORES 2x2 ── */
 .game-players{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px}
-.player-slot{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;padding:12px 6px;border-radius:8px;border:2px solid transparent;background:var(--mz-white);transition:border-color .15s;-webkit-tap-highlight-color:transparent}
+.player-slot{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;padding:12px 6px;border-radius:8px;border:2px solid transparent;background:var(--mz-white);transition:border-color .15s;-webkit-tap-highlight-color:transparent}
 .player-slot:active{transform:scale(.96)}
 .player-slot.correct-flash{animation:flashgreen .55s ease}
 @keyframes flashgreen{0%,60%{background:var(--mz-gbg);border-color:var(--mz-green)}100%{background:var(--mz-white);border-color:transparent}}
 .player-slot.wrong-flash{animation:flashred .55s ease}
 @keyframes flashred{0%,60%{background:var(--mz-rbg);border-color:var(--mz-red)}100%{background:var(--mz-white);border-color:transparent}}
 .player-slot.done{cursor:default}
-
 .player-av{width:72px;height:72px;border-radius:50%;overflow:hidden;border:3px solid var(--mz-gm);background:var(--mz-gl);display:flex;align-items:center;justify-content:center;transition:border-color .3s}
 .player-av.revealed{border-color:var(--mz-yellow);box-shadow:0 0 0 3px rgba(212,172,57,.25)}
 .player-av img{width:100%;height:100%;object-fit:cover}
-
 .player-firstname{font-size:11px;font-weight:800;color:var(--mz-black);text-align:center}
-
-/* puntos de progreso por persona */
 .player-dots{display:flex;gap:5px;justify-content:center;margin-top:2px}
 .pdot{width:8px;height:8px;border-radius:50%;background:var(--mz-gm);transition:background .3s}
 .pdot.active{background:var(--mz-yellow)}
-
 @keyframes revealPop{0%{transform:scale(.5);opacity:0}65%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
 .reveal-anim{animation:revealPop .5s cubic-bezier(.2,1.3,.4,1)}
 
@@ -115,13 +113,9 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 .clue-cat-badge{display:inline-block;background:var(--mz-black);color:var(--mz-yellow);border-radius:20px;padding:3px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
 .clue-txt{font-size:15px;font-weight:600;color:var(--mz-black);line-height:1.4}
 .clue-hint{font-size:11px;color:var(--mz-gray);margin-top:8px;font-weight:500}
-
-/* feedback */
 .feedback-bar{text-align:center;font-size:12px;font-weight:700;padding:7px 12px;border-radius:4px;margin:10px 0 0;text-transform:uppercase;animation:fadein .2s ease}
 .feedback-bar.ok{background:var(--mz-gbg);color:var(--mz-green)}
 .feedback-bar.ko{background:var(--mz-rbg);color:var(--mz-red)}
-
-/* progreso global */
 .pbar{height:4px;background:var(--mz-gl);margin:0 0 14px}
 .pbar-fill{height:100%;background:var(--mz-yellow);transition:width .4s}
 
@@ -193,16 +187,16 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 <!-- GAME INTRO -->
 <div class="screen" id="s-game-intro">
   <div class="mz-header"><div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Onboarding Game</span></div></div><button class="btn white sm" onclick="logout()">Salir</button></div>
-  <div class="mz-hero"><h1 id="gi-welcome">¡Hola!</h1><p>Adivina quién esconde cada pista</p></div>
+  <div class="mz-hero"><h1 id="gi-welcome">¡Hola!</h1><p>Descubre quién esconde cada pista</p></div>
   <div class="content">
     <div class="score-table">
       <p style="font-size:10px;font-weight:800;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Cómo se juega</p>
       <ol style="margin:0;padding-left:18px;font-size:13px;color:var(--mz-black);font-weight:500;line-height:1.65">
-        <li>Se sortean <strong>3 categorías</strong> al azar de entre 5 posibles.</li>
+        <li>Se sortean <strong>4 compañeros</strong> al azar.</li>
         <li>Aparece una <strong>pista</strong> — pulsa sobre la persona que crees que es.</li>
         <li>Los <strong>3 puntos</strong> bajo cada silueta se pintan al acertar sus pistas.</li>
         <li>Al completar los 3 puntos ¡se revela la <strong>foto</strong>!</li>
-        <li>Al terminar descubres las <strong>5 categorías completas</strong> de cada persona.</li>
+        <li>Al terminar descubres la <strong>ficha completa</strong> de cada persona.</li>
       </ol>
     </div>
     <div id="gi-progress" class="banner ok" style="display:none"><i class="ti ti-progress"></i><span id="gi-progress-txt"></span></div>
@@ -220,7 +214,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
   </div>
   <div class="content" style="padding-top:1rem">
     <div class="pbar"><div class="pbar-fill" id="g-pbar" style="width:0%"></div></div>
-    <div id="g-roulette" style="display:none"></div>
+    <div id="g-player-roulette" style="display:none"></div>
     <div class="game-players" id="g-players" style="display:none"></div>
     <div id="g-feedback" style="display:none"></div>
     <div id="g-clue-wrap" style="display:none"></div>
@@ -310,30 +304,32 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
     </div>
   </div>
 </div>
-
 </div>
+
 <script>
 /* CONFIG */
 var DEFAULT_CONFIG={proxyUrl:'',empresaNombre:'Tu Empresa',empresaColor:'#d4ac39',empresaLogo:'',adminUser:'rrhh',adminPass:'onboarding2024'};
 var CONFIG=Object.assign({},DEFAULT_CONFIG,(window.CONFIG||{}));
 
-var ALL_CATS=[
-  {field:'como_soy',      label:'¿Cómo soy?',       icon:'😊'},
-  {field:'donde_naci',    label:'¿Dónde nací?',      icon:'📍'},
-  {field:'hobby',         label:'Mi hobby',          icon:'🎸'},
-  {field:'plan_perfecto', label:'Mi plan perfecto',  icon:'✨'},
-  {field:'peor_pesadilla',label:'Mi peor pesadilla', icon:'👻'}
+/* Categorías del juego — campo Airtable → etiqueta visible */
+var GAME_CATS=[
+  {field:'como_soy',      label:'Mi superpoder',     icon:'⚡'},
+  {field:'donde_naci',    label:'Mi manía',           icon:'🙃'},
+  {field:'hobby',         label:'Mi hobby',           icon:'🎸'},
+  {field:'plan_perfecto', label:'Mi plan perfecto',   icon:'✨'},
+  {field:'peor_pesadilla',label:'Mi peor pesadilla',  icon:'👻'}
 ];
-var CATS_TO_PLAY=3;
+var CLUES_PER_PERSON=3;  /* pistas por persona para revelar foto */
 var PLAYERS_COUNT=4;
 
+/* Todos los campos para ficha completa y formulario */
 var ALL_CLUE_FIELDS=[
-  {field:'como_soy',label:'¿Cómo soy?',icon:'ti-mood-smile'},
-  {field:'donde_naci',label:'¿Dónde nací?',icon:'ti-map-pin'},
-  {field:'hobby',label:'Mi hobby',icon:'ti-heart'},
-  {field:'plan_perfecto',label:'Mi plan perfecto',icon:'ti-sparkles'},
-  {field:'peor_pesadilla',label:'Mi peor pesadilla',icon:'ti-ghost'},
-  {field:'rol_empresa',label:'Mi rol en la empresa',icon:'ti-briefcase'}
+  {field:'como_soy',      label:'Mi superpoder',     icon:'ti-bolt'},
+  {field:'donde_naci',    label:'Mi manía',          icon:'ti-mood-crazy-happy'},
+  {field:'hobby',         label:'Mi hobby',          icon:'ti-heart'},
+  {field:'plan_perfecto', label:'Mi plan perfecto',  icon:'ti-sparkles'},
+  {field:'peor_pesadilla',label:'Mi peor pesadilla', icon:'ti-ghost'},
+  {field:'rol_empresa',   label:'Mi rol en la empresa',icon:'ti-briefcase'}
 ];
 
 var CLUE_FIELDS=(Array.isArray(CONFIG.pistas)&&CONFIG.pistas.length)
@@ -356,27 +352,31 @@ function playTone(freq,type,dur,vol){var ctx=getAudioCtx();if(!ctx)return;try{va
 function soundCorrect(){playTone(523,.18,'sine');setTimeout(function(){playTone(659,.18,'sine');},110);}
 function soundReveal(){playTone(523,.13,'sine');setTimeout(function(){playTone(659,.13,'sine');},85);setTimeout(function(){playTone(784,.13,'sine');},170);setTimeout(function(){playTone(1047,.36,'sine',.22);},260);}
 function soundWrong(){playTone(220,.15,'sawtooth',.13);setTimeout(function(){playTone(180,.2,'sawtooth',.1);},110);}
-function soundRouletteTick(){playTone(440+Math.random()*160,.05,'sine',.09);}
-function soundRouletteLand(){playTone(660,.1,'sine',.18);setTimeout(function(){playTone(880,.22,'sine',.16);},110);}
+function soundTick(){playTone(440+Math.random()*160,.05,'sine',.09);}
+function soundLand(){playTone(660,.1,'sine',.18);setTimeout(function(){playTone(880,.22,'sine',.16);},110);}
 
 /* ESTADO */
 var people=[],playerEmail='',playerRegistered=false,seenIds=[],loaded=false,lastDrawnId=null;
 var gPlayers=[];
-var gSelectedCats=[];   // 3 categorías sorteadas (objetos de ALL_CATS)
-var gCatIdx=0;          // índice de la categoría actual en gSelectedCats
-var gCluePending=[];    // pistas pendientes de la categoría actual
-var gHits=[];           // [n,n,n,n] aciertos por jugador en categoría actual
+var gCluePool=[];   /* {personIdx, field, label, icon, text} */
+var gHits=[];       /* aciertos por jugador */
 var gTotalCorrect=0,gTotalWrong=0;
 var gCurrentClue=null;
 var gBlocked=false;
-var gRevealedCount=0;   // cuántos jugadores tienen ya foto
 
 /* INIT */
 (function init(){
   if(CONFIG.empresaColor)document.documentElement.style.setProperty('--mz-yellow',CONFIG.empresaColor);
-  var bn=document.getElementById('brand-name');if(bn&&CONFIG.empresaNombre)bn.textContent=CONFIG.empresaNombre;
+  var bn=document.getElementById('brand-name');
+  if(bn&&CONFIG.empresaNombre)bn.textContent=CONFIG.empresaNombre;
   document.getElementById('adm-hint-u').textContent=CONFIG.adminUser;
-  if(CONFIG.empresaLogo){var marks=document.querySelectorAll('.mz-mark');for(var i=0;i<marks.length;i++){var img=document.createElement('img');img.src=CONFIG.empresaLogo;img.alt=CONFIG.empresaNombre||'Logo';img.className='mz-logo-img';var td=marks[i].nextElementSibling;marks[i].parentNode.replaceChild(img,marks[i]);if(td)td.style.display='none';}}
+  if(CONFIG.empresaLogo){
+    var marks=document.querySelectorAll('.mz-mark');
+    for(var i=0;i<marks.length;i++){
+      var img=document.createElement('img');img.src=CONFIG.empresaLogo;img.alt=CONFIG.empresaNombre||'Logo';img.className='mz-logo-img';
+      var td=marks[i].nextElementSibling;marks[i].parentNode.replaceChild(img,marks[i]);if(td)td.style.display='none';
+    }
+  }
   if(location.hash==='#admin')goAdminLogin();
 })();
 
@@ -385,10 +385,19 @@ function inits(n){return(n||'').trim().split(' ').slice(0,2).map(function(w){ret
 function firstName(n){return(n||'').trim().split(' ')[0];}
 function shuffle(a){return a.slice().sort(function(){return Math.random()-.5;});}
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function complete(p){var ok=true;ALL_CATS.forEach(function(c){if(!getField(p,c.field))ok=false;});return !!(p.name&&ok);}
-function getField(p,field){var c=p.clues.find(function(x){return x.field===field;});return c&&c.text?c.text:'';}
+function getField(p,field){var c=p.clues.find(function(x){return x.field===field;});return c&&c.text&&c.text.trim()?c.text:'';}
 function allClues(p){return p.clues.filter(function(c){return c.text&&c.text.trim();});}
-function extractPhoto(val){if(!val)return'';if(Array.isArray(val)&&val.length){var a=val[0];if(a&&a.thumbnails&&a.thumbnails.large&&a.thumbnails.large.url)return a.thumbnails.large.url;if(a&&a.url)return a.url;return'';}if(typeof val==='string')return val.trim();return'';}
+function complete(p){
+  if(!p.name)return false;
+  var filled=GAME_CATS.filter(function(c){return !!getField(p,c.field);});
+  return filled.length>=CLUES_PER_PERSON;
+}
+function extractPhoto(val){
+  if(!val)return'';
+  if(Array.isArray(val)&&val.length){var a=val[0];if(a&&a.thumbnails&&a.thumbnails.large&&a.thumbnails.large.url)return a.thumbnails.large.url;if(a&&a.url)return a.url;return'';}
+  if(typeof val==='string')return val.trim();
+  return'';
+}
 
 var LOADING_MSGS=['🕵️ Reuniendo pistas sobre el equipo…','🔍 Interrogando la base de datos…','🗂️ Abriendo los expedientes…','☕ Preparando los cafés…','🧩 Encajando las piezas del equipo…'];
 var loadMsgTimer=null;
@@ -398,21 +407,64 @@ function showScreen(id){var els=document.querySelectorAll('.screen');for(var i=0
 function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
 
 /* MAPEO */
-function mapRecord(rec){var f=rec.fields||{};return{id:rec.id,name:(f.nombre||'').trim(),email:(f.email||'').trim(),photo:extractPhoto(f.foto),clues:ALL_CLUE_FIELDS.map(function(cf){return{field:cf.field,label:cf.label,icon:cf.icon,text:(f[cf.field]||'').toString().trim()};})};}
+function mapRecord(rec){
+  var f=rec.fields||{};
+  return{
+    id:rec.id,
+    name:(f.nombre||'').trim(),
+    email:(f.email||'').trim(),
+    photo:extractPhoto(f.foto),
+    clues:ALL_CLUE_FIELDS.map(function(cf){
+      return{field:cf.field,label:cf.label,icon:cf.icon,text:(f[cf.field]||'').toString().trim()};
+    })
+  };
+}
 
 /* RED */
-function proxyGet(params){var proxy=CONFIG.proxyUrl;if(!proxy)return Promise.reject(new Error('Falta proxyUrl en config.js'));var url=proxy+(proxy.indexOf('?')>=0?'&':'?')+params;return fetch(url,{method:'GET'}).then(function(res){if(!res.ok)throw new Error('Proxy error '+res.status);return res.json();}).then(function(data){if(data&&data.error)throw new Error(data.error);return data;});}
+function proxyGet(params){
+  var proxy=CONFIG.proxyUrl;
+  if(!proxy)return Promise.reject(new Error('Falta proxyUrl en config.js'));
+  var url=proxy+(proxy.indexOf('?')>=0?'&':'?')+params;
+  return fetch(url,{method:'GET'})
+    .then(function(res){if(!res.ok)throw new Error('Proxy error '+res.status);return res.json();})
+    .then(function(data){if(data&&data.error)throw new Error(data.error);return data;});
+}
 function loadFromAirtable(){return proxyGet('action=perfiles').then(function(data){return(data.records||[]).map(function(r){return mapRecord(r);});});}
 function checkEmailRegistered(email){return proxyGet('action=checkEmail&email='+encodeURIComponent(email));}
 function loadSeenIds(email){return proxyGet('action=partidas&email='+encodeURIComponent(email)).then(function(data){return data.vistos||[];});}
-function savePartida(log){var proxy=CONFIG.proxyUrl;if(!proxy||!log.length)return Promise.resolve();return fetch(proxy+(proxy.indexOf('?')>=0?'&':'?')+'action=partida',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email_jugador:playerEmail,perfiles:log})}).catch(function(e){console.warn('savePartida:',e);});}
-function reloadData(stayInAdmin){showScreen('s-loading');document.getElementById('load-sub').textContent='Cargando perfiles…';loadFromAirtable().then(function(list){people=list;loaded=true;if(stayInAdmin){renderAdmin();showScreen('s-admin');}else enterPlayer();}).catch(function(err){document.getElementById('err-msg').textContent=err.message||'Error desconocido';showScreen('s-error');});}
+function savePartida(log){
+  var proxy=CONFIG.proxyUrl;
+  if(!proxy||!log.length)return Promise.resolve();
+  return fetch(proxy+(proxy.indexOf('?')>=0?'&':'?')+'action=partida',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email_jugador:playerEmail,perfiles:log})})
+    .catch(function(e){console.warn('savePartida:',e);});
+}
+function reloadData(stayInAdmin){
+  showScreen('s-loading');
+  document.getElementById('load-sub').textContent='Cargando perfiles…';
+  loadFromAirtable().then(function(list){
+    people=list;loaded=true;
+    if(stayInAdmin){renderAdmin();showScreen('s-admin');}else enterPlayer();
+  }).catch(function(err){document.getElementById('err-msg').textContent=err.message||'Error desconocido';showScreen('s-error');});
+}
 
 /* LOGIN */
-function playerLogin(){var email=document.getElementById('l-email').value.trim();if(!email||email.indexOf('@')<1){toast('Introduce tu email');return;}playerEmail=email;showScreen('s-loading');document.getElementById('load-sub').textContent='Comprobando tu perfil…';Promise.all([loadFromAirtable(),checkEmailRegistered(email),loadSeenIds(email)]).then(function(r){people=r[0];loaded=true;playerRegistered=r[1].registrado;seenIds=r[2];enterPlayer();}).catch(function(err){document.getElementById('err-msg').textContent=err.message||'Error al cargar datos';showScreen('s-error');});}
+function playerLogin(){
+  var email=document.getElementById('l-email').value.trim();
+  if(!email||email.indexOf('@')<1){toast('Introduce tu email');return;}
+  playerEmail=email;
+  showScreen('s-loading');
+  document.getElementById('load-sub').textContent='Comprobando tu perfil…';
+  Promise.all([loadFromAirtable(),checkEmailRegistered(email),loadSeenIds(email)])
+    .then(function(r){people=r[0];loaded=true;playerRegistered=r[1].registrado;seenIds=r[2];enterPlayer();})
+    .catch(function(err){document.getElementById('err-msg').textContent=err.message||'Error al cargar datos';showScreen('s-error');});
+}
 function goAdminLogin(){document.getElementById('login-err').style.display='none';showScreen('s-admin-login');}
-function adminLogin(){var u=document.getElementById('l-user').value,p=document.getElementById('l-pass').value;if(u!==CONFIG.adminUser||p!==CONFIG.adminPass){document.getElementById('login-err').style.display='block';return;}document.getElementById('login-err').style.display='none';if(loaded){renderAdmin();showScreen('s-admin');}else reloadData(true);}
-
+function adminLogin(){
+  var u=document.getElementById('l-user').value,p=document.getElementById('l-pass').value;
+  if(u!==CONFIG.adminUser||p!==CONFIG.adminPass){document.getElementById('login-err').style.display='block';return;}
+  document.getElementById('login-err').style.display='none';
+  if(loaded){renderAdmin();showScreen('s-admin');}else reloadData(true);
+}
 function enterPlayer(){
   var valid=people.filter(complete);
   var unseen=valid.filter(function(p){return seenIds.indexOf(p.id)<0;});
@@ -424,113 +476,155 @@ function enterPlayer(){
   document.getElementById('gi-btn').disabled=false;
   if(valid.length<PLAYERS_COUNT){document.getElementById('gi-warn').style.display='flex';document.getElementById('gi-btn').disabled=true;}
   else if(unseen.length===0){document.getElementById('gi-done').style.display='flex';seenIds=[];}
-  else{var seen=valid.length-unseen.length;if(seen>0){document.getElementById('gi-progress-txt').textContent='Ya conoces a '+seen+' de '+valid.length+' compañeros. Te quedan '+unseen.length+' por descubrir.';document.getElementById('gi-progress').style.display='flex';}}
+  else{
+    var seen=valid.length-unseen.length;
+    if(seen>0){document.getElementById('gi-progress-txt').textContent='Ya conoces a '+seen+' de '+valid.length+' compañeros. Te quedan '+unseen.length+' por descubrir.';document.getElementById('gi-progress').style.display='flex';}
+  }
   showScreen('s-game-intro');
 }
-function logout(){document.getElementById('l-email').value='';document.getElementById('l-user').value='';document.getElementById('l-pass').value='';playerEmail='';playerRegistered=false;seenIds=[];loaded=false;people=[];if(location.hash)history.replaceState(null,'',location.pathname+location.search);showScreen('s-login');}
+function logout(){
+  document.getElementById('l-email').value='';document.getElementById('l-user').value='';document.getElementById('l-pass').value='';
+  playerEmail='';playerRegistered=false;seenIds=[];loaded=false;people=[];
+  if(location.hash)history.replaceState(null,'',location.pathname+location.search);
+  showScreen('s-login');
+}
 
-/* JUEGO */
+/* ══════════════════════════════════════
+   JUEGO
+══════════════════════════════════════ */
 function startGame(){
   var valid=people.filter(complete);
   var unseen=valid.filter(function(p){return seenIds.indexOf(p.id)<0;});
   if(unseen.length===0)unseen=valid;
   if(unseen.length<PLAYERS_COUNT){toast('Necesitas al menos '+PLAYERS_COUNT+' perfiles jugables');return;}
+
   gPlayers=shuffle(unseen).slice(0,PLAYERS_COUNT);
-  gSelectedCats=shuffle(ALL_CATS).slice(0,CATS_TO_PLAY);
-  gCatIdx=0;
   gHits=[0,0,0,0];
   gTotalCorrect=0;gTotalWrong=0;
-  gCurrentClue=null;gBlocked=false;gRevealedCount=0;
+  gCurrentClue=null;gBlocked=false;
+
+  /* Construir pool: para cada jugador, seleccionar CLUES_PER_PERSON categorías
+     que tenga rellenas, de forma aleatoria. Mezclar todo. */
+  gCluePool=[];
+  gPlayers.forEach(function(p,pi){
+    var available=shuffle(GAME_CATS.filter(function(c){return !!getField(p,c.field);}));
+    var selected=available.slice(0,CLUES_PER_PERSON);
+    selected.forEach(function(c){
+      gCluePool.push({personIdx:pi,field:c.field,label:c.label,icon:c.icon,text:getField(p,c.field)});
+    });
+  });
+  gCluePool=shuffle(gCluePool);
+
   showScreen('s-game');
+  document.getElementById('g-header-info').textContent='';
   updateProgressBar();
-  showRoulette(true);
+  showPlayerRoulette();
 }
 
-/* RULETA */
-function showRoulette(isFirst){
-  document.getElementById('g-roulette').style.display='block';
+/* ── RULETA DE COMPAÑEROS ── */
+function showPlayerRoulette(){
+  document.getElementById('g-player-roulette').style.display='block';
   document.getElementById('g-players').style.display='none';
   document.getElementById('g-clue-wrap').style.display='none';
   document.getElementById('g-feedback').style.display='none';
 
-  var target=gSelectedCats[gCatIdx];
-  var eyebrow=isFirst?'Empezamos descubriendo…':'Siguiente categoría…';
-
-  document.getElementById('g-roulette').innerHTML=
-    '<div class="roulette-wrap">'
-    +'<div class="roulette-eyebrow">'+eyebrow+'</div>'
-    +'<div class="roulette-card" id="roulette-card"><div class="roulette-icon" id="roulette-icon">✨</div><div class="roulette-label" id="roulette-label">…</div></div>'
-    +'<div class="roulette-landed" id="roulette-landed"></div>'
-    +'</div>';
-
-  var ticks=22,i=0,prev=null;
-  function pickDiff(){var c;do{c=ALL_CATS[Math.floor(Math.random()*ALL_CATS.length)];}while(prev&&c.field===prev.field);prev=c;return c;}
-  function step(){
-    if(i<ticks){
-      var c=pickDiff();
-      document.getElementById('roulette-icon').textContent=c.icon;
-      document.getElementById('roulette-label').textContent=c.label;
-      soundRouletteTick();
-      var t=i/ticks;
-      var delay=55+(t*t*t)*340;
-      i++;setTimeout(step,delay);
-    } else {
-      document.getElementById('roulette-icon').textContent=target.icon;
-      document.getElementById('roulette-label').textContent=target.label;
-      soundRouletteLand();
-      document.getElementById('roulette-landed').textContent='¡Descubramos quién tiene este '+target.label.toLowerCase()+'!';
-      setTimeout(function(){startCategory();},1100);
-    }
+  /* Crear 4 slots vacíos */
+  var html='<div class="player-roulette">'
+    +'<div class="pr-eyebrow">Sorteando tus compañeros…</div>'
+    +'<div class="pr-grid" id="pr-grid">';
+  for(var i=0;i<PLAYERS_COUNT;i++){
+    html+='<div class="pr-slot" id="pr-slot-'+i+'">'
+      +'<div class="pr-av" id="pr-av-'+i+'">?</div>'
+      +'<div class="pr-name" id="pr-name-'+i+'">…</div>'
+      +'</div>';
   }
-  step();
+  html+='</div><div class="pr-ready" id="pr-ready"></div></div>';
+  document.getElementById('g-player-roulette').innerHTML=html;
+
+  /* Animar los 4 slots en paralelo, cada uno con ticks distintos */
+  var allValid=people.filter(complete);
+  var finished=0;
+
+  gPlayers.forEach(function(target,slotIdx){
+    var ticks=16+slotIdx*4;  /* cada slot para en distinto momento */
+    var i=0;
+    var prev=null;
+    function pickDiff(){
+      var c;
+      do{c=allValid[Math.floor(Math.random()*allValid.length)];}while(prev&&c.id===prev.id);
+      prev=c;return c;
+    }
+    function step(){
+      if(i<ticks){
+        var p=pickDiff();
+        var nameEl=document.getElementById('pr-name-'+slotIdx);
+        var avEl=document.getElementById('pr-av-'+slotIdx);
+        if(nameEl)nameEl.textContent=firstName(p.name);
+        if(avEl){
+          if(p.photo){avEl.innerHTML='<img src="'+esc(p.photo)+'" alt="" style="width:100%;height:100%;object-fit:cover">';}
+          else{avEl.textContent=inits(p.name);}
+        }
+        soundTick();
+        var t=i/ticks;
+        var delay=60+(t*t*t)*300;
+        i++;setTimeout(step,delay);
+      } else {
+        /* Aterrizar en el target */
+        var nameEl=document.getElementById('pr-name-'+slotIdx);
+        var avEl=document.getElementById('pr-av-'+slotIdx);
+        var slot=document.getElementById('pr-slot-'+slotIdx);
+        if(nameEl)nameEl.textContent=firstName(target.name);
+        if(avEl){
+          if(target.photo){avEl.innerHTML='<img src="'+esc(target.photo)+'" alt="" style="width:100%;height:100%;object-fit:cover">';}
+          else{avEl.textContent=inits(target.name);}
+        }
+        if(slot)slot.classList.add('landed');
+        soundLand();
+        finished++;
+        if(finished===PLAYERS_COUNT){
+          var readyEl=document.getElementById('pr-ready');
+          if(readyEl)readyEl.textContent='¡Empezamos!';
+          setTimeout(function(){startPlay();},1000);
+        }
+      }
+    }
+    setTimeout(function(){step();},slotIdx*120);
+  });
 }
 
-/* CATEGORÍA */
-function startCategory(){
-  var cat=gSelectedCats[gCatIdx];
-  document.getElementById('g-header-info').textContent='Categoría '+(gCatIdx+1)+'/'+CATS_TO_PLAY;
-  document.getElementById('g-roulette').style.display='none';
-
-  // Pool de pistas de esta categoría, una por jugador, mezcladas
-  gCluePending=shuffle(gPlayers.map(function(p,pi){
-    return{personIdx:pi,text:getField(p,cat.field),catLabel:cat.label,catIcon:cat.icon};
-  }));
-
+function startPlay(){
+  document.getElementById('g-player-roulette').style.display='none';
+  document.getElementById('g-header-info').textContent='0/'+PLAYERS_COUNT+' descubiertos';
   renderPlayers();
   document.getElementById('g-players').style.display='grid';
   document.getElementById('g-feedback').style.display='none';
   setTimeout(function(){nextClue();},200);
 }
 
-/* JUGADORES */
+/* ── JUGADORES ── */
 function renderPlayers(){
   var grid=document.getElementById('g-players');grid.innerHTML='';
   gPlayers.forEach(function(p,pi){
-    var revealed=gHits[pi]>=CATS_TO_PLAY;
-    var slot=document.createElement('div');slot.className='player-slot'+(revealed?' done':'');slot.id='player-slot-'+pi;
-    var av=document.createElement('div');av.className='player-av'+(revealed?' revealed':'');av.id='player-av-'+pi;
-    if(revealed){
+    var done=gHits[pi]>=CLUES_PER_PERSON;
+    var slot=document.createElement('div');slot.className='player-slot'+(done?' done':'');slot.id='player-slot-'+pi;
+    var av=document.createElement('div');av.className='player-av'+(done?' revealed':'');av.id='player-av-'+pi;
+    if(done){
       if(p.photo){var img=document.createElement('img');img.src=p.photo;img.alt=p.name;av.appendChild(img);}
       else{av.innerHTML='<span style="font-size:18px;font-weight:800;color:var(--mz-black)">'+inits(p.name)+'</span>';av.style.background='var(--mz-yellow)';}
-    } else {
-      av.innerHTML=silhouetteSVG();
-    }
+    }else{av.innerHTML=silhouetteSVG();}
     var nameEl=document.createElement('div');nameEl.className='player-firstname';nameEl.textContent=firstName(p.name);
-
-    // Puntos de progreso (3 dots)
     var dotsEl=document.createElement('div');dotsEl.className='player-dots';dotsEl.id='player-dots-'+pi;
-    for(var d=0;d<CATS_TO_PLAY;d++){
+    for(var d=0;d<CLUES_PER_PERSON;d++){
       var dot=document.createElement('div');dot.className='pdot'+(d<gHits[pi]?' active':'');dotsEl.appendChild(dot);
     }
-
     slot.appendChild(av);slot.appendChild(nameEl);slot.appendChild(dotsEl);
-    if(!revealed){(function(idx){slot.onclick=function(){handlePlayerClick(idx);};})(pi);}
+    if(!done){(function(idx){slot.onclick=function(){handlePlayerClick(idx);};})(pi);}
     grid.appendChild(slot);
   });
 }
 
 function silhouetteSVG(){
-  return '<svg viewBox="0 0 70 70" width="70" height="70" xmlns="http://www.w3.org/2000/svg">'
+  return'<svg viewBox="0 0 70 70" width="70" height="70" xmlns="http://www.w3.org/2000/svg">'
     +'<circle cx="35" cy="35" r="35" fill="#c8c8c0"/>'
     +'<circle cx="35" cy="25" r="12" fill="#5a5a52"/>'
     +'<ellipse cx="35" cy="60" rx="21" ry="15" fill="#5a5a52"/>'
@@ -546,18 +640,11 @@ function updateDots(pi){
   }
 }
 
-/* PISTAS */
+/* ── PISTAS ── */
 function nextClue(){
   hideFeedback();
-  if(gCluePending.length===0){
-    // Categoría completada → siguiente
-    gCatIdx++;
-    updateProgressBar();
-    if(gCatIdx>=CATS_TO_PLAY){endGame();return;}
-    setTimeout(function(){showRoulette(false);},400);
-    return;
-  }
-  gCurrentClue=gCluePending.shift();
+  if(gCluePool.length===0){endGame();return;}
+  gCurrentClue=gCluePool.shift();
   renderClue(gCurrentClue);
   document.getElementById('g-clue-wrap').style.display='block';
   gBlocked=false;
@@ -566,17 +653,16 @@ function nextClue(){
 function renderClue(clue){
   document.getElementById('g-clue-wrap').innerHTML=
     '<div class="clue-card">'
-    +'<div class="clue-cat-badge">'+esc(clue.catLabel)+'</div>'
+    +'<div class="clue-cat-badge">'+esc(clue.label)+'</div>'
     +'<div class="clue-txt">'+esc(clue.text)+'</div>'
     +'<div class="clue-hint">↑ Pulsa sobre la persona que crees que es</div>'
     +'</div>';
 }
 
-/* RESPUESTA */
+/* ── RESPUESTA ── */
 function handlePlayerClick(playerIdx){
   if(gBlocked||!gCurrentClue)return;
-  var revealed=gHits[playerIdx]>=CATS_TO_PLAY;
-  if(revealed){toast('Esta persona ya está descubierta');return;}
+  if(gHits[playerIdx]>=CLUES_PER_PERSON){toast('Esta persona ya está descubierta');return;}
   gBlocked=true;
 
   var correct=gCurrentClue.personIdx===playerIdx;
@@ -588,19 +674,25 @@ function handlePlayerClick(playerIdx){
     flashSlot(playerIdx,'correct-flash');
     updateDots(playerIdx);
     showFeedback(true,'¡Correcto!');
-
-    if(gHits[playerIdx]>=CATS_TO_PLAY){
-      setTimeout(function(){revealPlayer(playerIdx);setTimeout(function(){nextClue();},700);},400);
-    } else {
+    if(gHits[playerIdx]>=CLUES_PER_PERSON){
+      setTimeout(function(){
+        revealPlayer(playerIdx);
+        updateHeader();
+        setTimeout(function(){nextClue();},700);
+      },400);
+    }else{
       setTimeout(function(){nextClue();},700);
     }
-  } else {
+  }else{
     soundWrong();
     gTotalWrong++;
     flashSlot(playerIdx,'wrong-flash');
     showFeedback(false,'No es ese/a — la pista vuelve al final');
-    gCluePending.push(gCurrentClue);
+    gCluePending=gCurrentClue;
     gCurrentClue=null;
+    /* Insertar en posición aleatoria en la segunda mitad del pool */
+    var pos=Math.floor(gCluePool.length/2)+Math.floor(Math.random()*(Math.ceil(gCluePool.length/2)+1));
+    gCluePool.splice(pos,0,gCluePending);
     setTimeout(function(){nextClue();},900);
   }
 }
@@ -614,13 +706,20 @@ function revealPlayer(pi){
   else{av.innerHTML='<span style="font-size:18px;font-weight:800;color:var(--mz-black)">'+inits(p.name)+'</span>';av.style.background='var(--mz-yellow)';}
   av.classList.add('revealed','reveal-anim');
   if(slot){slot.classList.add('done');slot.onclick=null;}
-  gRevealedCount++;
+}
+
+function updateHeader(){
+  var done=gHits.filter(function(h){return h>=CLUES_PER_PERSON;}).length;
+  document.getElementById('g-header-info').textContent=done+'/'+PLAYERS_COUNT+' descubiertos';
+  var total=PLAYERS_COUNT*CLUES_PER_PERSON;
+  var progress=gTotalCorrect;
+  document.getElementById('g-pbar').style.width=Math.min(100,Math.round(progress/total*100))+'%';
 }
 
 function flashSlot(pi,cls){var slot=document.getElementById('player-slot-'+pi);if(!slot)return;slot.classList.remove('correct-flash','wrong-flash');void slot.offsetWidth;slot.classList.add(cls);}
 function showFeedback(ok,msg){var el=document.getElementById('g-feedback');el.className='feedback-bar '+(ok?'ok':'ko');el.textContent=msg;el.style.display='block';}
 function hideFeedback(){var el=document.getElementById('g-feedback');if(el)el.style.display='none';}
-function updateProgressBar(){document.getElementById('g-pbar').style.width=Math.round(gCatIdx/CATS_TO_PLAY*100)+'%';}
+function updateProgressBar(){document.getElementById('g-pbar').style.width='0%';}
 
 /* FIN */
 function endGame(){
@@ -631,7 +730,7 @@ function endGame(){
 
 /* RESULTADO */
 function showResult(){
-  var total=CATS_TO_PLAY*PLAYERS_COUNT;
+  var total=PLAYERS_COUNT*CLUES_PER_PERSON;
   var phr=getResultPhrase(gTotalCorrect,total);
   document.getElementById('r-emoji').textContent=phr.emoji;
   document.getElementById('r-phrase').textContent=phr.phrase;
@@ -639,11 +738,9 @@ function showResult(){
   document.getElementById('r-correct').textContent=gTotalCorrect;
   document.getElementById('r-wrong').textContent=gTotalWrong;
   document.getElementById('r-join-wrap').style.display=playerRegistered?'none':'block';
-
   var profEl=document.getElementById('r-profiles');profEl.innerHTML='';
   gPlayers.forEach(function(p){var d=document.createElement('div');d.className='profile-card';d.innerHTML=profileCardHTML(p);profEl.appendChild(d);});
   document.getElementById('r-profiles-wrap').style.display='block';
-
   lastDrawnId=null;
   document.getElementById('cd-headline').innerHTML='Y ahora que ya los conoces… ¿con quién te toca un café?';
   document.getElementById('draw-spinner').className='cd-spinner idle';
@@ -657,12 +754,51 @@ function showResult(){
 }
 
 /* CAFÉ */
-function drawCoffee(){var pool=gPlayers;if(lastDrawnId&&pool.length>1)pool=gPlayers.filter(function(p){return p.id!==lastDrawnId;});var chosen=pool[Math.floor(Math.random()*pool.length)];lastDrawnId=chosen.id;document.getElementById('cd-launch').style.display='none';document.getElementById('cd-match').style.display='none';document.getElementById('cd-match').classList.remove('revealed');document.getElementById('cd-actions').style.display='none';document.getElementById('cd-closing').style.display='none';document.getElementById('cd-headline').innerHTML='¿Con quién te toca el café?';runRoulette(gPlayers,chosen,function(){landMatch(chosen);});}
+function drawCoffee(){
+  var pool=gPlayers;
+  if(lastDrawnId&&pool.length>1)pool=gPlayers.filter(function(p){return p.id!==lastDrawnId;});
+  var chosen=pool[Math.floor(Math.random()*pool.length)];lastDrawnId=chosen.id;
+  document.getElementById('cd-launch').style.display='none';
+  document.getElementById('cd-match').style.display='none';
+  document.getElementById('cd-match').classList.remove('revealed');
+  document.getElementById('cd-actions').style.display='none';
+  document.getElementById('cd-closing').style.display='none';
+  document.getElementById('cd-headline').innerHTML='¿Con quién te toca el café?';
+  runRoulette(gPlayers,chosen,function(){landMatch(chosen);});
+}
 function faceHTML(p){var av=p.photo?'<div class="cd-av"><img src="'+esc(p.photo)+'" alt=""></div>':'<div class="cd-av">'+inits(p.name)+'</div>';return'<div class="cd-face">'+av+'<div class="cd-name">'+esc(p.name)+'</div></div>';}
-function runRoulette(cands,chosen,done){var el=document.getElementById('draw-spinner');el.className='cd-spinner spinning';var ticks=cands.length>1?20:1,i=0,prev=null;function pickDiff(){if(cands.length<2)return chosen;var c;do{c=cands[Math.floor(Math.random()*cands.length)];}while(prev&&c.id===prev.id);prev=c;return c;}function step(){if(i<ticks){el.innerHTML=faceHTML(pickDiff());var t=i/ticks;var delay=120+(t*t*t)*360;i++;setTimeout(step,delay);}else{el.className='cd-spinner landed';el.innerHTML=faceHTML(chosen);done();}}step();}
-function landMatch(chosen){var clues=allClues(chosen);var pista=clues.length?clues[Math.floor(Math.random()*clues.length)]:null;document.getElementById('cd-card').innerHTML='<div class="profile-card" style="margin:0">'+profileCardHTML(chosen)+'</div>';var match=document.getElementById('cd-match');match.style.display='block';var slot=document.getElementById('cd-coffee-slot');if(chosen.email){window.__coffeeMatch={name:chosen.name,email:chosen.email,pista:pista};slot.innerHTML='<button class="btn coffee" onclick="inviteCoffee()">Quedar para el café con '+esc(firstName(chosen.name))+'</button>';}else{slot.innerHTML='<p class="cd-empty">'+esc(firstName(chosen.name))+' no tiene email — ¡búscale en persona!</p>';}setTimeout(function(){match.classList.add('revealed');},450);document.getElementById('cd-actions').style.display='block';document.getElementById('cd-redraw').style.display=gPlayers.length>1?'inline-flex':'none';setTimeout(function(){document.getElementById('cd-closing').style.display='block';},700);}
-function inviteCoffee(){var m=window.__coffeeMatch;if(!m||!m.email)return;var empresa=CONFIG.empresaNombre||'el equipo';var pistaLine=m.pista?'\n\nJugando al juego de onboarding he descubierto que '+m.pista.text+'. ¡Tenemos mucho de qué hablar!':'';var subject=encodeURIComponent('¡Hola '+m.name+', nos ha tocado un café!');var body=encodeURIComponent('Hola '+m.name+',\n\nMe acabo de incorporar a '+empresa+' y, jugando al juego de onboarding, nos ha tocado tomar un café juntos esta semana.'+pistaLine+'\n\n¿Te va bien que lo concretemos? Me apetece conocerte.\n\nUn saludo');window.open('https://outlook.office.com/mail/deeplink/compose?to='+encodeURIComponent(m.email)+'&subject='+subject+'&body='+body,'_blank');document.getElementById('cd-coffee-slot').innerHTML='<div class="banner ok" style="text-align:left;margin-bottom:0"><i class="ti ti-circle-check"></i><span>Correo preparado. Envíalo para quedar con <strong>'+esc(firstName(m.name))+'</strong>.</span></div>';}
-
+function runRoulette(cands,chosen,done){
+  var el=document.getElementById('draw-spinner');el.className='cd-spinner spinning';
+  var ticks=cands.length>1?20:1,i=0,prev=null;
+  function pickDiff(){if(cands.length<2)return chosen;var c;do{c=cands[Math.floor(Math.random()*cands.length)];}while(prev&&c.id===prev.id);prev=c;return c;}
+  function step(){if(i<ticks){el.innerHTML=faceHTML(pickDiff());var t=i/ticks;var delay=120+(t*t*t)*360;i++;setTimeout(step,delay);}else{el.className='cd-spinner landed';el.innerHTML=faceHTML(chosen);done();}}
+  step();
+}
+function landMatch(chosen){
+  var clues=allClues(chosen);var pista=clues.length?clues[Math.floor(Math.random()*clues.length)]:null;
+  document.getElementById('cd-card').innerHTML='<div class="profile-card" style="margin:0">'+profileCardHTML(chosen)+'</div>';
+  var match=document.getElementById('cd-match');match.style.display='block';
+  var slot=document.getElementById('cd-coffee-slot');
+  if(chosen.email){
+    window.__coffeeMatch={name:chosen.name,email:chosen.email,pista:pista};
+    slot.innerHTML='<button class="btn coffee" onclick="inviteCoffee()">Quedar para el café con '+esc(firstName(chosen.name))+'</button>';
+  }else{
+    slot.innerHTML='<p class="cd-empty">'+esc(firstName(chosen.name))+' no tiene email — ¡búscale en persona!</p>';
+  }
+  setTimeout(function(){match.classList.add('revealed');},450);
+  document.getElementById('cd-actions').style.display='block';
+  document.getElementById('cd-redraw').style.display=gPlayers.length>1?'inline-flex':'none';
+  setTimeout(function(){document.getElementById('cd-closing').style.display='block';},700);
+}
+function inviteCoffee(){
+  var m=window.__coffeeMatch;if(!m||!m.email)return;
+  var empresa=CONFIG.empresaNombre||'el equipo';
+  var pistaLine=m.pista?'\n\nJugando al juego de onboarding he descubierto que '+m.pista.text+'. ¡Tenemos mucho de qué hablar!':'';
+  var subject=encodeURIComponent('¡Hola '+m.name+', nos ha tocado un café!');
+  var body=encodeURIComponent('Hola '+m.name+',\n\nMe acabo de incorporar a '+empresa+' y, jugando al juego de onboarding, nos ha tocado tomar un café juntos esta semana.'+pistaLine+'\n\n¿Te va bien que lo concretemos? Me apetece conocerte.\n\nUn saludo');
+  window.open('https://outlook.office.com/mail/deeplink/compose?to='+encodeURIComponent(m.email)+'&subject='+subject+'&body='+body,'_blank');
+  document.getElementById('cd-coffee-slot').innerHTML='<div class="banner ok" style="text-align:left;margin-bottom:0"><i class="ti ti-circle-check"></i><span>Correo preparado. Envíalo para quedar con <strong>'+esc(firstName(m.name))+'</strong>.</span></div>';
+}
 function profileCardHTML(p){
   var avEl=p.photo?'<div class="avatar-lg"><img src="'+esc(p.photo)+'" alt="'+esc(p.name)+'"></div>':'<div class="avatar-lg">'+inits(p.name)+'</div>';
   var body=allClues(p).map(function(c){return'<div class="profile-clue"><span><strong style="color:var(--mz-black)">'+esc(c.label)+':</strong> '+esc(c.text)+'</span></div>';}).join('');
@@ -670,15 +806,79 @@ function profileCardHTML(p){
 }
 
 /* ADMIN */
-function renderAdmin(){document.getElementById('a-total').textContent=people.length;document.getElementById('a-complete').textContent=people.filter(complete).length;var list=document.getElementById('a-list');list.innerHTML='';if(!people.length){list.innerHTML='<p style="font-size:12px;color:var(--mz-gray)">No hay perfiles todavía.</p>';return;}people.forEach(function(p){var ok=complete(p);var nClues=allClues(p).length;var av=p.photo?'<div class="adm-av"><img src="'+esc(p.photo)+'" alt="'+esc(p.name)+'"></div>':'<div class="adm-av">'+inits(p.name)+'</div>';var row=document.createElement('div');row.className='adm-row';row.innerHTML=av+'<div style="flex:1;min-width:0"><div class="adm-name">'+esc(p.name||'(sin nombre)')+'</div><div class="adm-sub">'+nClues+'/'+ALL_CLUE_FIELDS.length+' pistas'+(p.email?' · '+esc(p.email):'')+'</div></div><span class="tag '+(ok?'ok':'ko')+'">'+(ok?'jugable':'incompleto')+'</span>';list.appendChild(row);});}
+function renderAdmin(){
+  document.getElementById('a-total').textContent=people.length;
+  document.getElementById('a-complete').textContent=people.filter(complete).length;
+  var list=document.getElementById('a-list');list.innerHTML='';
+  if(!people.length){list.innerHTML='<p style="font-size:12px;color:var(--mz-gray)">No hay perfiles todavía.</p>';return;}
+  people.forEach(function(p){
+    var ok=complete(p);var nClues=allClues(p).length;
+    var av=p.photo?'<div class="adm-av"><img src="'+esc(p.photo)+'" alt="'+esc(p.name)+'"></div>':'<div class="adm-av">'+inits(p.name)+'</div>';
+    var row=document.createElement('div');row.className='adm-row';
+    row.innerHTML=av+'<div style="flex:1;min-width:0"><div class="adm-name">'+esc(p.name||'(sin nombre)')+'</div><div class="adm-sub">'+nClues+'/'+ALL_CLUE_FIELDS.length+' pistas'+(p.email?' · '+esc(p.email):'')+'</div></div><span class="tag '+(ok?'ok':'ko')+'">'+(ok?'jugable':'incompleto')+'</span>';
+    list.appendChild(row);
+  });
+}
 
 /* ALTA */
 var signupPhoto='',signupFromResult=false;
-function handlePhotoPick(input){var file=input.files&&input.files[0];if(!file)return;if(!/^image\//.test(file.type)){toast('Selecciona una imagen');input.value='';return;}var reader=new FileReader();reader.onload=function(e){var img=new Image();img.onload=function(){var max=1024,w=img.width,h=img.height;if(w>=h&&w>max){h=Math.round(h*max/w);w=max;}else if(h>w&&h>max){w=Math.round(w*max/h);h=max;}var canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(img,0,0,w,h);signupPhoto=canvas.toDataURL('image/jpeg',.85);document.getElementById('su-foto-img').src=signupPhoto;document.getElementById('su-foto-preview').style.display='block';document.getElementById('su-foto-clear').style.display='inline-flex';};img.src=e.target.result;};reader.readAsDataURL(file);}
+function handlePhotoPick(input){
+  var file=input.files&&input.files[0];if(!file)return;
+  if(!/^image\//.test(file.type)){toast('Selecciona una imagen');input.value='';return;}
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var img=new Image();
+    img.onload=function(){
+      var max=1024,w=img.width,h=img.height;
+      if(w>=h&&w>max){h=Math.round(h*max/w);w=max;}else if(h>w&&h>max){w=Math.round(w*max/h);h=max;}
+      var canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      signupPhoto=canvas.toDataURL('image/jpeg',.85);
+      document.getElementById('su-foto-img').src=signupPhoto;
+      document.getElementById('su-foto-preview').style.display='block';
+      document.getElementById('su-foto-clear').style.display='inline-flex';
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 function clearPhoto(){signupPhoto='';var f=document.getElementById('su-foto');if(f)f.value='';document.getElementById('su-foto-preview').style.display='none';document.getElementById('su-foto-img').src='';document.getElementById('su-foto-clear').style.display='none';}
-function openSignup(){signupFromResult=true;var box=document.getElementById('su-clues');box.innerHTML=CLUE_FIELDS.map(function(cf){return'<div class="field"><label>'+esc(cf.label||cf.field)+' *</label><textarea id="su-f-'+esc(cf.field)+'" rows="2" placeholder="Escribe tu respuesta…"></textarea></div>';}).join('');document.getElementById('su-nombre').value='';document.getElementById('su-email').value=playerEmail||'';clearPhoto();document.getElementById('su-err').style.display='none';document.getElementById('signup-form').style.display='block';document.getElementById('signup-done').style.display='none';document.getElementById('su-submit').disabled=false;document.getElementById('su-submit').innerHTML='Enviar mi ficha';showScreen('s-signup');}
+function openSignup(){
+  signupFromResult=true;
+  var box=document.getElementById('su-clues');
+  box.innerHTML=CLUE_FIELDS.map(function(cf){return'<div class="field"><label>'+esc(cf.label||cf.field)+' *</label><textarea id="su-f-'+esc(cf.field)+'" rows="2" placeholder="Escribe tu respuesta…"></textarea></div>';}).join('');
+  document.getElementById('su-nombre').value='';document.getElementById('su-email').value=playerEmail||'';
+  clearPhoto();document.getElementById('su-err').style.display='none';
+  document.getElementById('signup-form').style.display='block';document.getElementById('signup-done').style.display='none';
+  document.getElementById('su-submit').disabled=false;document.getElementById('su-submit').innerHTML='Enviar mi ficha';
+  showScreen('s-signup');
+}
 function goBackFromSignup(){if(signupFromResult)showScreen('s-result');else logout();}
-function submitSignup(){var err=document.getElementById('su-err'),errMsg=document.getElementById('su-err-msg');function fail(msg){errMsg.textContent=msg;err.style.display='block';}var nombre=document.getElementById('su-nombre').value.trim();var email=document.getElementById('su-email').value.trim();if(!nombre)return fail('Pon tu nombre.');if(!email||email.indexOf('@')<1||email.indexOf('.')<0)return fail('Pon un email válido.');var body={nombre:nombre,email:email};var faltan=[];CLUE_FIELDS.forEach(function(cf){var el=document.getElementById('su-f-'+cf.field);var val=el?el.value.trim():'';if(!val)faltan.push(cf.label||cf.field);body[cf.field]=val;});if(faltan.length)return fail('Te falta rellenar: '+faltan.join(', ')+'.');if(signupPhoto){var c=signupPhoto.indexOf(',');body.foto={filename:'foto.jpg',contentType:'image/jpeg',data:c>=0?signupPhoto.slice(c+1):signupPhoto};}err.style.display='none';var btn=document.getElementById('su-submit');btn.disabled=true;btn.innerHTML='Enviando…';var proxy=CONFIG.proxyUrl;fetch(proxy+(proxy.indexOf('?')>=0?'&':'?')+'action=perfil',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(res){return res.json().then(function(d){return{ok:res.ok,data:d};});}).then(function(r){if(!r.ok||(r.data&&r.data.error))throw new Error((r.data&&r.data.error)||'No se pudo enviar.');document.getElementById('signup-form').style.display='none';document.getElementById('signup-done').style.display='block';window.scrollTo(0,0);}).catch(function(e){btn.disabled=false;btn.innerHTML='Enviar mi ficha';fail(e.message||'No se pudo enviar.');});}
+function submitSignup(){
+  var err=document.getElementById('su-err'),errMsg=document.getElementById('su-err-msg');
+  function fail(msg){errMsg.textContent=msg;err.style.display='block';}
+  var nombre=document.getElementById('su-nombre').value.trim();
+  var email=document.getElementById('su-email').value.trim();
+  if(!nombre)return fail('Pon tu nombre.');
+  if(!email||email.indexOf('@')<1||email.indexOf('.')<0)return fail('Pon un email válido.');
+  var body={nombre:nombre,email:email};var faltan=[];
+  CLUE_FIELDS.forEach(function(cf){
+    var el=document.getElementById('su-f-'+cf.field);var val=el?el.value.trim():'';
+    if(!val)faltan.push(cf.label||cf.field);body[cf.field]=val;
+  });
+  if(faltan.length)return fail('Te falta rellenar: '+faltan.join(', ')+'.');
+  if(signupPhoto){var c=signupPhoto.indexOf(',');body.foto={filename:'foto.jpg',contentType:'image/jpeg',data:c>=0?signupPhoto.slice(c+1):signupPhoto};}
+  err.style.display='none';
+  var btn=document.getElementById('su-submit');btn.disabled=true;btn.innerHTML='Enviando…';
+  var proxy=CONFIG.proxyUrl;
+  fetch(proxy+(proxy.indexOf('?')>=0?'&':'?')+'action=perfil',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+    .then(function(res){return res.json().then(function(d){return{ok:res.ok,data:d};});})
+    .then(function(r){
+      if(!r.ok||(r.data&&r.data.error))throw new Error((r.data&&r.data.error)||'No se pudo enviar.');
+      document.getElementById('signup-form').style.display='none';document.getElementById('signup-done').style.display='block';window.scrollTo(0,0);
+    })
+    .catch(function(e){btn.disabled=false;btn.innerHTML='Enviar mi ficha';fail(e.message||'No se pudo enviar.');});
+}
 
 window.addEventListener('load',function(){if(!CONFIG.proxyUrl)console.warn('[Onboarding V3] Falta proxyUrl en config.js');});
 </script>
