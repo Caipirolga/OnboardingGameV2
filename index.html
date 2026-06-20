@@ -561,7 +561,7 @@ function startGame(){
   gCluePool=shuffle(gCluePool);
 
   showScreen('s-game');
-  document.getElementById('g-header-info').textContent='';
+  document.getElementById('g-header-info') && (document.getElementById('g-header-info').textContent='');
   updateProgressBar();
   showPlayerRoulette();
 }
@@ -620,7 +620,7 @@ function showPlayerRoulette(){
               if(sl)sl.style.borderColor='';
             }
             activatePlayerSlots();
-            document.getElementById('g-header-info').textContent='0/'+PLAYERS_COUNT+' descubiertos';
+            document.getElementById('g-header-info') && (document.getElementById('g-header-info').textContent='0/'+PLAYERS_COUNT+' descubiertos');
             setTimeout(function(){nextClue();},200);
           },600);
         }
@@ -747,7 +747,7 @@ function revealPlayer(pi){
 
 function updateHeader(){
   var done=gHits.filter(function(h){return h>=CLUES_PER_PERSON;}).length;
-  document.getElementById('g-header-info').textContent=done+'/'+PLAYERS_COUNT+' descubiertos';
+  document.getElementById('g-header-info') && (document.getElementById('g-header-info').textContent=done+'/'+PLAYERS_COUNT+' descubiertos');
   var total=PLAYERS_COUNT*CLUES_PER_PERSON;
   document.getElementById('g-pbar').style.width=Math.min(100,Math.round(gTotalCorrect/total*100))+'%';
 }
