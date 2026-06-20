@@ -155,6 +155,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
   </div>
   <div class="mz-hero"><h1>Descubre a tu equipo</h1><p>Conoce a tus nuevos compañeros jugando</p></div>
   <div class="content">
+    <div class="field"><label>Tu nombre</label><input type="text" id="l-name" placeholder="¿Cómo te llamamos?" autocomplete="given-name"></div>
     <div class="field"><label>Tu email</label><input type="email" id="l-email" placeholder="tu@empresa.com" autocomplete="email"></div>
     <button class="btn primary" style="width:100%;margin-top:8px" onclick="playerLogin()">Empezar a jugar</button>
     <p style="text-align:center;margin-top:22px"><a href="#admin" class="admin-link" onclick="goAdminLogin();return false;">Administración</a></p>
@@ -187,16 +188,18 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 <!-- GAME INTRO -->
 <div class="screen" id="s-game-intro">
   <div class="mz-header"><div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Onboarding Game</span></div></div><button class="btn white sm" onclick="logout()">Salir</button></div>
-  <div class="mz-hero">
-    <h1 id="gi-welcome">¡Hola!</h1>
-    <p style="font-size:16px;font-weight:700;color:var(--mz-black);margin-top:6px;opacity:1">¿Demasiadas caras nuevas?</p>
-    <p style="font-size:13px;color:var(--mz-black);font-weight:500;opacity:.75;margin-top:8px;line-height:1.5">Descubre quién se esconde detrás de cada pista y conoce mejor a tu equipo.</p>
+  <div style="padding:1.5rem 1.25rem;text-align:center;background:var(--mz-white)">
+    <h1 id="gi-welcome" style="font-size:22px;font-weight:800;color:var(--mz-yellow);margin-bottom:8px">¡Hola!</h1>
+    <p style="font-size:17px;font-weight:700;color:var(--mz-black);margin-bottom:8px">¿Demasiadas caras nuevas?</p>
+    <p style="font-size:13px;color:var(--mz-gray);font-weight:500;line-height:1.5">Descubre quién se esconde detrás de cada pista y conoce mejor a tu equipo.</p>
   </div>
   <div class="content">
     <div id="gi-progress" class="banner ok" style="display:none"><i class="ti ti-progress"></i><span id="gi-progress-txt"></span></div>
     <div id="gi-warn" class="banner warn" style="display:none"><i class="ti ti-alert-triangle"></i><span>Necesitas al menos 4 perfiles jugables.</span></div>
     <div id="gi-done" class="banner ok" style="display:none"><i class="ti ti-circle-check"></i><span>¡Ya has jugado con todo el equipo! Volvemos a empezar.</span></div>
-    <button class="btn primary" style="width:100%;margin-top:1rem;padding:14px;font-size:13px" onclick="startGame()" id="gi-btn">Descubrir quién es quién</button>
+    <div style="text-align:center;margin-top:1.5rem">
+      <button class="btn primary" style="padding:12px 28px;font-size:13px" onclick="startGame()" id="gi-btn">Descubrir quién es quién</button>
+    </div>
   </div>
 </div>
 
@@ -204,9 +207,10 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 <div class="screen" id="s-game">
   <div class="mz-header">
     <span style="font-size:11px;font-weight:700;color:var(--mz-yellow);text-transform:uppercase;letter-spacing:.06em">Descubre a tu equipo</span>
-    <span style="font-size:11px;font-weight:700;color:var(--mz-gm)" id="g-header-info"></span>
+    <span style="width:1px"></span>
   </div>
   <div class="content" style="padding-top:1rem">
+    <p style="font-size:9px;font-weight:700;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">Avance en el juego</p>
     <div class="pbar"><div class="pbar-fill" id="g-pbar" style="width:0%"></div></div>
     <div id="g-player-roulette" style="display:none"></div>
     <div class="game-players" id="g-players" style="display:none"></div>
@@ -369,7 +373,7 @@ function soundTick(){playTone(440+Math.random()*160,.05,'sine',.09);}
 function soundLand(){playTone(660,.1,'sine',.18);setTimeout(function(){playTone(880,.22,'sine',.16);},110);}
 
 /* ESTADO */
-var people=[],playerEmail='',playerRegistered=false,seenIds=[],loaded=false,lastDrawnId=null;
+var people=[],playerEmail='',playerName='',playerRegistered=false,seenIds=[],loaded=false,lastDrawnId=null;
 var gPlayers=[];
 var gCluePool=[];   /* {personIdx, field, label, icon, text} */
 var gHits=[];       /* aciertos por jugador */
@@ -462,9 +466,12 @@ function reloadData(stayInAdmin){
 
 /* LOGIN */
 function playerLogin(){
+  var name=document.getElementById('l-name').value.trim();
   var email=document.getElementById('l-email').value.trim();
+  if(!name){toast('Introduce tu nombre');return;}
   if(!email||email.indexOf('@')<1){toast('Introduce tu email');return;}
   playerEmail=email;
+  playerName=name;
   showScreen('s-loading');
   document.getElementById('load-sub').textContent='Comprobando tu perfil…';
   Promise.all([loadFromAirtable(),checkEmailRegistered(email),loadSeenIds(email)])
@@ -481,8 +488,7 @@ function adminLogin(){
 function enterPlayer(){
   var valid=people.filter(complete);
   var unseen=valid.filter(function(p){return seenIds.indexOf(p.id)<0;});
-  var first=playerEmail.split('@')[0];
-  var firstCap=first.charAt(0).toUpperCase()+first.slice(1);
+  var firstCap=playerName.charAt(0).toUpperCase()+playerName.slice(1);
   document.getElementById('gi-welcome').textContent='¡Hola, '+firstCap+'!';
   document.getElementById('gi-progress').style.display='none';
   document.getElementById('gi-warn').style.display='none';
@@ -510,8 +516,10 @@ function enterPlayer(){
   showScreen('s-game-intro');
 }
 function logout(){
-  document.getElementById('l-email').value='';document.getElementById('l-user').value='';document.getElementById('l-pass').value='';
-  playerEmail='';playerRegistered=false;seenIds=[];loaded=false;people=[];
+  document.getElementById('l-name').value='';
+  document.getElementById('l-email').value='';
+  document.getElementById('l-user').value='';document.getElementById('l-pass').value='';
+  playerEmail='';playerName='';playerRegistered=false;seenIds=[];loaded=false;people=[];
   if(location.hash)history.replaceState(null,'',location.pathname+location.search);
   showScreen('s-login');
 }
