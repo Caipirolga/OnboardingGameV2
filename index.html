@@ -52,8 +52,6 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 .stat-lbl{font-size:9px;color:var(--mz-gray);margin-top:2px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
 .field{margin-bottom:10px}
 .field label{display:block;font-size:10px;font-weight:700;color:var(--mz-gray);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
-.pbar{height:4px;background:var(--mz-gl);margin:0 0 14px}
-.pbar-fill{height:100%;background:var(--mz-yellow);transition:width .4s}
 .banner{border-radius:4px;padding:10px 14px;font-size:12px;font-weight:600;margin-bottom:1rem;display:flex;gap:8px;align-items:flex-start}
 .banner i{flex-shrink:0;margin-top:1px}
 .banner.warn{background:#FAEEDA;border:1.5px solid var(--mz-yellow);color:#633806}
@@ -79,43 +77,50 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 .tag.ok{background:var(--mz-gbg);color:var(--mz-green)}
 .tag.ko{background:var(--mz-rbg);color:var(--mz-red)}
 
-/* ── JUEGO: siluetas arriba ── */
-.game-players{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
-.player-slot{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;padding:8px 4px;border-radius:8px;border:2px solid transparent;transition:all .18s;-webkit-tap-highlight-color:transparent}
-.player-slot:active{transform:scale(.95)}
-.player-slot.highlight{border-color:var(--mz-yellow);background:var(--mz-yl)}
-.player-slot.correct-flash{animation:flashgreen .5s ease}
-@keyframes flashgreen{0%{background:var(--mz-gbg);border-color:var(--mz-green)}100%{background:transparent;border-color:transparent}}
-.player-slot.wrong-flash{animation:flashred .5s ease}
-@keyframes flashred{0%{background:var(--mz-rbg);border-color:var(--mz-red)}100%{background:transparent;border-color:transparent}}
-.player-slot.revealed{cursor:default}
+/* ── RULETA DE CATEGORÍA ── */
+.roulette-screen{background:var(--mz-black);border-radius:8px;padding:1.5rem 1rem;text-align:center;margin-bottom:1rem}
+.roulette-eyebrow{color:var(--mz-gm);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.roulette-card{background:var(--mz-yellow);border-radius:8px;padding:18px 14px;margin:0 auto;max-width:220px;transition:all .08s}
+.roulette-icon{font-size:32px;margin-bottom:6px}
+.roulette-label{font-size:16px;font-weight:800;color:var(--mz-black);line-height:1.2}
+.roulette-progress{display:flex;justify-content:center;gap:6px;margin-top:14px}
+.roulette-dot{width:8px;height:8px;border-radius:50%;background:var(--mz-gray);transition:background .2s}
+.roulette-dot.done{background:var(--mz-green)}
+.roulette-dot.active{background:var(--mz-yellow)}
 
-.silhouette-wrap{position:relative;width:72px;height:72px}
-.silhouette-av{width:72px;height:72px;border-radius:50%;overflow:hidden;border:3px solid var(--mz-gm);background:var(--mz-gl);display:flex;align-items:center;justify-content:center;transition:all .3s}
-.silhouette-av.done{border-color:var(--mz-yellow);box-shadow:0 0 0 3px rgba(212,172,57,.35)}
-.silhouette-av img{width:100%;height:100%;object-fit:cover}
-.player-count.full{background:var(--mz-green);color:var(--mz-white)}
-.player-name{font-size:10px;font-weight:700;color:var(--mz-black);text-align:center;line-height:1.2;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* ── JUGADORES (2×2) ── */
+.game-players{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.player-slot{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;padding:10px 6px;border-radius:8px;border:2px solid var(--mz-gl);background:var(--mz-white);transition:all .18s;-webkit-tap-highlight-color:transparent;position:relative}
+.player-slot:active{transform:scale(.96)}
+.player-slot.correct-flash{animation:flashgreen .55s ease forwards}
+@keyframes flashgreen{0%{background:var(--mz-gbg);border-color:var(--mz-green)}80%{background:var(--mz-gbg);border-color:var(--mz-green)}100%{background:var(--mz-white);border-color:var(--mz-gl)}}
+.player-slot.wrong-flash{animation:flashred .55s ease forwards}
+@keyframes flashred{0%{background:var(--mz-rbg);border-color:var(--mz-red)}80%{background:var(--mz-rbg);border-color:var(--mz-red)}100%{background:var(--mz-white);border-color:var(--mz-gl)}}
+.player-slot.revealed{border-color:var(--mz-yellow);background:var(--mz-yl);cursor:default}
 
-/* reveal animation */
-@keyframes revealPop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
-.reveal-anim{animation:revealPop .55s cubic-bezier(.2,1.3,.4,1)}
+.player-av{width:70px;height:70px;border-radius:50%;overflow:hidden;border:3px solid var(--mz-gm);background:var(--mz-gl);display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0}
+.player-av.revealed-border{border-color:var(--mz-yellow);box-shadow:0 0 0 3px rgba(212,172,57,.3)}
+.player-av img{width:100%;height:100%;object-fit:cover}
+.player-firstname{font-size:11px;font-weight:800;color:var(--mz-black);text-align:center;line-height:1.2}
 
-/* ── Tarjeta de característica ── */
-.clue-card{background:var(--mz-white);border:2px solid var(--mz-yellow);border-radius:8px;padding:16px 14px;margin-bottom:14px;text-align:center;animation:fadein .3s ease}
-@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.clue-cat{display:inline-flex;align-items:center;gap:5px;background:var(--mz-black);color:var(--mz-yellow);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
-.clue-cat i{font-size:13px}
+@keyframes revealPop{0%{transform:scale(.5);opacity:0}65%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+.reveal-anim{animation:revealPop .5s cubic-bezier(.2,1.3,.4,1)}
+
+/* ── TARJETA DE PISTA ── */
+.clue-card{background:var(--mz-white);border:2px solid var(--mz-yellow);border-radius:8px;padding:16px 14px;text-align:center;animation:fadein .3s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.clue-cat-badge{display:inline-block;background:var(--mz-black);color:var(--mz-yellow);border-radius:20px;padding:3px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
 .clue-txt{font-size:15px;font-weight:600;color:var(--mz-black);line-height:1.4}
-.clue-instruction{font-size:11px;color:var(--mz-gray);margin-top:8px;font-weight:500}
+.clue-hint{font-size:11px;color:var(--mz-gray);margin-top:8px;font-weight:500}
 
-/* feedback inline */
-.feedback-inline{text-align:center;font-size:12px;font-weight:700;padding:6px 12px;border-radius:4px;margin-bottom:10px;text-transform:uppercase;animation:fadein .2s ease}
-.feedback-inline.ok{background:var(--mz-gbg);color:var(--mz-green)}
-.feedback-inline.ko{background:var(--mz-rbg);color:var(--mz-red)}
+/* feedback */
+.feedback-bar{text-align:center;font-size:12px;font-weight:700;padding:7px 12px;border-radius:4px;margin:10px 0;text-transform:uppercase;animation:fadein .2s ease}
+.feedback-bar.ok{background:var(--mz-gbg);color:var(--mz-green)}
+.feedback-bar.ko{background:var(--mz-rbg);color:var(--mz-red)}
 
 /* progreso */
-.progress-label{font-size:10px;font-weight:700;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.pbar{height:4px;background:var(--mz-gl);margin:0 0 12px}
+.pbar-fill{height:100%;background:var(--mz-yellow);transition:width .4s}
 
 /* resultado */
 .result-banner{background:var(--mz-yellow);padding:1.5rem 1.25rem;text-align:center}
@@ -209,15 +214,15 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
     <div class="score-table">
       <p style="font-size:10px;font-weight:800;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Cómo se juega</p>
       <ol style="margin:0;padding-left:18px;font-size:13px;color:var(--mz-black);font-weight:500;line-height:1.65">
-        <li>Verás <strong>3 compañeros</strong> misteriosos arriba.</li>
-        <li>Aparecerá una <strong>pista</strong> sobre uno de ellos.</li>
-        <li><strong>Pulsa sobre la silueta</strong> que crees que es.</li>
-        <li>Cuando aciertes <strong>4 pistas</strong> de alguien, ¡se revela su foto!</li>
-        <li>Al descubrir a los 3, te propongo un <strong>café</strong>.</li>
+        <li>Se sortea una <strong>categoría</strong> al azar.</li>
+        <li>Aparece una <strong>pista</strong> de esa categoría.</li>
+        <li><strong>Pulsa</strong> sobre la persona que crees que es.</li>
+        <li>Al acertar, ¡se revela su <strong>foto</strong>!</li>
+        <li>5 categorías × 4 personas = ¡un equipo descubierto!</li>
       </ol>
     </div>
     <div id="gi-progress" class="banner ok" style="display:none"><i class="ti ti-progress"></i><span id="gi-progress-txt"></span></div>
-    <div id="gi-warn" class="banner warn" style="display:none"><i class="ti ti-alert-triangle"></i><span>Aún no hay suficientes perfiles jugables.</span></div>
+    <div id="gi-warn" class="banner warn" style="display:none"><i class="ti ti-alert-triangle"></i><span>Necesitas al menos 4 perfiles jugables.</span></div>
     <div id="gi-done" class="banner ok" style="display:none"><i class="ti ti-circle-check"></i><span>¡Ya has jugado con todo el equipo! Puedes repetir.</span></div>
     <button class="btn primary" style="width:100%" onclick="startGame()" id="gi-btn">Empezar</button>
   </div>
@@ -227,21 +232,31 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 <div class="screen" id="s-game">
   <div class="mz-header">
     <span style="font-size:11px;font-weight:700;color:var(--mz-yellow);text-transform:uppercase;letter-spacing:.06em">Descubre a tu equipo</span>
-    <span style="font-size:11px;font-weight:700;color:var(--mz-gm)" id="g-progress-label"></span>
+    <span style="font-size:11px;font-weight:700;color:var(--mz-gm)" id="g-cat-counter"></span>
   </div>
   <div class="content" style="padding-top:1rem">
     <div class="pbar"><div class="pbar-fill" id="g-pbar" style="width:0%"></div></div>
 
-    <!-- Siluetas de los 3 compañeros -->
-    <div class="game-players" id="g-players"></div>
+    <!-- Ruleta de categoría -->
+    <div id="g-roulette" style="display:none">
+      <div class="roulette-screen">
+        <div class="roulette-eyebrow">Sorteando categoría…</div>
+        <div class="roulette-card" id="roulette-card">
+          <div class="roulette-icon" id="roulette-icon">✨</div>
+          <div class="roulette-label" id="roulette-label">Mi plan perfecto</div>
+        </div>
+        <div class="roulette-progress" id="roulette-progress"></div>
+      </div>
+    </div>
+
+    <!-- Jugadores 2×2 -->
+    <div class="game-players" id="g-players" style="display:none"></div>
 
     <!-- Feedback -->
     <div id="g-feedback" style="display:none"></div>
 
-    <!-- Tarjeta de pista actual -->
-    <div id="g-clue-wrap"></div>
-
-    <p style="font-size:10px;color:var(--mz-gray);text-align:center;font-weight:500;margin-top:4px" id="g-pending-label"></p>
+    <!-- Tarjeta de pista -->
+    <div id="g-clue-wrap" style="display:none"></div>
   </div>
 </div>
 
@@ -262,7 +277,6 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
       <div class="stat"><div class="stat-val" id="r-wrong"></div><div class="stat-lbl">fallos</div></div>
     </div>
 
-    <!-- CTA solo para no registrados -->
     <div id="r-join-wrap" style="display:none">
       <div style="background:var(--mz-black);border-radius:6px;padding:1.25rem;text-align:center;margin-bottom:1.25rem">
         <div style="font-size:24px;margin-bottom:8px">👀</div>
@@ -272,13 +286,11 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
       </div>
     </div>
 
-    <!-- Fichas completas de los 3 -->
     <div id="r-profiles-wrap" style="display:none">
       <p style="font-size:10px;font-weight:700;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Los compañeros que has conocido</p>
       <div id="r-profiles"></div>
     </div>
 
-    <!-- Sorteo del café -->
     <div class="coffee-draw">
       <div class="cd-headline" id="cd-headline">Y ahora que ya los conoces… ¿con quién te toca un café?</div>
       <div class="cd-spinner" id="draw-spinner">
@@ -353,20 +365,20 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
   </div>
 </div>
 
-</div><!-- /app -->
+</div>
 
 <script>
-/* ============================================================
-   CONFIG
-   ============================================================ */
-var DEFAULT_CONFIG = {
-  proxyUrl:'', empresaNombre:'Tu Empresa', empresaColor:'#d4ac39',
-  empresaLogo:'', adminUser:'rrhh', adminPass:'onboarding2024'
-};
+/* ============================================================ CONFIG ============================================================ */
+var DEFAULT_CONFIG = { proxyUrl:'', empresaNombre:'Tu Empresa', empresaColor:'#d4ac39', empresaLogo:'', adminUser:'rrhh', adminPass:'onboarding2024' };
 var CONFIG = Object.assign({}, DEFAULT_CONFIG, (window.CONFIG || {}));
 
-/* Campos que se usan en el juego (4 de 6) */
-var GAME_FIELDS = ['hobby','plan_perfecto','peor_pesadilla','como_soy'];
+var GAME_CATS = [
+  { field:'como_soy',       label:'¿Cómo soy?',        icon:'😊' },
+  { field:'donde_naci',     label:'¿Dónde nací?',       icon:'📍' },
+  { field:'hobby',          label:'Mi hobby',           icon:'🎸' },
+  { field:'plan_perfecto',  label:'Mi plan perfecto',   icon:'✨' },
+  { field:'peor_pesadilla', label:'Mi peor pesadilla',  icon:'👻' }
+];
 
 var ALL_CLUE_FIELDS = [
   { field:'como_soy',       label:'¿Cómo soy?',          icon:'ti-mood-smile' },
@@ -377,190 +389,84 @@ var ALL_CLUE_FIELDS = [
   { field:'rol_empresa',    label:'Mi rol en la empresa', icon:'ti-briefcase' }
 ];
 
-/* Si config.js define pistas, las usamos para el formulario de alta */
 var CLUE_FIELDS = (Array.isArray(CONFIG.pistas) && CONFIG.pistas.length)
   ? CONFIG.pistas.map(function(c){ return { field:c.campo||c.field, icon:c.icono||c.icon||'ti-star', label:c.etiqueta||c.label||'' }; })
   : ALL_CLUE_FIELDS;
 
-/* Mapa rápido field→meta */
-var FIELD_META = {};
-ALL_CLUE_FIELDS.forEach(function(c){ FIELD_META[c.field] = c; });
-
-/* ============================================================
-   FRASES RESULTADO
-   ============================================================ */
+/* ============================================================ FRASES ============================================================ */
 var RESULT_PHRASES = {
-  perfect:[
-    {emoji:'🏆',phrase:'¡Sin un solo fallo! El equipo ya no tiene secretos para ti.',sub:'O los conocías de antes… ¡trampos@!'},
-    {emoji:'🎯',phrase:'Cien por cien de aciertos. Así se hace.',sub:'Bienvenida/o al equipo, crack.'}
-  ],
-  good:[
-    {emoji:'😎',phrase:'¡Muy bien! Ya tienes cara a casi todos.',sub:'El café te ayudará a completar la colección.'},
-    {emoji:'👏',phrase:'¡Gran trabajo! Pocos fallos y muchas caras reconocidas.',sub:'Sigue así en la próxima ronda.'}
-  ],
-  ok:[
-    {emoji:'🙂',phrase:'Mitad y mitad. La aventura empieza.',sub:'Aquí hay mucha gente por descubrir todavía.'},
-    {emoji:'🧩',phrase:'La mitad del equipo descifrada.',sub:'La otra mitad te espera en la próxima partida.'}
-  ],
-  low:[
-    {emoji:'😅',phrase:'Tranquila/o, el equipo es grande y los nombres se mezclan.',sub:'Sigue jugando y en dos días los conoces todos.'},
-    {emoji:'🌱',phrase:'Todo empieza aquí.',sub:'El equipo ya sabe quién eres tú. Ahora toca al revés.'}
-  ]
+  perfect:[{emoji:'🏆',phrase:'¡Sin un solo fallo! Ya eres parte del equipo.',sub:'O los conocías de antes… ¡trampos@!'},{emoji:'🎯',phrase:'Cien por cien de aciertos. Así se hace.',sub:'Bienvenida/o al equipo, crack.'}],
+  good:[{emoji:'😎',phrase:'¡Muy bien! Ya tienes cara a casi todos.',sub:'El café te ayudará a completar la colección.'},{emoji:'👏',phrase:'¡Gran trabajo! Pocos fallos y muchas caras reconocidas.',sub:'Sigue así en la próxima ronda.'}],
+  ok:[{emoji:'🙂',phrase:'Mitad y mitad. La aventura empieza.',sub:'Aquí hay mucha gente por descubrir todavía.'},{emoji:'🧩',phrase:'La mitad del equipo descifrada.',sub:'La otra mitad te espera en la próxima partida.'}],
+  low:[{emoji:'😅',phrase:'Tranquila/o, el equipo es grande y los nombres se mezclan.',sub:'Sigue jugando y en dos días los conoces todos.'},{emoji:'🌱',phrase:'Todo empieza aquí.',sub:'El equipo ya sabe quién eres tú. Ahora toca al revés.'}]
 };
-function getResultPhrase(correct, total){
-  var pct = correct/total;
-  var bucket = pct===1 ? RESULT_PHRASES.perfect : pct>=0.7 ? RESULT_PHRASES.good : pct>=0.4 ? RESULT_PHRASES.ok : RESULT_PHRASES.low;
-  return bucket[Math.floor(Math.random()*bucket.length)];
-}
+function getResultPhrase(correct,total){ var pct=correct/total; var b=pct===1?RESULT_PHRASES.perfect:pct>=0.7?RESULT_PHRASES.good:pct>=0.4?RESULT_PHRASES.ok:RESULT_PHRASES.low; return b[Math.floor(Math.random()*b.length)]; }
 
-/* ============================================================
-   SONIDOS (Web Audio API)
-   ============================================================ */
-var audioCtx = null;
-function getAudioCtx(){
-  if(!audioCtx) try{ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){}
-  return audioCtx;
-}
-function playTone(freq, type, duration, vol){
-  var ctx = getAudioCtx(); if(!ctx) return;
-  try{
-    var o = ctx.createOscillator();
-    var g = ctx.createGain();
-    o.connect(g); g.connect(ctx.destination);
-    o.type = type||'sine'; o.frequency.value = freq;
-    g.gain.setValueAtTime(vol||0.18, ctx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+duration);
-    o.start(); o.stop(ctx.currentTime+duration);
-  }catch(e){}
-}
-function soundCorrect(){
-  playTone(523,.25,'sine');
-  setTimeout(function(){ playTone(659,.2,'sine'); },120);
-}
-function soundReveal(){
-  playTone(523,.15,'sine');
-  setTimeout(function(){ playTone(659,.15,'sine'); },100);
-  setTimeout(function(){ playTone(784,.15,'sine'); },200);
-  setTimeout(function(){ playTone(1047,.4,'sine',.22); },310);
-}
-function soundWrong(){
-  playTone(220,.18,'sawtooth',.15);
-  setTimeout(function(){ playTone(180,.25,'sawtooth',.12); },120);
-}
+/* ============================================================ SONIDOS ============================================================ */
+var audioCtx=null;
+function getAudioCtx(){ if(!audioCtx) try{ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} return audioCtx; }
+function playTone(freq,type,duration,vol){ var ctx=getAudioCtx(); if(!ctx) return; try{ var o=ctx.createOscillator(),g=ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.type=type||'sine'; o.frequency.value=freq; g.gain.setValueAtTime(vol||0.18,ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+duration); o.start(); o.stop(ctx.currentTime+duration); }catch(e){} }
+function soundCorrect(){ playTone(523,.18,'sine'); setTimeout(function(){ playTone(659,.18,'sine'); },110); }
+function soundReveal(){ playTone(523,.14,'sine'); setTimeout(function(){ playTone(659,.14,'sine'); },90); setTimeout(function(){ playTone(784,.14,'sine'); },180); setTimeout(function(){ playTone(1047,.38,'sine',.22); },280); }
+function soundWrong(){ playTone(220,.16,'sawtooth',.14); setTimeout(function(){ playTone(180,.22,'sawtooth',.11); },110); }
+function soundRoulette(){ playTone(440+Math.random()*200,.06,'sine',.1); }
+function soundRouletteEnd(){ playTone(660,.1,'sine',.2); setTimeout(function(){ playTone(880,.25,'sine',.18); },120); }
 
-/* ============================================================
-   ESTADO
-   ============================================================ */
+/* ============================================================ ESTADO ============================================================ */
 var people=[], playerEmail='', playerRegistered=false, seenIds=[], loaded=false, lastDrawnId=null;
-
-/* Partida actual */
-var gPlayers=[];      // array de 3 person objects
-var gCluePool=[];     // [{personIdx, field, label, icon, text}] pendientes
-var gAssigned=[];     // [0,0,0] nº aciertos por jugador
+var gPlayers=[];
+var gCatOrder=[];       // orden de las 5 categorías sorteado
+var gCatIdx=0;          // categoría actual (índice en gCatOrder)
+var gCluePending=[];    // pistas pendientes de la categoría actual
+var gRevealed=[];       // [bool×4] si cada jugador está revelado
 var gTotalCorrect=0, gTotalWrong=0;
 var gCurrentClue=null;
-var gPartidaLog=[];
-var CLUES_TO_REVEAL=4;
+var gBlocked=false;     // bloqueo entre clics
 
-/* ============================================================
-   INIT
-   ============================================================ */
+var PLAYERS_COUNT=4;
+var CATS_COUNT=5;
+
+/* ============================================================ INIT ============================================================ */
 (function init(){
   if(CONFIG.empresaColor) document.documentElement.style.setProperty('--mz-yellow',CONFIG.empresaColor);
-  var bn=document.getElementById('brand-name');
-  if(bn&&CONFIG.empresaNombre) bn.textContent=CONFIG.empresaNombre;
+  var bn=document.getElementById('brand-name'); if(bn&&CONFIG.empresaNombre) bn.textContent=CONFIG.empresaNombre;
   document.getElementById('adm-hint-u').textContent=CONFIG.adminUser;
-  if(CONFIG.empresaLogo){
-    var marks=document.querySelectorAll('.mz-mark');
-    for(var i=0;i<marks.length;i++){
-      var img=document.createElement('img'); img.src=CONFIG.empresaLogo; img.alt=CONFIG.empresaNombre||'Logo'; img.className='mz-logo-img';
-      var textDiv=marks[i].nextElementSibling;
-      marks[i].parentNode.replaceChild(img,marks[i]);
-      if(textDiv) textDiv.style.display='none';
-    }
-  }
+  if(CONFIG.empresaLogo){ var marks=document.querySelectorAll('.mz-mark'); for(var i=0;i<marks.length;i++){ var img=document.createElement('img'); img.src=CONFIG.empresaLogo; img.alt=CONFIG.empresaNombre||'Logo'; img.className='mz-logo-img'; var td=marks[i].nextElementSibling; marks[i].parentNode.replaceChild(img,marks[i]); if(td) td.style.display='none'; } }
   if(location.hash==='#admin') goAdminLogin();
 })();
 
-/* ============================================================
-   HELPERS
-   ============================================================ */
+/* ============================================================ HELPERS ============================================================ */
 function inits(n){ return (n||'').trim().split(' ').slice(0,2).map(function(w){ return w[0]||''; }).join('').toUpperCase()||'?'; }
+function firstName(n){ return (n||'').trim().split(' ')[0]; }
 function shuffle(a){ return a.slice().sort(function(){ return Math.random()-.5; }); }
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function complete(p){ return !!(p.name && gameClues(p).length>=1); }
-function gameClues(p){ return p.clues.filter(function(c){ return GAME_FIELDS.indexOf(c.field)>=0 && c.text && c.text.trim(); }); }
-function allClues(p){ return p.clues.filter(function(c){ return c.text && c.text.trim(); }); }
-function extractPhoto(val){
-  if(!val) return '';
-  if(Array.isArray(val)&&val.length){ var a=val[0]; if(a&&a.thumbnails&&a.thumbnails.large&&a.thumbnails.large.url) return a.thumbnails.large.url; if(a&&a.url) return a.url; return ''; }
-  if(typeof val==='string') return val.trim();
-  return '';
-}
+function complete(p){ var ok=true; GAME_CATS.forEach(function(c){ if(!getClue(p,c.field)) ok=false; }); return !!(p.name && ok); }
+function getClue(p,field){ var c=p.clues.find(function(x){ return x.field===field; }); return c&&c.text?c.text:''; }
+function allClues(p){ return p.clues.filter(function(c){ return c.text&&c.text.trim(); }); }
+function extractPhoto(val){ if(!val) return ''; if(Array.isArray(val)&&val.length){ var a=val[0]; if(a&&a.thumbnails&&a.thumbnails.large&&a.thumbnails.large.url) return a.thumbnails.large.url; if(a&&a.url) return a.url; return ''; } if(typeof val==='string') return val.trim(); return ''; }
 
 var LOADING_MSGS=['🕵️ Reuniendo pistas sobre el equipo…','🔍 Interrogando la base de datos…','🗂️ Abriendo los expedientes…','☕ Preparando los cafés…','🧩 Encajando las piezas del equipo…'];
 var loadMsgTimer=null;
 function startLoadingMsgs(){ var el=document.getElementById('load-main'); if(!el) return; stopLoadingMsgs(); var msgs=shuffle(LOADING_MSGS),i=0; el.textContent=msgs[0]; loadMsgTimer=setInterval(function(){ i=(i+1)%msgs.length; el.textContent=msgs[i]; },1800); }
 function stopLoadingMsgs(){ if(loadMsgTimer){ clearInterval(loadMsgTimer); loadMsgTimer=null; } }
-
 function showScreen(id){ var els=document.querySelectorAll('.screen'); for(var i=0;i<els.length;i++) els[i].classList.remove('active'); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); if(id==='s-loading') startLoadingMsgs(); else stopLoadingMsgs(); }
 function toast(m){ var t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },2500); }
 
-/* ============================================================
-   MAPEO AIRTABLE
-   ============================================================ */
-function mapRecord(rec){
-  var f=rec.fields||{};
-  return {
-    id:rec.id, name:(f.nombre||'').trim(), email:(f.email||'').trim(), photo:extractPhoto(f.foto),
-    clues:ALL_CLUE_FIELDS.map(function(cf){ return { field:cf.field, label:cf.label, icon:cf.icon, text:(f[cf.field]||'').toString().trim() }; })
-  };
-}
+/* ============================================================ MAPEO ============================================================ */
+function mapRecord(rec){ var f=rec.fields||{}; return { id:rec.id, name:(f.nombre||'').trim(), email:(f.email||'').trim(), photo:extractPhoto(f.foto), clues:ALL_CLUE_FIELDS.map(function(cf){ return { field:cf.field, label:cf.label, icon:cf.icon, text:(f[cf.field]||'').toString().trim() }; }) }; }
 
-/* ============================================================
-   RED
-   ============================================================ */
-function proxyGet(params){
-  var proxy=CONFIG.proxyUrl; if(!proxy) return Promise.reject(new Error('Falta proxyUrl en config.js'));
-  var url=proxy+(proxy.indexOf('?')>=0?'&':'?')+params;
-  return fetch(url,{method:'GET'}).then(function(res){ if(!res.ok) throw new Error('Proxy error '+res.status); return res.json(); }).then(function(data){ if(data&&data.error) throw new Error(data.error); return data; });
-}
+/* ============================================================ RED ============================================================ */
+function proxyGet(params){ var proxy=CONFIG.proxyUrl; if(!proxy) return Promise.reject(new Error('Falta proxyUrl en config.js')); var url=proxy+(proxy.indexOf('?')>=0?'&':'?')+params; return fetch(url,{method:'GET'}).then(function(res){ if(!res.ok) throw new Error('Proxy error '+res.status); return res.json(); }).then(function(data){ if(data&&data.error) throw new Error(data.error); return data; }); }
 function loadFromAirtable(){ return proxyGet('action=perfiles').then(function(data){ return (data.records||[]).map(function(r){ return mapRecord(r); }); }); }
 function checkEmailRegistered(email){ return proxyGet('action=checkEmail&email='+encodeURIComponent(email)); }
 function loadSeenIds(email){ return proxyGet('action=partidas&email='+encodeURIComponent(email)).then(function(data){ return data.vistos||[]; }); }
-function savePartida(log){
-  var proxy=CONFIG.proxyUrl; if(!proxy||!log.length) return Promise.resolve();
-  return fetch(proxy+(proxy.indexOf('?')>=0?'&':'?')+'action=partida',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email_jugador:playerEmail,perfiles:log})}).catch(function(e){ console.warn('Error guardando partida:',e); });
-}
+function savePartida(log){ var proxy=CONFIG.proxyUrl; if(!proxy||!log.length) return Promise.resolve(); return fetch(proxy+(proxy.indexOf('?')>=0?'&':'?')+'action=partida',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email_jugador:playerEmail,perfiles:log})}).catch(function(e){ console.warn('savePartida:',e); }); }
+function reloadData(stayInAdmin){ showScreen('s-loading'); document.getElementById('load-sub').textContent='Cargando perfiles…'; loadFromAirtable().then(function(list){ people=list; loaded=true; if(stayInAdmin){ renderAdmin(); showScreen('s-admin'); } else enterPlayer(); }).catch(function(err){ document.getElementById('err-msg').textContent=err.message||'Error desconocido'; showScreen('s-error'); }); }
 
-function reloadData(stayInAdmin){
-  showScreen('s-loading');
-  document.getElementById('load-sub').textContent='Cargando perfiles…';
-  loadFromAirtable().then(function(list){ people=list; loaded=true; if(stayInAdmin){ renderAdmin(); showScreen('s-admin'); } else enterPlayer(); }).catch(function(err){ document.getElementById('err-msg').textContent=err.message||'Error desconocido'; showScreen('s-error'); });
-}
-
-/* ============================================================
-   LOGIN
-   ============================================================ */
-function playerLogin(){
-  var email=document.getElementById('l-email').value.trim();
-  if(!email||email.indexOf('@')<1){ toast('Introduce tu email'); return; }
-  playerEmail=email;
-  showScreen('s-loading');
-  document.getElementById('load-sub').textContent='Comprobando tu perfil…';
-  Promise.all([loadFromAirtable(),checkEmailRegistered(email),loadSeenIds(email)]).then(function(results){
-    people=results[0]; loaded=true; playerRegistered=results[1].registrado; seenIds=results[2];
-    enterPlayer();
-  }).catch(function(err){ document.getElementById('err-msg').textContent=err.message||'Error al cargar datos'; showScreen('s-error'); });
-}
-
+/* ============================================================ LOGIN ============================================================ */
+function playerLogin(){ var email=document.getElementById('l-email').value.trim(); if(!email||email.indexOf('@')<1){ toast('Introduce tu email'); return; } playerEmail=email; showScreen('s-loading'); document.getElementById('load-sub').textContent='Comprobando tu perfil…'; Promise.all([loadFromAirtable(),checkEmailRegistered(email),loadSeenIds(email)]).then(function(r){ people=r[0]; loaded=true; playerRegistered=r[1].registrado; seenIds=r[2]; enterPlayer(); }).catch(function(err){ document.getElementById('err-msg').textContent=err.message||'Error al cargar datos'; showScreen('s-error'); }); }
 function goAdminLogin(){ document.getElementById('login-err').style.display='none'; showScreen('s-admin-login'); }
-function adminLogin(){
-  var u=document.getElementById('l-user').value, p=document.getElementById('l-pass').value;
-  if(u!==CONFIG.adminUser||p!==CONFIG.adminPass){ document.getElementById('login-err').style.display='block'; return; }
-  document.getElementById('login-err').style.display='none';
-  if(loaded){ renderAdmin(); showScreen('s-admin'); } else reloadData(true);
-}
+function adminLogin(){ var u=document.getElementById('l-user').value,p=document.getElementById('l-pass').value; if(u!==CONFIG.adminUser||p!==CONFIG.adminPass){ document.getElementById('login-err').style.display='block'; return; } document.getElementById('login-err').style.display='none'; if(loaded){ renderAdmin(); showScreen('s-admin'); } else reloadData(true); }
 
 function enterPlayer(){
   var valid=people.filter(complete);
@@ -571,141 +477,174 @@ function enterPlayer(){
   document.getElementById('gi-warn').style.display='none';
   document.getElementById('gi-done').style.display='none';
   document.getElementById('gi-btn').disabled=false;
-  if(valid.length<3){ document.getElementById('gi-warn').style.display='flex'; document.getElementById('gi-btn').disabled=true; }
+  if(valid.length<PLAYERS_COUNT){ document.getElementById('gi-warn').style.display='flex'; document.getElementById('gi-btn').disabled=true; }
   else if(unseen.length===0){ document.getElementById('gi-done').style.display='flex'; seenIds=[]; }
-  else{
-    var seen=valid.length-unseen.length;
-    if(seen>0){ document.getElementById('gi-progress-txt').textContent='Ya conoces a '+seen+' de '+valid.length+' compañeros. Te quedan '+unseen.length+' por descubrir.'; document.getElementById('gi-progress').style.display='flex'; }
-  }
+  else{ var seen=valid.length-unseen.length; if(seen>0){ document.getElementById('gi-progress-txt').textContent='Ya conoces a '+seen+' de '+valid.length+' compañeros. Te quedan '+unseen.length+' por descubrir.'; document.getElementById('gi-progress').style.display='flex'; } }
   showScreen('s-game-intro');
 }
 
-function logout(){
-  document.getElementById('l-email').value='';
-  document.getElementById('l-user').value='';
-  document.getElementById('l-pass').value='';
-  playerEmail=''; playerRegistered=false; seenIds=[]; loaded=false; people=[];
-  if(location.hash) history.replaceState(null,'',location.pathname+location.search);
-  showScreen('s-login');
-}
+function logout(){ document.getElementById('l-email').value=''; document.getElementById('l-user').value=''; document.getElementById('l-pass').value=''; playerEmail=''; playerRegistered=false; seenIds=[]; loaded=false; people=[]; if(location.hash) history.replaceState(null,'',location.pathname+location.search); showScreen('s-login'); }
 
-/* ============================================================
-   JUEGO
-   ============================================================ */
+/* ============================================================ JUEGO ============================================================ */
 function startGame(){
   var valid=people.filter(complete);
   var unseen=valid.filter(function(p){ return seenIds.indexOf(p.id)<0; });
   if(unseen.length===0) unseen=valid;
-  if(unseen.length<3){ toast('Necesitas al menos 3 perfiles jugables'); return; }
-
-  gPlayers=shuffle(unseen).slice(0,3);
-  gAssigned=[0,0,0];
+  if(unseen.length<PLAYERS_COUNT){ toast('Necesitas al menos '+PLAYERS_COUNT+' perfiles jugables'); return; }
+  gPlayers=shuffle(unseen).slice(0,PLAYERS_COUNT);
+  gRevealed=[false,false,false,false];
+  gCatOrder=shuffle(GAME_CATS);
+  gCatIdx=0;
   gTotalCorrect=0; gTotalWrong=0;
-  gCurrentClue=null;
-  gPartidaLog=[];
-  lastDrawnId=null;
-
-  // Construir pool de pistas (4 por persona, mezcladas)
-  gCluePool=[];
-  gPlayers.forEach(function(p,pi){
-    var clues=shuffle(gameClues(p)).slice(0,CLUES_TO_REVEAL);
-    clues.forEach(function(c){
-      gCluePool.push({ personIdx:pi, field:c.field, label:c.label, icon:c.icon, text:c.text });
-    });
-  });
-  gCluePool=shuffle(gCluePool);
-
+  gCurrentClue=null; gBlocked=false;
   showScreen('s-game');
-  renderPlayers();
-  nextClue();
+  updateProgressBar();
+  startRoulette();
 }
 
-/* Renderiza las 3 siluetas */
+/* ── RULETA ── */
+function startRoulette(){
+  document.getElementById('g-roulette').style.display='block';
+  document.getElementById('g-players').style.display='none';
+  document.getElementById('g-clue-wrap').style.display='none';
+  document.getElementById('g-feedback').style.display='none';
+  renderRouletteProgress();
+
+  var ticks=18, i=0, allCats=GAME_CATS, prev=null;
+  var target=gCatOrder[gCatIdx];
+
+  function pickDiff(){ var c; do{ c=allCats[Math.floor(Math.random()*allCats.length)]; }while(prev&&c.field===prev.field); prev=c; return c; }
+
+  function step(){
+    if(i<ticks){
+      var c=pickDiff();
+      document.getElementById('roulette-icon').textContent=c.icon;
+      document.getElementById('roulette-label').textContent=c.label;
+      soundRoulette();
+      var t=i/ticks;
+      var delay=60+(t*t*t)*320;
+      i++; setTimeout(step,delay);
+    } else {
+      document.getElementById('roulette-icon').textContent=target.icon;
+      document.getElementById('roulette-label').textContent=target.label;
+      soundRouletteEnd();
+      setTimeout(function(){ startCategory(target); },900);
+    }
+  }
+  step();
+}
+
+function renderRouletteProgress(){
+  var el=document.getElementById('roulette-progress'); el.innerHTML='';
+  for(var i=0;i<CATS_COUNT;i++){
+    var d=document.createElement('div');
+    d.className='roulette-dot'+(i<gCatIdx?' done':i===gCatIdx?' active':'');
+    el.appendChild(d);
+  }
+}
+
+/* ── CATEGORÍA ── */
+function startCategory(cat){
+  document.getElementById('g-roulette').style.display='none';
+  document.getElementById('g-cat-counter').textContent='Categoría '+(gCatIdx+1)+'/'+CATS_COUNT;
+
+  // Construir pool de pistas de esta categoría (una por jugador), mezcladas
+  gCluePending=shuffle(gPlayers.map(function(p,pi){
+    return { personIdx:pi, text:getClue(p,cat.field), catLabel:cat.label, catIcon:cat.icon };
+  }));
+
+  // Reset revelados de esta categoría (los jugadores mantienen foto si ya la tienen de categorías anteriores)
+  renderPlayers();
+  document.getElementById('g-players').style.display='grid';
+  document.getElementById('g-feedback').style.display='none';
+
+  setTimeout(function(){ nextClue(); },200);
+}
+
+/* ── JUGADORES ── */
 function renderPlayers(){
-  var grid=document.getElementById('g-players');
-  grid.innerHTML='';
+  var grid=document.getElementById('g-players'); grid.innerHTML='';
   gPlayers.forEach(function(p,pi){
-    var slot=document.createElement('div');
-    slot.className='player-slot';
-    slot.id='player-slot-'+pi;
-
-    var av=document.createElement('div'); av.className='silhouette-av'; av.id='player-av-'+pi;
-    av.innerHTML=silhouetteSVG(0);
-
-    var nameEl=document.createElement('div'); nameEl.className='player-name'; nameEl.id='player-name-'+pi;
-    nameEl.textContent=p.name;
-
+    var slot=document.createElement('div'); slot.className='player-slot'+(gRevealed[pi]?' revealed':''); slot.id='player-slot-'+pi;
+    var av=document.createElement('div'); av.className='player-av'+(gRevealed[pi]?' revealed-border':''); av.id='player-av-'+pi;
+    if(gRevealed[pi]){
+      if(p.photo){ var img=document.createElement('img'); img.src=p.photo; img.alt=p.name; av.appendChild(img); }
+      else{ av.innerHTML='<span style="font-size:18px;font-weight:800;color:var(--mz-black)">'+inits(p.name)+'</span>'; av.style.background='var(--mz-yellow)'; }
+    } else {
+      av.innerHTML=silhouetteSVG();
+    }
+    var nameEl=document.createElement('div'); nameEl.className='player-firstname'; nameEl.textContent=firstName(p.name);
     slot.appendChild(av); slot.appendChild(nameEl);
-    (function(idx){ slot.onclick=function(){ handlePlayerClick(idx); }; })(pi);
+    if(!gRevealed[pi]){
+      (function(idx){ slot.onclick=function(){ handlePlayerClick(idx); }; })(pi);
+    }
     grid.appendChild(slot);
   });
-  updateProgressBar();
 }
 
-function silhouetteSVG(count){
-  var label = count >= CLUES_TO_REVEAL ? '✓' : (count+'/'+CLUES_TO_REVEAL);
-  var bgColor = count >= CLUES_TO_REVEAL ? '#3B6D11' : '#1a1a18';
-  return '<svg viewBox="0 0 72 72" width="72" height="72" xmlns="http://www.w3.org/2000/svg">'
-    +'<circle cx="36" cy="36" r="36" fill="#c8c8c0"/>'
-    +'<circle cx="36" cy="26" r="13" fill="#5a5a52"/>'
-    +'<ellipse cx="36" cy="62" rx="22" ry="16" fill="#5a5a52"/>'
-    +'<rect x="16" y="50" width="40" height="18" rx="0" fill="#c8c8c0"/>'
-    +'<rect x="14" y="52" width="44" height="16" rx="8" fill="'+bgColor+'"/>'
-    +'<text x="36" y="62" text-anchor="middle" dominant-baseline="middle" font-size="11" font-weight="800" fill="#d4ac39" font-family="Montserrat,sans-serif">'+label+'</text>'
+function silhouetteSVG(){
+  return '<svg viewBox="0 0 70 70" width="70" height="70" xmlns="http://www.w3.org/2000/svg">'
+    +'<circle cx="35" cy="35" r="35" fill="#c8c8c0"/>'
+    +'<circle cx="35" cy="25" r="12" fill="#5a5a52"/>'
+    +'<ellipse cx="35" cy="60" rx="21" ry="15" fill="#5a5a52"/>'
     +'</svg>';
 }
 
+/* ── PISTAS ── */
 function nextClue(){
   hideFeedback();
-  if(gCluePool.length===0){ endGame(); return; }
-  gCurrentClue=gCluePool.shift();
+  if(gCluePending.length===0){
+    // Todas las pistas de esta categoría resueltas → siguiente categoría
+    gCatIdx++;
+    updateProgressBar();
+    if(gCatIdx>=CATS_COUNT){ endGame(); return; }
+    setTimeout(function(){ startRoulette(); },400);
+    return;
+  }
+  gCurrentClue=gCluePending.shift();
   renderClue(gCurrentClue);
-  updateProgressBar();
-  updatePendingLabel();
+  document.getElementById('g-clue-wrap').style.display='block';
+  gBlocked=false;
 }
 
 function renderClue(clue){
-  var wrap=document.getElementById('g-clue-wrap');
-  var meta=FIELD_META[clue.field]||{icon:'ti-star',label:clue.label};
-  wrap.innerHTML='<div class="clue-card">'
-    +'<div class="clue-cat">'+esc(meta.label)+'</div>'
+  document.getElementById('g-clue-wrap').innerHTML=
+    '<div class="clue-card">'
+    +'<div class="clue-cat-badge">'+esc(clue.catLabel)+'</div>'
     +'<div class="clue-txt">'+esc(clue.text)+'</div>'
-    +'<div class="clue-instruction">↑ Pulsa sobre la persona que crees que es</div>'
+    +'<div class="clue-hint">↑ Pulsa sobre la persona que crees que es</div>'
     +'</div>';
 }
 
+/* ── RESPUESTA ── */
 function handlePlayerClick(playerIdx){
-  if(!gCurrentClue) return;
+  if(gBlocked||!gCurrentClue) return;
+  if(gRevealed[playerIdx]){ toast('Esta persona ya está descubierta'); return; }
+  gBlocked=true;
+
   var correct=gCurrentClue.personIdx===playerIdx;
 
   if(correct){
     soundCorrect();
-    flashSlot(playerIdx,'correct-flash');
-    gAssigned[playerIdx]++;
     gTotalCorrect++;
-    gPartidaLog; // se completa al final
-
-    // Actualizar contador dentro del SVG
-    var av=document.getElementById('player-av-'+playerIdx);
-    if(av && gAssigned[playerIdx]<CLUES_TO_REVEAL) av.innerHTML=silhouetteSVG(gAssigned[playerIdx]);
-
-    // ¿Ha llegado al máximo? → revelar foto
-    if(gAssigned[playerIdx]>=CLUES_TO_REVEAL){
-      revealPlayer(playerIdx);
-    }
-
+    flashSlot(playerIdx,'correct-flash');
     showFeedback(true,'¡Correcto!');
-    setTimeout(function(){ nextClue(); },800);
+
+    // Revelar foto tras breve pausa
+    setTimeout(function(){
+      gRevealed[playerIdx]=true;
+      revealPlayer(playerIdx);
+      setTimeout(function(){ nextClue(); },600);
+    },400);
 
   } else {
     soundWrong();
-    flashSlot(playerIdx,'wrong-flash');
     gTotalWrong++;
+    flashSlot(playerIdx,'wrong-flash');
+    showFeedback(false,'No es ese/a — la pista vuelve al final');
 
-    showFeedback(false,'No es ese/a — la pista vuelve al pool');
-    // Devolver al pool en posición aleatoria
-    var pos=Math.floor(Math.random()*(gCluePool.length+1));
-    gCluePool.splice(pos,0,gCurrentClue);
+    // Devolver pista al final del pool
+    gCluePending.push(gCurrentClue);
     gCurrentClue=null;
     setTimeout(function(){ nextClue(); },900);
   }
@@ -715,63 +654,36 @@ function revealPlayer(pi){
   var p=gPlayers[pi];
   var av=document.getElementById('player-av-'+pi);
   var slot=document.getElementById('player-slot-'+pi);
-
   soundReveal();
-
-  if(p.photo){
-    var img=document.createElement('img'); img.src=p.photo; img.alt=p.name;
-    av.innerHTML=''; av.appendChild(img);
-  } else {
-    av.innerHTML='<span style="font-size:20px;font-weight:800;color:var(--mz-black)">'+inits(p.name)+'</span>';
-    av.style.background='var(--mz-yellow)';
-  }
-  av.classList.add('done','reveal-anim');
-  if(slot) slot.classList.add('revealed');
-  slot.onclick=null;
+  if(p.photo){ var img=document.createElement('img'); img.src=p.photo; img.alt=p.name; av.innerHTML=''; av.appendChild(img); }
+  else{ av.innerHTML='<span style="font-size:18px;font-weight:800;color:var(--mz-black)">'+inits(p.name)+'</span>'; av.style.background='var(--mz-yellow)'; }
+  av.classList.add('revealed-border','reveal-anim');
+  if(slot){ slot.classList.add('revealed'); slot.onclick=null; }
 }
 
-function flashSlot(pi, cls){
-  var slot=document.getElementById('player-slot-'+pi);
-  if(!slot) return;
-  slot.classList.remove('correct-flash','wrong-flash');
-  void slot.offsetWidth; // reflow
-  slot.classList.add(cls);
+function flashSlot(pi,cls){
+  var slot=document.getElementById('player-slot-'+pi); if(!slot) return;
+  slot.classList.remove('correct-flash','wrong-flash'); void slot.offsetWidth; slot.classList.add(cls);
 }
 
-function showFeedback(ok, msg){
-  var el=document.getElementById('g-feedback');
-  el.className='feedback-inline '+(ok?'ok':'ko');
-  el.textContent=msg;
-  el.style.display='block';
-}
+function showFeedback(ok,msg){ var el=document.getElementById('g-feedback'); el.className='feedback-bar '+(ok?'ok':'ko'); el.textContent=msg; el.style.display='block'; }
 function hideFeedback(){ var el=document.getElementById('g-feedback'); if(el) el.style.display='none'; }
 
 function updateProgressBar(){
-  var total=gPlayers.length*CLUES_TO_REVEAL;
-  var done=gAssigned.reduce(function(a,b){ return a+b; },0);
-  document.getElementById('g-pbar').style.width=Math.round(done/total*100)+'%';
-  document.getElementById('g-progress-label').textContent=done+'/'+total+' pistas';
+  var pct=Math.round(gCatIdx/CATS_COUNT*100);
+  document.getElementById('g-pbar').style.width=pct+'%';
 }
 
-function updatePendingLabel(){
-  var el=document.getElementById('g-pending-label');
-  if(el) el.textContent=gCluePool.length+' pistas restantes en el pool';
-}
-
+/* ============================================================ FIN ============================================================ */
 function endGame(){
-  // Guardar historial
   var log=gPlayers.map(function(p){ return { perfil_id:p.id, acertado:true }; });
-  savePartida(log).then(function(){
-    gPlayers.forEach(function(p){ if(seenIds.indexOf(p.id)<0) seenIds.push(p.id); });
-  });
+  savePartida(log).then(function(){ gPlayers.forEach(function(p){ if(seenIds.indexOf(p.id)<0) seenIds.push(p.id); }); });
   showResult();
 }
 
-/* ============================================================
-   RESULTADO
-   ============================================================ */
+/* ============================================================ RESULTADO ============================================================ */
 function showResult(){
-  var total=gPlayers.length*CLUES_TO_REVEAL;
+  var total=CATS_COUNT*PLAYERS_COUNT;
   var phr=getResultPhrase(gTotalCorrect,total);
   document.getElementById('r-emoji').textContent=phr.emoji;
   document.getElementById('r-phrase').textContent=phr.phrase;
@@ -780,18 +692,10 @@ function showResult(){
   document.getElementById('r-wrong').textContent=gTotalWrong;
   document.getElementById('r-join-wrap').style.display=playerRegistered?'none':'block';
 
-  // Fichas completas
-  var profWrap=document.getElementById('r-profiles-wrap');
-  var profEl=document.getElementById('r-profiles');
-  profEl.innerHTML='';
-  gPlayers.forEach(function(p){
-    var d=document.createElement('div'); d.className='profile-card';
-    d.innerHTML=profileCardHTML(p);
-    profEl.appendChild(d);
-  });
-  profWrap.style.display='block';
+  var profEl=document.getElementById('r-profiles'); profEl.innerHTML='';
+  gPlayers.forEach(function(p){ var d=document.createElement('div'); d.className='profile-card'; d.innerHTML=profileCardHTML(p); profEl.appendChild(d); });
+  document.getElementById('r-profiles-wrap').style.display='block';
 
-  // Reset café
   lastDrawnId=null;
   document.getElementById('cd-headline').innerHTML='Y ahora que ya los conoces… ¿con quién te toca un café?';
   document.getElementById('draw-spinner').className='cd-spinner idle';
@@ -801,77 +705,43 @@ function showResult(){
   document.getElementById('cd-match').classList.remove('revealed');
   document.getElementById('cd-actions').style.display='none';
   document.getElementById('cd-closing').style.display='none';
-
   showScreen('s-result');
 }
 
-/* ============================================================
-   CAFÉ
-   ============================================================ */
+/* ============================================================ CAFÉ ============================================================ */
 function drawCoffee(){
-  var pool=gPlayers;
-  if(lastDrawnId&&pool.length>1) pool=gPlayers.filter(function(p){ return p.id!==lastDrawnId; });
-  var chosen=pool[Math.floor(Math.random()*pool.length)];
-  lastDrawnId=chosen.id;
-
+  var pool=gPlayers; if(lastDrawnId&&pool.length>1) pool=gPlayers.filter(function(p){ return p.id!==lastDrawnId; });
+  var chosen=pool[Math.floor(Math.random()*pool.length)]; lastDrawnId=chosen.id;
   document.getElementById('cd-launch').style.display='none';
   document.getElementById('cd-match').style.display='none';
   document.getElementById('cd-match').classList.remove('revealed');
   document.getElementById('cd-actions').style.display='none';
   document.getElementById('cd-closing').style.display='none';
   document.getElementById('cd-headline').innerHTML='¿Con quién te toca el café?';
-
   runRoulette(gPlayers,chosen,function(){ landMatch(chosen); });
 }
-
-function faceHTML(p){
-  var av=p.photo?'<div class="cd-av"><img src="'+esc(p.photo)+'" alt=""></div>':'<div class="cd-av">'+inits(p.name)+'</div>';
-  return '<div class="cd-face">'+av+'<div class="cd-name">'+esc(p.name)+'</div></div>';
-}
-
-function runRoulette(cands,chosen,done){
-  var el=document.getElementById('draw-spinner');
-  el.className='cd-spinner spinning';
-  var ticks=cands.length>1?20:1, i=0, prev=null;
-  function pickDiff(){ if(cands.length<2) return chosen; var c; do{ c=cands[Math.floor(Math.random()*cands.length)]; }while(prev&&c.id===prev.id); prev=c; return c; }
-  function step(){
-    if(i<ticks){ el.innerHTML=faceHTML(pickDiff()); var t=i/ticks; var delay=120+(t*t*t)*360; i++; setTimeout(step,delay); }
-    else{ el.className='cd-spinner landed'; el.innerHTML=faceHTML(chosen); done(); }
-  }
-  step();
-}
-
+function faceHTML(p){ var av=p.photo?'<div class="cd-av"><img src="'+esc(p.photo)+'" alt=""></div>':'<div class="cd-av">'+inits(p.name)+'</div>'; return '<div class="cd-face">'+av+'<div class="cd-name">'+esc(p.name)+'</div></div>'; }
+function runRoulette(cands,chosen,done){ var el=document.getElementById('draw-spinner'); el.className='cd-spinner spinning'; var ticks=cands.length>1?20:1,i=0,prev=null; function pickDiff(){ if(cands.length<2) return chosen; var c; do{ c=cands[Math.floor(Math.random()*cands.length)]; }while(prev&&c.id===prev.id); prev=c; return c; } function step(){ if(i<ticks){ el.innerHTML=faceHTML(pickDiff()); var t=i/ticks; var delay=120+(t*t*t)*360; i++; setTimeout(step,delay); } else { el.className='cd-spinner landed'; el.innerHTML=faceHTML(chosen); done(); } } step(); }
 function landMatch(chosen){
-  var clues=allClues(chosen);
-  var pista=clues.length?clues[Math.floor(Math.random()*clues.length)]:null;
-
+  var clues=allClues(chosen); var pista=clues.length?clues[Math.floor(Math.random()*clues.length)]:null;
   document.getElementById('cd-card').innerHTML='<div class="profile-card" style="margin:0">'+profileCardHTML(chosen)+'</div>';
-  var match=document.getElementById('cd-match');
-  match.style.display='block';
-
+  var match=document.getElementById('cd-match'); match.style.display='block';
   var slot=document.getElementById('cd-coffee-slot');
-  if(chosen.email){
-    window.__coffeeMatch={name:chosen.name,email:chosen.email,pista:pista};
-    slot.innerHTML='<button class="btn coffee" onclick="inviteCoffee()">Quedar para el café con '+esc(chosen.name.split(' ')[0])+'</button>';
-  } else {
-    slot.innerHTML='<p class="cd-empty">'+esc(chosen.name.split(' ')[0])+' no tiene email — ¡búscale en persona!</p>';
-  }
-
+  if(chosen.email){ window.__coffeeMatch={name:chosen.name,email:chosen.email,pista:pista}; slot.innerHTML='<button class="btn coffee" onclick="inviteCoffee()">Quedar para el café con '+esc(firstName(chosen.name))+'</button>'; }
+  else{ slot.innerHTML='<p class="cd-empty">'+esc(firstName(chosen.name))+' no tiene email — ¡búscale en persona!</p>'; }
   setTimeout(function(){ match.classList.add('revealed'); },450);
   document.getElementById('cd-actions').style.display='block';
   document.getElementById('cd-redraw').style.display=gPlayers.length>1?'inline-flex':'none';
   setTimeout(function(){ document.getElementById('cd-closing').style.display='block'; },700);
 }
-
 function inviteCoffee(){
   var m=window.__coffeeMatch; if(!m||!m.email) return;
   var empresa=CONFIG.empresaNombre||'el equipo';
   var pistaLine=m.pista?'\n\nJugando al juego de onboarding he descubierto que '+m.pista.text+'. ¡Tenemos mucho de qué hablar!':'';
   var subject=encodeURIComponent('¡Hola '+m.name+', nos ha tocado un café!');
   var body=encodeURIComponent('Hola '+m.name+',\n\nMe acabo de incorporar a '+empresa+' y, jugando al juego de onboarding, nos ha tocado tomar un café juntos esta semana.'+pistaLine+'\n\n¿Te va bien que lo concretemos? Me apetece conocerte.\n\nUn saludo');
-  var url='https://outlook.office.com/mail/deeplink/compose?to='+encodeURIComponent(m.email)+'&subject='+subject+'&body='+body;
-  window.open(url,'_blank');
-  document.getElementById('cd-coffee-slot').innerHTML='<div class="banner ok" style="text-align:left;margin-bottom:0"><i class="ti ti-circle-check"></i><span>Correo preparado. Envíalo para quedar con <strong>'+esc(m.name.split(' ')[0])+'</strong>.</span></div>';
+  window.open('https://outlook.office.com/mail/deeplink/compose?to='+encodeURIComponent(m.email)+'&subject='+subject+'&body='+body,'_blank');
+  document.getElementById('cd-coffee-slot').innerHTML='<div class="banner ok" style="text-align:left;margin-bottom:0"><i class="ti ti-circle-check"></i><span>Correo preparado. Envíalo para quedar con <strong>'+esc(firstName(m.name))+'</strong>.</span></div>';
 }
 
 function profileCardHTML(p){
@@ -880,84 +750,16 @@ function profileCardHTML(p){
   return '<div class="profile-card-header">'+avEl+'<div><div class="profile-card-name">'+esc(p.name)+'</div></div></div><div class="profile-card-body">'+body+'</div>';
 }
 
-/* ============================================================
-   ADMIN
-   ============================================================ */
-function renderAdmin(){
-  document.getElementById('a-total').textContent=people.length;
-  document.getElementById('a-complete').textContent=people.filter(complete).length;
-  var list=document.getElementById('a-list'); list.innerHTML='';
-  if(!people.length){ list.innerHTML='<p style="font-size:12px;color:var(--mz-gray)">No hay perfiles todavía.</p>'; return; }
-  people.forEach(function(p){
-    var ok=complete(p); var nClues=allClues(p).length;
-    var av=p.photo?'<div class="adm-av"><img src="'+esc(p.photo)+'" alt="'+esc(p.name)+'"></div>':'<div class="adm-av">'+inits(p.name)+'</div>';
-    var row=document.createElement('div'); row.className='adm-row';
-    row.innerHTML=av+'<div style="flex:1;min-width:0"><div class="adm-name">'+esc(p.name||'(sin nombre)')+'</div><div class="adm-sub">'+nClues+'/'+ALL_CLUE_FIELDS.length+' pistas'+(p.email?' · '+esc(p.email):'')+'</div></div><span class="tag '+(ok?'ok':'ko')+'">'+(ok?'jugable':'incompleto')+'</span>';
-    list.appendChild(row);
-  });
-}
+/* ============================================================ ADMIN ============================================================ */
+function renderAdmin(){ document.getElementById('a-total').textContent=people.length; document.getElementById('a-complete').textContent=people.filter(complete).length; var list=document.getElementById('a-list'); list.innerHTML=''; if(!people.length){ list.innerHTML='<p style="font-size:12px;color:var(--mz-gray)">No hay perfiles todavía.</p>'; return; } people.forEach(function(p){ var ok=complete(p); var nClues=allClues(p).length; var av=p.photo?'<div class="adm-av"><img src="'+esc(p.photo)+'" alt="'+esc(p.name)+'"></div>':'<div class="adm-av">'+inits(p.name)+'</div>'; var row=document.createElement('div'); row.className='adm-row'; row.innerHTML=av+'<div style="flex:1;min-width:0"><div class="adm-name">'+esc(p.name||'(sin nombre)')+'</div><div class="adm-sub">'+nClues+'/'+ALL_CLUE_FIELDS.length+' pistas'+(p.email?' · '+esc(p.email):'')+'</div></div><span class="tag '+(ok?'ok':'ko')+'">'+(ok?'jugable':'incompleto')+'</span>'; list.appendChild(row); }); }
 
-/* ============================================================
-   ALTA
-   ============================================================ */
+/* ============================================================ ALTA ============================================================ */
 var signupPhoto='', signupFromResult=false;
-function handlePhotoPick(input){
-  var file=input.files&&input.files[0]; if(!file) return;
-  if(!/^image\//.test(file.type)){ toast('Selecciona una imagen'); input.value=''; return; }
-  var reader=new FileReader();
-  reader.onload=function(e){
-    var img=new Image();
-    img.onload=function(){
-      var max=1024,w=img.width,h=img.height;
-      if(w>=h&&w>max){ h=Math.round(h*max/w); w=max; } else if(h>w&&h>max){ w=Math.round(w*max/h); h=max; }
-      var canvas=document.createElement('canvas'); canvas.width=w; canvas.height=h;
-      canvas.getContext('2d').drawImage(img,0,0,w,h);
-      signupPhoto=canvas.toDataURL('image/jpeg',.85);
-      document.getElementById('su-foto-img').src=signupPhoto;
-      document.getElementById('su-foto-preview').style.display='block';
-      document.getElementById('su-foto-clear').style.display='inline-flex';
-    };
-    img.src=e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
+function handlePhotoPick(input){ var file=input.files&&input.files[0]; if(!file) return; if(!/^image\//.test(file.type)){ toast('Selecciona una imagen'); input.value=''; return; } var reader=new FileReader(); reader.onload=function(e){ var img=new Image(); img.onload=function(){ var max=1024,w=img.width,h=img.height; if(w>=h&&w>max){ h=Math.round(h*max/w); w=max; } else if(h>w&&h>max){ w=Math.round(w*max/h); h=max; } var canvas=document.createElement('canvas'); canvas.width=w; canvas.height=h; canvas.getContext('2d').drawImage(img,0,0,w,h); signupPhoto=canvas.toDataURL('image/jpeg',.85); document.getElementById('su-foto-img').src=signupPhoto; document.getElementById('su-foto-preview').style.display='block'; document.getElementById('su-foto-clear').style.display='inline-flex'; }; img.src=e.target.result; }; reader.readAsDataURL(file); }
 function clearPhoto(){ signupPhoto=''; var f=document.getElementById('su-foto'); if(f) f.value=''; document.getElementById('su-foto-preview').style.display='none'; document.getElementById('su-foto-img').src=''; document.getElementById('su-foto-clear').style.display='none'; }
-
-function openSignup(){
-  signupFromResult=true;
-  var box=document.getElementById('su-clues');
-  box.innerHTML=CLUE_FIELDS.map(function(cf){ return '<div class="field"><label>'+esc(cf.label||cf.field)+' *</label><textarea id="su-f-'+esc(cf.field)+'" rows="2" placeholder="Escribe tu respuesta…"></textarea></div>'; }).join('');
-  document.getElementById('su-nombre').value='';
-  document.getElementById('su-email').value=playerEmail||'';
-  clearPhoto();
-  document.getElementById('su-err').style.display='none';
-  document.getElementById('signup-form').style.display='block';
-  document.getElementById('signup-done').style.display='none';
-  document.getElementById('su-submit').disabled=false;
-  document.getElementById('su-submit').innerHTML='Enviar mi ficha';
-  showScreen('s-signup');
-}
+function openSignup(){ signupFromResult=true; var box=document.getElementById('su-clues'); box.innerHTML=CLUE_FIELDS.map(function(cf){ return '<div class="field"><label>'+esc(cf.label||cf.field)+' *</label><textarea id="su-f-'+esc(cf.field)+'" rows="2" placeholder="Escribe tu respuesta…"></textarea></div>'; }).join(''); document.getElementById('su-nombre').value=''; document.getElementById('su-email').value=playerEmail||''; clearPhoto(); document.getElementById('su-err').style.display='none'; document.getElementById('signup-form').style.display='block'; document.getElementById('signup-done').style.display='none'; document.getElementById('su-submit').disabled=false; document.getElementById('su-submit').innerHTML='Enviar mi ficha'; showScreen('s-signup'); }
 function goBackFromSignup(){ if(signupFromResult) showScreen('s-result'); else logout(); }
-
-function submitSignup(){
-  var err=document.getElementById('su-err'), errMsg=document.getElementById('su-err-msg');
-  function fail(msg){ errMsg.textContent=msg; err.style.display='block'; }
-  var nombre=document.getElementById('su-nombre').value.trim();
-  var email=document.getElementById('su-email').value.trim();
-  if(!nombre) return fail('Pon tu nombre.');
-  if(!email||email.indexOf('@')<1||email.indexOf('.')<0) return fail('Pon un email válido.');
-  var body={nombre:nombre,email:email}; var faltan=[];
-  CLUE_FIELDS.forEach(function(cf){ var el=document.getElementById('su-f-'+cf.field); var val=el?el.value.trim():''; if(!val) faltan.push(cf.label||cf.field); body[cf.field]=val; });
-  if(faltan.length) return fail('Te falta rellenar: '+faltan.join(', ')+'.');
-  if(signupPhoto){ var c=signupPhoto.indexOf(','); body.foto={ filename:'foto.jpg', contentType:'image/jpeg', data:c>=0?signupPhoto.slice(c+1):signupPhoto }; }
-  err.style.display='none';
-  var btn=document.getElementById('su-submit'); btn.disabled=true; btn.innerHTML='Enviando…';
-  var proxy=CONFIG.proxyUrl;
-  fetch(proxy+(proxy.indexOf('?')>=0?'&':'?')+'action=perfil',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
-    .then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
-    .then(function(r){ if(!r.ok||(r.data&&r.data.error)) throw new Error((r.data&&r.data.error)||'No se pudo enviar.'); document.getElementById('signup-form').style.display='none'; document.getElementById('signup-done').style.display='block'; window.scrollTo(0,0); })
-    .catch(function(e){ btn.disabled=false; btn.innerHTML='Enviar mi ficha'; fail(e.message||'No se pudo enviar.'); });
-}
+function submitSignup(){ var err=document.getElementById('su-err'),errMsg=document.getElementById('su-err-msg'); function fail(msg){ errMsg.textContent=msg; err.style.display='block'; } var nombre=document.getElementById('su-nombre').value.trim(); var email=document.getElementById('su-email').value.trim(); if(!nombre) return fail('Pon tu nombre.'); if(!email||email.indexOf('@')<1||email.indexOf('.')<0) return fail('Pon un email válido.'); var body={nombre:nombre,email:email}; var faltan=[]; CLUE_FIELDS.forEach(function(cf){ var el=document.getElementById('su-f-'+cf.field); var val=el?el.value.trim():''; if(!val) faltan.push(cf.label||cf.field); body[cf.field]=val; }); if(faltan.length) return fail('Te falta rellenar: '+faltan.join(', ')+'.'); if(signupPhoto){ var c=signupPhoto.indexOf(','); body.foto={ filename:'foto.jpg', contentType:'image/jpeg', data:c>=0?signupPhoto.slice(c+1):signupPhoto }; } err.style.display='none'; var btn=document.getElementById('su-submit'); btn.disabled=true; btn.innerHTML='Enviando…'; var proxy=CONFIG.proxyUrl; fetch(proxy+(proxy.indexOf('?')>=0?'&':'?')+'action=perfil',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); }).then(function(r){ if(!r.ok||(r.data&&r.data.error)) throw new Error((r.data&&r.data.error)||'No se pudo enviar.'); document.getElementById('signup-form').style.display='none'; document.getElementById('signup-done').style.display='block'; window.scrollTo(0,0); }).catch(function(e){ btn.disabled=false; btn.innerHTML='Enviar mi ficha'; fail(e.message||'No se pudo enviar.'); }); }
 
 window.addEventListener('load',function(){ if(!CONFIG.proxyUrl) console.warn('[Onboarding V3] Falta proxyUrl en config.js'); });
 </script>
