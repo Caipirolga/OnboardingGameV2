@@ -191,7 +191,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
   <div class="content">
     <div style="padding:1.25rem 0">
       <p style="font-size:22px;font-weight:800;color:var(--mz-black);margin-bottom:12px">¿Demasiados nombres nuevos?</p>
-      <p style="font-size:14px;color:var(--mz-gray);font-weight:500;line-height:1.6">Descubre quién se esconde detrás de cada pista y empieza a conocer a tu equipo de verdad.</p>
+      <p style="font-size:14px;color:var(--mz-gray);font-weight:500;line-height:1.6">Descubre quién se esconde detrás de cada pista y empieza a conocer mejor a tu equipo.</p>
     </div>
     <div id="gi-progress" class="banner ok" style="display:none"><i class="ti ti-progress"></i><span id="gi-progress-txt"></span></div>
     <div id="gi-warn" class="banner warn" style="display:none"><i class="ti ti-alert-triangle"></i><span>Necesitas al menos 4 perfiles jugables.</span></div>
@@ -332,12 +332,27 @@ var CLUE_FIELDS=(Array.isArray(CONFIG.pistas)&&CONFIG.pistas.length)
 
 /* FRASES */
 var RESULT_PHRASES={
-  perfect:[{emoji:'🏆',phrase:'¡Sin un solo fallo! Ya eres parte del equipo.',sub:'O los conocías de antes… ¡trampos@!'},{emoji:'🎯',phrase:'Cien por cien de aciertos. Así se hace.',sub:'Bienvenida/o al equipo, crack.'}],
-  good:[{emoji:'😎',phrase:'¡Muy bien! Ya tienes cara a casi todos.',sub:'El café te ayudará a completar la colección.'},{emoji:'👏',phrase:'¡Gran trabajo! Pocos fallos, muchas caras reconocidas.',sub:'Sigue así en la próxima ronda.'}],
-  ok:[{emoji:'🙂',phrase:'Mitad y mitad. La aventura empieza.',sub:'Aquí hay mucha gente por descubrir todavía.'},{emoji:'🧩',phrase:'La mitad del equipo descifrada.',sub:'La otra mitad te espera en la próxima partida.'}],
-  low:[{emoji:'😅',phrase:'Tranquila/o, el equipo es grande y los nombres se mezclan.',sub:'Sigue jugando y en dos días los conoces todos.'},{emoji:'🌱',phrase:'Todo empieza aquí.',sub:'El equipo ya sabe quién eres tú. Ahora toca al revés.'}]
+  perfect:[
+    {phrase:'¡Impresionante! O llevas semanas estudiándolos o tienes un don especial para las personas.',sub:''},
+    {phrase:'¡Cero fallos! Veo que estás perfectamente integrado/a al equipo.',sub:''},
+    {phrase:'¡Perfecto! Con este nivel de observación pronto los conocerás mejor que su familia.',sub:''}
+  ],
+  good:[
+    {phrase:'No está mal para alguien que lleva poco tiempo aquí. El equipo empieza a tener cara.',sub:''},
+    {phrase:'Parece que eres bastante observador/a. Solo algunos se te han resistido… de momento.',sub:''},
+    {phrase:'Bien jugado. Los que no has acertado seguro que tienen una historia interesante detrás.',sub:''}
+  ],
+  low:[
+    {phrase:'Bueno, algo es algo. Lo importante es que ya sabes que existen.',sub:''},
+    {phrase:'Muchas personas y poco tiempo. Nada que no se solucione tomándote un café con ellos.',sub:''},
+    {phrase:'Juega otra partida y así vas conociéndolos mejor.',sub:''}
+  ]
 };
-function getResultPhrase(correct,total){var pct=correct/total;var b=pct===1?RESULT_PHRASES.perfect:pct>=0.7?RESULT_PHRASES.good:pct>=0.4?RESULT_PHRASES.ok:RESULT_PHRASES.low;return b[Math.floor(Math.random()*b.length)];}
+function getResultPhrase(correct,total){
+  var pct=correct/total;
+  var b=pct===1?RESULT_PHRASES.perfect:pct>=0.5?RESULT_PHRASES.good:RESULT_PHRASES.low;
+  return b[Math.floor(Math.random()*b.length)];
+}
 
 /* SONIDOS */
 var audioCtx=null;
@@ -683,7 +698,6 @@ function handlePlayerClick(playerIdx){
     gHits[playerIdx]++;
     flashSlot(playerIdx,'correct-flash');
     updateDots(playerIdx);
-    showFeedback(true,'¡Correcto!');
     var playerCluesCount=gCluePool.filter(function(c){return c.personIdx===playerIdx;}).length+gHits[playerIdx];
     if(gHits[playerIdx]>=playerCluesCount||gHits[playerIdx]>=CLUES_PER_PERSON){
       setTimeout(function(){
@@ -698,13 +712,11 @@ function handlePlayerClick(playerIdx){
     soundWrong();
     gTotalWrong++;
     flashSlot(playerIdx,'wrong-flash');
-    showFeedback(false,'No es ese/a — la pista vuelve al final');
     gCluePending=gCurrentClue;
     gCurrentClue=null;
-    /* Insertar en posición aleatoria en la segunda mitad del pool */
     var pos=Math.floor(gCluePool.length/2)+Math.floor(Math.random()*(Math.ceil(gCluePool.length/2)+1));
     gCluePool.splice(pos,0,gCluePending);
-    setTimeout(function(){nextClue();},900);
+    setTimeout(function(){nextClue();},700);
   }
 }
 
@@ -743,9 +755,9 @@ function endGame(){
 function showResult(){
   var total=PLAYERS_COUNT*CLUES_PER_PERSON;
   var phr=getResultPhrase(gTotalCorrect,total);
-  document.getElementById('r-emoji').textContent=phr.emoji;
+  document.getElementById('r-emoji').style.display='none';
   document.getElementById('r-phrase').textContent=phr.phrase;
-  document.getElementById('r-sub').textContent=phr.sub;
+  document.getElementById('r-sub').style.display='none';
   document.getElementById('r-correct').textContent=gTotalCorrect;
   document.getElementById('r-wrong').textContent=gTotalWrong;
   document.getElementById('r-join-wrap').style.display=playerRegistered?'none':'block';
@@ -753,7 +765,7 @@ function showResult(){
   gPlayers.forEach(function(p){var d=document.createElement('div');d.className='profile-card';d.innerHTML=profileCardHTML(p);profEl.appendChild(d);});
   document.getElementById('r-profiles-wrap').style.display='block';
   lastDrawnId=null;
-  document.getElementById('cd-headline').innerHTML='Y ahora que ya los conoces… ¿con quién te toca un café?';
+  document.getElementById('cd-headline').innerHTML='Las mejores conversaciones no caben en una pantalla.<br><span style="font-size:12px;font-weight:500;color:var(--mz-gm)">Te proponemos un café con alguien del equipo.</span>';
   document.getElementById('draw-spinner').className='cd-spinner idle';
   document.getElementById('draw-spinner').innerHTML='<div class="cd-face"><div class="cd-av"><i class="ti ti-coffee" style="font-size:46px"></i></div></div>';
   document.getElementById('cd-launch').style.display='inline-flex';
@@ -786,8 +798,27 @@ function runRoulette(cands,chosen,done){
   step();
 }
 function landMatch(chosen){
-  var clues=allClues(chosen);var pista=clues.length?clues[Math.floor(Math.random()*clues.length)]:null;
-  document.getElementById('cd-card').innerHTML='<div class="profile-card" style="margin:0">'+profileCardHTML(chosen)+'</div>';
+  var clues=allClues(chosen);
+  var pista=clues.length?clues[Math.floor(Math.random()*clues.length)]:null;
+  var pista2=null;
+  if(clues.length>1){
+    var others=clues.filter(function(c){return c.field!==pista.field;});
+    if(others.length)pista2=others[Math.floor(Math.random()*others.length)];
+  }
+
+  /* Frase conversacional basada en pistas */
+  var fraseCafe='';
+  if(pista&&pista2){
+    fraseCafe='Sabemos que '+pista.text.toLowerCase()+' y que '+pista2.text.toLowerCase()+'. Hay conversación para rato.';
+  } else if(pista){
+    fraseCafe='Sabemos que '+pista.text.toLowerCase()+'. Buen punto de partida para romper el hielo.';
+  }
+
+  document.getElementById('cd-card').innerHTML=
+    '<div style="padding:14px;text-align:center">'
+    +'<div style="font-size:13px;color:var(--mz-gm);font-style:italic;line-height:1.5">'+esc(fraseCafe)+'</div>'
+    +'</div>';
+
   var match=document.getElementById('cd-match');match.style.display='block';
   var slot=document.getElementById('cd-coffee-slot');
   if(chosen.email){
