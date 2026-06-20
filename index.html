@@ -390,7 +390,7 @@ function allClues(p){return p.clues.filter(function(c){return c.text&&c.text.tri
 function complete(p){
   if(!p.name)return false;
   var filled=GAME_CATS.filter(function(c){return !!getField(p,c.field);});
-  return filled.length>=CLUES_PER_PERSON;
+  return filled.length>=1;
 }
 function extractPhoto(val){
   if(!val)return'';
@@ -508,7 +508,7 @@ function startGame(){
   gCluePool=[];
   gPlayers.forEach(function(p,pi){
     var available=shuffle(GAME_CATS.filter(function(c){return !!getField(p,c.field);}));
-    var selected=available.slice(0,CLUES_PER_PERSON);
+    var selected=available.slice(0,Math.min(CLUES_PER_PERSON,available.length));
     selected.forEach(function(c){
       gCluePool.push({personIdx:pi,field:c.field,label:c.label,icon:c.icon,text:getField(p,c.field)});
     });
@@ -613,8 +613,9 @@ function renderPlayers(){
       else{av.innerHTML='<span style="font-size:18px;font-weight:800;color:var(--mz-black)">'+inits(p.name)+'</span>';av.style.background='var(--mz-yellow)';}
     }else{av.innerHTML=silhouetteSVG();}
     var nameEl=document.createElement('div');nameEl.className='player-firstname';nameEl.textContent=firstName(p.name);
+    var playerClues=Math.min(CLUES_PER_PERSON,GAME_CATS.filter(function(c){return !!getField(p,c.field);}).length);
     var dotsEl=document.createElement('div');dotsEl.className='player-dots';dotsEl.id='player-dots-'+pi;
-    for(var d=0;d<CLUES_PER_PERSON;d++){
+    for(var d=0;d<playerClues;d++){
       var dot=document.createElement('div');dot.className='pdot'+(d<gHits[pi]?' active':'');dotsEl.appendChild(dot);
     }
     slot.appendChild(av);slot.appendChild(nameEl);slot.appendChild(dotsEl);
@@ -674,7 +675,8 @@ function handlePlayerClick(playerIdx){
     flashSlot(playerIdx,'correct-flash');
     updateDots(playerIdx);
     showFeedback(true,'¡Correcto!');
-    if(gHits[playerIdx]>=CLUES_PER_PERSON){
+    var playerCluesCount=gCluePool.filter(function(c){return c.personIdx===playerIdx;}).length+gHits[playerIdx];
+    if(gHits[playerIdx]>=playerCluesCount||gHits[playerIdx]>=CLUES_PER_PERSON){
       setTimeout(function(){
         revealPlayer(playerIdx);
         updateHeader();
