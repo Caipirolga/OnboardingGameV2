@@ -94,10 +94,8 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 .silhouette-av{width:72px;height:72px;border-radius:50%;overflow:hidden;border:3px solid var(--mz-gm);background:var(--mz-gl);display:flex;align-items:center;justify-content:center;transition:all .3s}
 .silhouette-av.done{border-color:var(--mz-yellow);box-shadow:0 0 0 3px rgba(212,172,57,.35)}
 .silhouette-av img{width:100%;height:100%;object-fit:cover}
-.player-count{position:absolute;bottom:-2px;right:-2px;background:var(--mz-yellow);color:var(--mz-black);border-radius:50%;width:22px;height:22px;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--mz-white)}
 .player-count.full{background:var(--mz-green);color:var(--mz-white)}
-.player-name{font-size:10px;font-weight:700;color:var(--mz-black);text-align:center;line-height:1.2;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;opacity:0;transition:opacity .4s}
-.player-name.visible{opacity:1}
+.player-name{font-size:10px;font-weight:700;color:var(--mz-black);text-align:center;line-height:1.2;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* reveal animation */
 @keyframes revealPop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
@@ -631,32 +629,29 @@ function renderPlayers(){
     slot.className='player-slot';
     slot.id='player-slot-'+pi;
 
-    var wrap=document.createElement('div'); wrap.className='silhouette-wrap';
     var av=document.createElement('div'); av.className='silhouette-av'; av.id='player-av-'+pi;
-
-    // Silueta SVG con interrogante
-    av.innerHTML=silhouetteSVG();
-
-    var counter=document.createElement('div'); counter.className='player-count'; counter.id='player-count-'+pi;
-    counter.textContent='0/'+CLUES_TO_REVEAL;
-    wrap.appendChild(av); wrap.appendChild(counter);
+    av.innerHTML=silhouetteSVG(0);
 
     var nameEl=document.createElement('div'); nameEl.className='player-name'; nameEl.id='player-name-'+pi;
     nameEl.textContent=p.name;
 
-    slot.appendChild(wrap); slot.appendChild(nameEl);
+    slot.appendChild(av); slot.appendChild(nameEl);
     (function(idx){ slot.onclick=function(){ handlePlayerClick(idx); }; })(pi);
     grid.appendChild(slot);
   });
   updateProgressBar();
 }
 
-function silhouetteSVG(){
+function silhouetteSVG(count){
+  var label = count >= CLUES_TO_REVEAL ? '✓' : (count+'/'+CLUES_TO_REVEAL);
+  var bgColor = count >= CLUES_TO_REVEAL ? '#3B6D11' : '#1a1a18';
   return '<svg viewBox="0 0 72 72" width="72" height="72" xmlns="http://www.w3.org/2000/svg">'
     +'<circle cx="36" cy="36" r="36" fill="#c8c8c0"/>'
     +'<circle cx="36" cy="26" r="13" fill="#5a5a52"/>'
     +'<ellipse cx="36" cy="62" rx="22" ry="16" fill="#5a5a52"/>'
-    +'<text x="36" y="30" text-anchor="middle" dominant-baseline="middle" font-size="18" font-weight="800" fill="#f2f2f0" font-family="Montserrat,sans-serif">?</text>'
+    +'<rect x="16" y="50" width="40" height="18" rx="0" fill="#c8c8c0"/>'
+    +'<rect x="14" y="52" width="44" height="16" rx="8" fill="'+bgColor+'"/>'
+    +'<text x="36" y="62" text-anchor="middle" dominant-baseline="middle" font-size="11" font-weight="800" fill="#d4ac39" font-family="Montserrat,sans-serif">'+label+'</text>'
     +'</svg>';
 }
 
@@ -673,7 +668,7 @@ function renderClue(clue){
   var wrap=document.getElementById('g-clue-wrap');
   var meta=FIELD_META[clue.field]||{icon:'ti-star',label:clue.label};
   wrap.innerHTML='<div class="clue-card">'
-    +'<div class="clue-cat"><i class="ti '+esc(meta.icon)+'"></i>'+esc(meta.label)+'</div>'
+    +'<div class="clue-cat">'+esc(meta.label)+'</div>'
     +'<div class="clue-txt">'+esc(clue.text)+'</div>'
     +'<div class="clue-instruction">↑ Pulsa sobre la persona que crees que es</div>'
     +'</div>';
@@ -690,9 +685,9 @@ function handlePlayerClick(playerIdx){
     gTotalCorrect++;
     gPartidaLog; // se completa al final
 
-    // Actualizar contador
-    var counter=document.getElementById('player-count-'+playerIdx);
-    if(counter){ counter.textContent=gAssigned[playerIdx]+'/'+CLUES_TO_REVEAL; }
+    // Actualizar contador dentro del SVG
+    var av=document.getElementById('player-av-'+playerIdx);
+    if(av && gAssigned[playerIdx]<CLUES_TO_REVEAL) av.innerHTML=silhouetteSVG(gAssigned[playerIdx]);
 
     // ¿Ha llegado al máximo? → revelar foto
     if(gAssigned[playerIdx]>=CLUES_TO_REVEAL){
@@ -719,8 +714,6 @@ function handlePlayerClick(playerIdx){
 function revealPlayer(pi){
   var p=gPlayers[pi];
   var av=document.getElementById('player-av-'+pi);
-  var counter=document.getElementById('player-count-'+pi);
-  var nameEl=document.getElementById('player-name-'+pi);
   var slot=document.getElementById('player-slot-'+pi);
 
   soundReveal();
@@ -733,8 +726,6 @@ function revealPlayer(pi){
     av.style.background='var(--mz-yellow)';
   }
   av.classList.add('done','reveal-anim');
-  if(counter){ counter.textContent='✓'; counter.classList.add('full'); }
-  if(nameEl) nameEl.classList.add('visible');
   if(slot) slot.classList.add('revealed');
   slot.onclick=null;
 }
