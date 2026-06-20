@@ -474,11 +474,24 @@ function enterPlayer(){
   document.getElementById('gi-warn').style.display='none';
   document.getElementById('gi-done').style.display='none';
   document.getElementById('gi-btn').disabled=false;
-  if(valid.length<PLAYERS_COUNT){document.getElementById('gi-warn').style.display='flex';document.getElementById('gi-btn').disabled=true;}
-  else if(unseen.length===0){document.getElementById('gi-done').style.display='flex';seenIds=[];}
-  else{
+
+  if(valid.length<PLAYERS_COUNT){
+    document.getElementById('gi-warn').style.display='flex';
+    document.getElementById('gi-btn').disabled=true;
+  } else if(unseen.length===0){
+    // Ha visto a todos → reset completo
+    seenIds=[];
+    document.getElementById('gi-done').style.display='flex';
+  } else if(unseen.length<PLAYERS_COUNT){
+    // Quedan menos de 4 → avisamos que rellenaremos con repetidos
+    document.getElementById('gi-progress-txt').textContent='Te queda '+unseen.length+' compañero'+(unseen.length>1?'s':'')+' por descubrir. Completaremos la partida con algunos ya conocidos.';
+    document.getElementById('gi-progress').style.display='flex';
+  } else {
     var seen=valid.length-unseen.length;
-    if(seen>0){document.getElementById('gi-progress-txt').textContent='Ya conoces a '+seen+' de '+valid.length+' compañeros. Te quedan '+unseen.length+' por descubrir.';document.getElementById('gi-progress').style.display='flex';}
+    if(seen>0){
+      document.getElementById('gi-progress-txt').textContent='Ya conoces a '+seen+' de '+valid.length+' compañeros. Te quedan '+unseen.length+' por descubrir.';
+      document.getElementById('gi-progress').style.display='flex';
+    }
   }
   showScreen('s-game-intro');
 }
@@ -496,9 +509,19 @@ function startGame(){
   var valid=people.filter(complete);
   var unseen=valid.filter(function(p){return seenIds.indexOf(p.id)<0;});
   if(unseen.length===0)unseen=valid;
-  if(unseen.length<PLAYERS_COUNT){toast('Necesitas al menos '+PLAYERS_COUNT+' perfiles jugables');return;}
 
-  gPlayers=shuffle(unseen).slice(0,PLAYERS_COUNT);
+  var pool;
+  if(unseen.length>=PLAYERS_COUNT){
+    // Suficientes sin ver
+    pool=shuffle(unseen).slice(0,PLAYERS_COUNT);
+  } else {
+    // Menos de 4 sin ver → completar con ya vistos
+    var seen=shuffle(valid.filter(function(p){return seenIds.indexOf(p.id)>=0;}));
+    var needed=PLAYERS_COUNT-unseen.length;
+    pool=shuffle(unseen.concat(seen.slice(0,needed)));
+  }
+
+  gPlayers=pool;
   gHits=[0,0,0,0];
   gTotalCorrect=0;gTotalWrong=0;
   gCurrentClue=null;gBlocked=false;
