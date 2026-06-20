@@ -189,8 +189,8 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
   <div class="mz-header"><div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Onboarding Game</span></div></div><button class="btn white sm" onclick="logout()">Salir</button></div>
   <div class="mz-hero">
     <h1 id="gi-welcome">¡Hola!</h1>
-    <p style="font-size:16px;font-weight:700;color:var(--mz-black);margin-top:6px;opacity:1">¿Demasiados compañeros nuevos?</p>
-    <p style="font-size:13px;color:var(--mz-black);font-weight:500;opacity:.75;margin-top:8px;line-height:1.5">Descubre quién se esconde detrás de cada pista y empieza a conocer mejor a tu equipo.</p>
+    <p style="font-size:16px;font-weight:700;color:var(--mz-black);margin-top:6px;opacity:1">¿Demasiadas caras nuevas?</p>
+    <p style="font-size:13px;color:var(--mz-black);font-weight:500;opacity:.75;margin-top:8px;line-height:1.5">Descubre quién se esconde detrás de cada pista y conoce mejor a tu equipo.</p>
   </div>
   <div class="content">
     <div id="gi-progress" class="banner ok" style="display:none"><i class="ti ti-progress"></i><span id="gi-progress-txt"></span></div>
@@ -230,7 +230,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
     <div class="coffee-draw">
       <div class="cd-headline" id="cd-headline"></div>
       <div class="cd-spinner" id="draw-spinner"><div class="cd-face"><div class="cd-av"><i class="ti ti-coffee" style="font-size:46px"></i></div></div></div>
-      <button class="btn primary" id="cd-launch" style="margin-top:18px" onclick="drawCoffee()">Quiero saberlo</button>
+      <button class="btn primary" id="cd-launch" style="margin-top:18px" onclick="drawCoffee()">¿Te atreves?</button>
       <div class="cd-veil-wrap" id="cd-match" style="display:none"><div class="cd-veil"><i class="ti ti-question-mark"></i></div><div id="cd-card"></div></div>
       <div id="cd-actions" style="display:none;margin-top:14px">
         <div id="cd-coffee-slot"></div>
@@ -767,7 +767,7 @@ function showResult(){
   gPlayers.forEach(function(p){var d=document.createElement('div');d.className='profile-card';d.innerHTML=profileCardHTML(p);profEl.appendChild(d);});
   document.getElementById('r-profiles-wrap').style.display='block';
   lastDrawnId=null;
-  document.getElementById('cd-headline').innerHTML='Las mejores conversaciones no caben en una pantalla.<br><span style="font-size:12px;font-weight:500;color:var(--mz-gm)">Te proponemos un café con alguien del equipo.</span>';
+  document.getElementById('cd-headline').innerHTML='Te proponemos un café para que os conozcáis mejor.';
   document.getElementById('draw-spinner').className='cd-spinner idle';
   document.getElementById('draw-spinner').innerHTML='<div class="cd-face"><div class="cd-av"><i class="ti ti-coffee" style="font-size:46px"></i></div></div>';
   document.getElementById('cd-launch').style.display='inline-flex';
