@@ -189,20 +189,14 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
   <div class="mz-header"><div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Onboarding Game</span></div></div><button class="btn white sm" onclick="logout()">Salir</button></div>
   <div class="mz-hero"><h1 id="gi-welcome">¡Hola!</h1><p>Descubre quién esconde cada pista</p></div>
   <div class="content">
-    <div class="score-table">
-      <p style="font-size:10px;font-weight:800;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Cómo se juega</p>
-      <ol style="margin:0;padding-left:18px;font-size:13px;color:var(--mz-black);font-weight:500;line-height:1.65">
-        <li>Se sortean <strong>4 compañeros</strong> al azar.</li>
-        <li>Aparece una <strong>pista</strong> — pulsa sobre la persona que crees que es.</li>
-        <li>Los <strong>3 puntos</strong> bajo cada silueta se pintan al acertar sus pistas.</li>
-        <li>Al completar los 3 puntos ¡se revela la <strong>foto</strong>!</li>
-        <li>Al terminar descubres la <strong>ficha completa</strong> de cada persona.</li>
-      </ol>
+    <div style="padding:1.25rem 0">
+      <p style="font-size:22px;font-weight:800;color:var(--mz-black);margin-bottom:12px">¿Demasiados nombres nuevos?</p>
+      <p style="font-size:14px;color:var(--mz-gray);font-weight:500;line-height:1.6">Descubre quién se esconde detrás de cada pista y empieza a conocer a tu equipo de verdad.</p>
     </div>
     <div id="gi-progress" class="banner ok" style="display:none"><i class="ti ti-progress"></i><span id="gi-progress-txt"></span></div>
     <div id="gi-warn" class="banner warn" style="display:none"><i class="ti ti-alert-triangle"></i><span>Necesitas al menos 4 perfiles jugables.</span></div>
-    <div id="gi-done" class="banner ok" style="display:none"><i class="ti ti-circle-check"></i><span>¡Ya has jugado con todo el equipo! Puedes repetir.</span></div>
-    <button class="btn primary" style="width:100%" onclick="startGame()" id="gi-btn">Empezar</button>
+    <div id="gi-done" class="banner ok" style="display:none"><i class="ti ti-circle-check"></i><span>¡Ya has jugado con todo el equipo! Volvemos a empezar.</span></div>
+    <button class="btn primary" style="width:100%;margin-top:1.5rem;padding:14px;font-size:13px" onclick="startGame()" id="gi-btn">Descubrir quién es quién</button>
   </div>
 </div>
 
@@ -546,68 +540,61 @@ function startGame(){
 
 /* ── RULETA DE COMPAÑEROS ── */
 function showPlayerRoulette(){
-  document.getElementById('g-player-roulette').style.display='block';
-  document.getElementById('g-players').style.display='none';
+  /* Mostrar siluetas + ruleta en la misma pantalla de juego */
+  document.getElementById('g-player-roulette').style.display='none';
+  document.getElementById('g-players').style.display='grid';
   document.getElementById('g-clue-wrap').style.display='none';
   document.getElementById('g-feedback').style.display='none';
 
-  /* Crear 4 slots vacíos */
-  var html='<div class="player-roulette">'
-    +'<div class="pr-eyebrow">Sorteando tus compañeros…</div>'
-    +'<div class="pr-grid" id="pr-grid">';
-  for(var i=0;i<PLAYERS_COUNT;i++){
-    html+='<div class="pr-slot" id="pr-slot-'+i+'">'
-      +'<div class="pr-av" id="pr-av-'+i+'">?</div>'
-      +'<div class="pr-name" id="pr-name-'+i+'">…</div>'
-      +'</div>';
+  /* Renderizar siluetas con nombres girando */
+  var grid=document.getElementById('g-players');grid.innerHTML='';
+  for(var s=0;s<PLAYERS_COUNT;s++){
+    var slot=document.createElement('div');slot.className='player-slot';slot.id='player-slot-'+s;
+    var av=document.createElement('div');av.className='player-av';av.id='player-av-'+s;
+    av.innerHTML=silhouetteSVG();
+    var nameEl=document.createElement('div');nameEl.className='player-firstname';nameEl.id='player-name-spin-'+s;nameEl.textContent='…';
+    var dotsEl=document.createElement('div');dotsEl.className='player-dots';dotsEl.id='player-dots-'+s;
+    for(var d=0;d<CLUES_PER_PERSON;d++){var dot=document.createElement('div');dot.className='pdot';dotsEl.appendChild(dot);}
+    slot.appendChild(av);slot.appendChild(nameEl);slot.appendChild(dotsEl);
+    grid.appendChild(slot);
   }
-  html+='</div><div class="pr-ready" id="pr-ready"></div></div>';
-  document.getElementById('g-player-roulette').innerHTML=html;
 
-  /* Animar los 4 slots en paralelo, cada uno con ticks distintos */
+  /* Animar los 4 slots en paralelo */
   var allValid=people.filter(complete);
   var finished=0;
 
   gPlayers.forEach(function(target,slotIdx){
-    var ticks=16+slotIdx*4;  /* cada slot para en distinto momento */
-    var i=0;
-    var prev=null;
-    function pickDiff(){
-      var c;
-      do{c=allValid[Math.floor(Math.random()*allValid.length)];}while(prev&&c.id===prev.id);
-      prev=c;return c;
-    }
+    var ticks=16+slotIdx*4;
+    var i=0,prev=null;
+    function pickDiff(){var c;do{c=allValid[Math.floor(Math.random()*allValid.length)];}while(prev&&c.id===prev.id);prev=c;return c;}
     function step(){
       if(i<ticks){
         var p=pickDiff();
-        var nameEl=document.getElementById('pr-name-'+slotIdx);
-        var avEl=document.getElementById('pr-av-'+slotIdx);
+        var nameEl=document.getElementById('player-name-spin-'+slotIdx);
         if(nameEl)nameEl.textContent=firstName(p.name);
-        if(avEl){
-          if(p.photo){avEl.innerHTML='<img src="'+esc(p.photo)+'" alt="" style="width:100%;height:100%;object-fit:cover">';}
-          else{avEl.textContent=inits(p.name);}
-        }
         soundTick();
-        var t=i/ticks;
-        var delay=60+(t*t*t)*300;
+        var t=i/ticks;var delay=60+(t*t*t)*300;
         i++;setTimeout(step,delay);
       } else {
-        /* Aterrizar en el target */
-        var nameEl=document.getElementById('pr-name-'+slotIdx);
-        var avEl=document.getElementById('pr-av-'+slotIdx);
-        var slot=document.getElementById('pr-slot-'+slotIdx);
+        /* Aterrizar */
+        var nameEl=document.getElementById('player-name-spin-'+slotIdx);
+        var slot=document.getElementById('player-slot-'+slotIdx);
         if(nameEl)nameEl.textContent=firstName(target.name);
-        if(avEl){
-          if(target.photo){avEl.innerHTML='<img src="'+esc(target.photo)+'" alt="" style="width:100%;height:100%;object-fit:cover">';}
-          else{avEl.textContent=inits(target.name);}
-        }
-        if(slot)slot.classList.add('landed');
+        if(slot)slot.style.borderColor='var(--mz-yellow)';
         soundLand();
         finished++;
         if(finished===PLAYERS_COUNT){
-          var readyEl=document.getElementById('pr-ready');
-          if(readyEl)readyEl.textContent='¡Empezamos!';
-          setTimeout(function(){startPlay();},1000);
+          /* Breve pausa y arranca el juego en la misma pantalla */
+          setTimeout(function(){
+            /* Quitar borde amarillo y dejar slots normales */
+            for(var k=0;k<PLAYERS_COUNT;k++){
+              var sl=document.getElementById('player-slot-'+k);
+              if(sl)sl.style.borderColor='';
+            }
+            activatePlayerSlots();
+            document.getElementById('g-header-info').textContent='0/'+PLAYERS_COUNT+' descubiertos';
+            setTimeout(function(){nextClue();},200);
+          },600);
         }
       }
     }
@@ -615,13 +602,12 @@ function showPlayerRoulette(){
   });
 }
 
-function startPlay(){
-  document.getElementById('g-player-roulette').style.display='none';
-  document.getElementById('g-header-info').textContent='0/'+PLAYERS_COUNT+' descubiertos';
-  renderPlayers();
-  document.getElementById('g-players').style.display='grid';
-  document.getElementById('g-feedback').style.display='none';
-  setTimeout(function(){nextClue();},200);
+function activatePlayerSlots(){
+  gPlayers.forEach(function(p,pi){
+    var slot=document.getElementById('player-slot-'+pi);
+    if(!slot)return;
+    (function(idx){slot.onclick=function(){handlePlayerClick(idx);};})(pi);
+  });
 }
 
 /* ── JUGADORES ── */
