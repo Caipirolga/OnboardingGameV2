@@ -77,36 +77,39 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 .tag.ok{background:var(--mz-gbg);color:var(--mz-green)}
 .tag.ko{background:var(--mz-rbg);color:var(--mz-red)}
 
-/* ── RULETA DE CATEGORÍA ── */
-.roulette-screen{background:var(--mz-black);border-radius:8px;padding:1.5rem 1rem;text-align:center;margin-bottom:1rem}
-.roulette-eyebrow{color:var(--mz-gm);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
-.roulette-card{background:var(--mz-yellow);border-radius:8px;padding:18px 14px;margin:0 auto;max-width:220px;transition:all .08s}
-.roulette-icon{font-size:32px;margin-bottom:6px}
-.roulette-label{font-size:16px;font-weight:800;color:var(--mz-black);line-height:1.2}
-.roulette-progress{display:flex;justify-content:center;gap:6px;margin-top:14px}
-.roulette-dot{width:8px;height:8px;border-radius:50%;background:var(--mz-gray);transition:background .2s}
-.roulette-dot.done{background:var(--mz-green)}
-.roulette-dot.active{background:var(--mz-yellow)}
+/* ── RULETA ── */
+.roulette-wrap{background:var(--mz-black);border-radius:8px;padding:1.5rem 1rem;text-align:center;margin-bottom:16px}
+.roulette-eyebrow{color:var(--mz-gm);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.roulette-card{background:var(--mz-yellow);border-radius:8px;padding:16px 14px;margin:0 auto;max-width:200px}
+.roulette-icon{font-size:30px;margin-bottom:5px}
+.roulette-label{font-size:15px;font-weight:800;color:var(--mz-black);line-height:1.2}
+.roulette-landed{font-size:13px;color:var(--mz-gm);margin-top:12px;font-weight:500;min-height:18px}
 
-/* ── JUGADORES (2×2) ── */
-.game-players{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
-.player-slot{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;padding:10px 6px;border-radius:8px;border:2px solid var(--mz-gl);background:var(--mz-white);transition:all .18s;-webkit-tap-highlight-color:transparent;position:relative}
+/* ── JUGADORES 2x2 ── */
+.game-players{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px}
+.player-slot{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;padding:12px 6px;border-radius:8px;border:2px solid transparent;background:var(--mz-white);transition:border-color .15s;-webkit-tap-highlight-color:transparent}
 .player-slot:active{transform:scale(.96)}
-.player-slot.correct-flash{animation:flashgreen .55s ease forwards}
-@keyframes flashgreen{0%{background:var(--mz-gbg);border-color:var(--mz-green)}80%{background:var(--mz-gbg);border-color:var(--mz-green)}100%{background:var(--mz-white);border-color:var(--mz-gl)}}
-.player-slot.wrong-flash{animation:flashred .55s ease forwards}
-@keyframes flashred{0%{background:var(--mz-rbg);border-color:var(--mz-red)}80%{background:var(--mz-rbg);border-color:var(--mz-red)}100%{background:var(--mz-white);border-color:var(--mz-gl)}}
-.player-slot.revealed{border-color:var(--mz-yellow);background:var(--mz-yl);cursor:default}
+.player-slot.correct-flash{animation:flashgreen .55s ease}
+@keyframes flashgreen{0%,60%{background:var(--mz-gbg);border-color:var(--mz-green)}100%{background:var(--mz-white);border-color:transparent}}
+.player-slot.wrong-flash{animation:flashred .55s ease}
+@keyframes flashred{0%,60%{background:var(--mz-rbg);border-color:var(--mz-red)}100%{background:var(--mz-white);border-color:transparent}}
+.player-slot.done{cursor:default}
 
-.player-av{width:70px;height:70px;border-radius:50%;overflow:hidden;border:3px solid var(--mz-gm);background:var(--mz-gl);display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0}
-.player-av.revealed-border{border-color:var(--mz-yellow);box-shadow:0 0 0 3px rgba(212,172,57,.3)}
+.player-av{width:72px;height:72px;border-radius:50%;overflow:hidden;border:3px solid var(--mz-gm);background:var(--mz-gl);display:flex;align-items:center;justify-content:center;transition:border-color .3s}
+.player-av.revealed{border-color:var(--mz-yellow);box-shadow:0 0 0 3px rgba(212,172,57,.25)}
 .player-av img{width:100%;height:100%;object-fit:cover}
-.player-firstname{font-size:11px;font-weight:800;color:var(--mz-black);text-align:center;line-height:1.2}
+
+.player-firstname{font-size:11px;font-weight:800;color:var(--mz-black);text-align:center}
+
+/* puntos de progreso por persona */
+.player-dots{display:flex;gap:5px;justify-content:center;margin-top:2px}
+.pdot{width:8px;height:8px;border-radius:50%;background:var(--mz-gm);transition:background .3s}
+.pdot.active{background:var(--mz-yellow)}
 
 @keyframes revealPop{0%{transform:scale(.5);opacity:0}65%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
 .reveal-anim{animation:revealPop .5s cubic-bezier(.2,1.3,.4,1)}
 
-/* ── TARJETA DE PISTA ── */
+/* ── PISTA ── */
 .clue-card{background:var(--mz-white);border:2px solid var(--mz-yellow);border-radius:8px;padding:16px 14px;text-align:center;animation:fadein .3s ease}
 @keyframes fadein{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 .clue-cat-badge{display:inline-block;background:var(--mz-black);color:var(--mz-yellow);border-radius:20px;padding:3px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
@@ -114,12 +117,12 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 .clue-hint{font-size:11px;color:var(--mz-gray);margin-top:8px;font-weight:500}
 
 /* feedback */
-.feedback-bar{text-align:center;font-size:12px;font-weight:700;padding:7px 12px;border-radius:4px;margin:10px 0;text-transform:uppercase;animation:fadein .2s ease}
+.feedback-bar{text-align:center;font-size:12px;font-weight:700;padding:7px 12px;border-radius:4px;margin:10px 0 0;text-transform:uppercase;animation:fadein .2s ease}
 .feedback-bar.ok{background:var(--mz-gbg);color:var(--mz-green)}
 .feedback-bar.ko{background:var(--mz-rbg);color:var(--mz-red)}
 
-/* progreso */
-.pbar{height:4px;background:var(--mz-gl);margin:0 0 12px}
+/* progreso global */
+.pbar{height:4px;background:var(--mz-gl);margin:0 0 14px}
 .pbar-fill{height:100%;background:var(--mz-yellow);transition:width .4s}
 
 /* resultado */
@@ -151,13 +154,10 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 <div class="app">
 <div class="toast" id="toast"></div>
 
-<!-- ===================== LOGIN ===================== -->
+<!-- LOGIN -->
 <div class="screen active" id="s-login">
   <div class="mz-header">
-    <div class="mz-brand">
-      <div class="mz-mark"><i class="ti ti-puzzle"></i></div>
-      <div><span class="mz-name" id="brand-name">Onboarding Game</span><span class="mz-tag">Conoce a tu equipo</span></div>
-    </div>
+    <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name" id="brand-name">Onboarding Game</span><span class="mz-tag">Conoce a tu equipo</span></div></div>
   </div>
   <div class="mz-hero"><h1>Descubre a tu equipo</h1><p>Conoce a tus nuevos compañeros jugando</p></div>
   <div class="content">
@@ -167,12 +167,9 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
   </div>
 </div>
 
-<!-- ===================== ADMIN LOGIN ===================== -->
+<!-- ADMIN LOGIN -->
 <div class="screen" id="s-admin-login">
-  <div class="mz-header">
-    <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Administración</span><span class="mz-tag">Acceso RRHH</span></div></div>
-    <button class="btn white sm" onclick="logout()">Volver</button>
-  </div>
+  <div class="mz-header"><div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Administración</span><span class="mz-tag">Acceso RRHH</span></div></div><button class="btn white sm" onclick="logout()">Volver</button></div>
   <div class="content" style="padding-top:1.75rem">
     <div class="field"><label>Usuario</label><input type="text" id="l-user" placeholder="rrhh" autocomplete="username"></div>
     <div class="field"><label>Contraseña</label><input type="password" id="l-pass" placeholder="..." autocomplete="current-password"></div>
@@ -182,43 +179,30 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
   </div>
 </div>
 
-<!-- ===================== LOADING ===================== -->
+<!-- LOADING -->
 <div class="screen" id="s-loading">
-  <div class="center-pad">
-    <div class="spinner"></div>
-    <p style="font-size:13px;font-weight:700;color:var(--mz-black)" id="load-main">🕵️ Preparando los expedientes…</p>
-    <p style="font-size:11px;color:var(--mz-gray);margin-top:6px" id="load-sub">Un momento…</p>
-  </div>
+  <div class="center-pad"><div class="spinner"></div><p style="font-size:13px;font-weight:700;color:var(--mz-black)" id="load-main">🕵️ Preparando los expedientes…</p><p style="font-size:11px;color:var(--mz-gray);margin-top:6px" id="load-sub">Un momento…</p></div>
 </div>
 
-<!-- ===================== ERROR ===================== -->
+<!-- ERROR -->
 <div class="screen" id="s-error">
-  <div class="mz-header">
-    <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Onboarding Game</span></div></div>
-    <button class="btn white sm" onclick="logout()">Salir</button>
-  </div>
-  <div class="content">
-    <div class="banner err"><span id="err-msg">No se pudieron cargar los perfiles.</span></div>
-    <button class="btn primary" style="width:100%" onclick="reloadData()">Reintentar</button>
-  </div>
+  <div class="mz-header"><div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Onboarding Game</span></div></div><button class="btn white sm" onclick="logout()">Salir</button></div>
+  <div class="content"><div class="banner err"><span id="err-msg">No se pudieron cargar los perfiles.</span></div><button class="btn primary" style="width:100%" onclick="reloadData()">Reintentar</button></div>
 </div>
 
-<!-- ===================== GAME INTRO ===================== -->
+<!-- GAME INTRO -->
 <div class="screen" id="s-game-intro">
-  <div class="mz-header">
-    <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Onboarding Game</span></div></div>
-    <button class="btn white sm" onclick="logout()">Salir</button>
-  </div>
+  <div class="mz-header"><div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Onboarding Game</span></div></div><button class="btn white sm" onclick="logout()">Salir</button></div>
   <div class="mz-hero"><h1 id="gi-welcome">¡Hola!</h1><p>Adivina quién esconde cada pista</p></div>
   <div class="content">
     <div class="score-table">
       <p style="font-size:10px;font-weight:800;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Cómo se juega</p>
       <ol style="margin:0;padding-left:18px;font-size:13px;color:var(--mz-black);font-weight:500;line-height:1.65">
-        <li>Se sortea una <strong>categoría</strong> al azar.</li>
-        <li>Aparece una <strong>pista</strong> de esa categoría.</li>
-        <li><strong>Pulsa</strong> sobre la persona que crees que es.</li>
-        <li>Al acertar, ¡se revela su <strong>foto</strong>!</li>
-        <li>5 categorías × 4 personas = ¡un equipo descubierto!</li>
+        <li>Se sortean <strong>3 categorías</strong> al azar de entre 5 posibles.</li>
+        <li>Aparece una <strong>pista</strong> — pulsa sobre la persona que crees que es.</li>
+        <li>Los <strong>3 puntos</strong> bajo cada silueta se pintan al acertar sus pistas.</li>
+        <li>Al completar los 3 puntos ¡se revela la <strong>foto</strong>!</li>
+        <li>Al terminar descubres las <strong>5 categorías completas</strong> de cada persona.</li>
       </ol>
     </div>
     <div id="gi-progress" class="banner ok" style="display:none"><i class="ti ti-progress"></i><span id="gi-progress-txt"></span></div>
@@ -228,44 +212,24 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
   </div>
 </div>
 
-<!-- ===================== GAME ===================== -->
+<!-- GAME -->
 <div class="screen" id="s-game">
   <div class="mz-header">
     <span style="font-size:11px;font-weight:700;color:var(--mz-yellow);text-transform:uppercase;letter-spacing:.06em">Descubre a tu equipo</span>
-    <span style="font-size:11px;font-weight:700;color:var(--mz-gm)" id="g-cat-counter"></span>
+    <span style="font-size:11px;font-weight:700;color:var(--mz-gm)" id="g-header-info"></span>
   </div>
   <div class="content" style="padding-top:1rem">
     <div class="pbar"><div class="pbar-fill" id="g-pbar" style="width:0%"></div></div>
-
-    <!-- Ruleta de categoría -->
-    <div id="g-roulette" style="display:none">
-      <div class="roulette-screen">
-        <div class="roulette-eyebrow">Sorteando categoría…</div>
-        <div class="roulette-card" id="roulette-card">
-          <div class="roulette-icon" id="roulette-icon">✨</div>
-          <div class="roulette-label" id="roulette-label">Mi plan perfecto</div>
-        </div>
-        <div class="roulette-progress" id="roulette-progress"></div>
-      </div>
-    </div>
-
-    <!-- Jugadores 2×2 -->
+    <div id="g-roulette" style="display:none"></div>
     <div class="game-players" id="g-players" style="display:none"></div>
-
-    <!-- Feedback -->
     <div id="g-feedback" style="display:none"></div>
-
-    <!-- Tarjeta de pista -->
     <div id="g-clue-wrap" style="display:none"></div>
   </div>
 </div>
 
-<!-- ===================== RESULT ===================== -->
+<!-- RESULT -->
 <div class="screen" id="s-result">
-  <div class="mz-header">
-    <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Onboarding Game</span></div></div>
-    <button class="btn white sm" onclick="logout()">Salir</button>
-  </div>
+  <div class="mz-header"><div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Onboarding Game</span></div></div><button class="btn white sm" onclick="logout()">Salir</button></div>
   <div class="result-banner">
     <div style="font-size:36px;margin-bottom:10px" id="r-emoji"></div>
     <div class="result-phrase" id="r-phrase"></div>
@@ -276,7 +240,6 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
       <div class="stat"><div class="stat-val" id="r-correct"></div><div class="stat-lbl">aciertos</div></div>
       <div class="stat"><div class="stat-val" id="r-wrong"></div><div class="stat-lbl">fallos</div></div>
     </div>
-
     <div id="r-join-wrap" style="display:none">
       <div style="background:var(--mz-black);border-radius:6px;padding:1.25rem;text-align:center;margin-bottom:1.25rem">
         <div style="font-size:24px;margin-bottom:8px">👀</div>
@@ -285,29 +248,18 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
         <button class="btn cta-join" onclick="openSignup()"><i class="ti ti-user-plus"></i> ¡Quiero estar en el juego!</button>
       </div>
     </div>
-
     <div id="r-profiles-wrap" style="display:none">
       <p style="font-size:10px;font-weight:700;color:var(--mz-gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Los compañeros que has conocido</p>
       <div id="r-profiles"></div>
     </div>
-
     <div class="coffee-draw">
       <div class="cd-headline" id="cd-headline">Y ahora que ya los conoces… ¿con quién te toca un café?</div>
-      <div class="cd-spinner" id="draw-spinner">
-        <div class="cd-face"><div class="cd-av"><i class="ti ti-coffee" style="font-size:46px"></i></div></div>
-      </div>
+      <div class="cd-spinner" id="draw-spinner"><div class="cd-face"><div class="cd-av"><i class="ti ti-coffee" style="font-size:46px"></i></div></div></div>
       <button class="btn primary" id="cd-launch" style="margin-top:18px" onclick="drawCoffee()">Quiero saberlo</button>
-      <div class="cd-veil-wrap" id="cd-match" style="display:none">
-        <div class="cd-veil"><i class="ti ti-question-mark"></i></div>
-        <div id="cd-card"></div>
-      </div>
-      <div id="cd-actions" style="display:none;margin-top:14px">
-        <div id="cd-coffee-slot"></div>
-        <button class="btn white sm" id="cd-redraw" style="margin-top:10px" onclick="drawCoffee()">Sortear otra persona</button>
-      </div>
+      <div class="cd-veil-wrap" id="cd-match" style="display:none"><div class="cd-veil"><i class="ti ti-question-mark"></i></div><div id="cd-card"></div></div>
+      <div id="cd-actions" style="display:none;margin-top:14px"><div id="cd-coffee-slot"></div><button class="btn white sm" id="cd-redraw" style="margin-top:10px" onclick="drawCoffee()">Sortear otra persona</button></div>
       <p class="cd-closing" id="cd-closing" style="display:none">El onboarding va de conocer a la gente. Ese café es el verdadero objetivo.</p>
     </div>
-
     <div style="display:flex;gap:8px;justify-content:center;margin-top:1.25rem;flex-wrap:wrap">
       <button class="btn outline-dark" onclick="showScreen('s-game-intro')">Seguir conociendo</button>
       <button class="btn outline" onclick="logout()">Salir</button>
@@ -315,12 +267,9 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
   </div>
 </div>
 
-<!-- ===================== ADMIN ===================== -->
+<!-- ADMIN -->
 <div class="screen" id="s-admin">
-  <div class="mz-header">
-    <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Panel de perfiles</span></div></div>
-    <button class="btn white sm" onclick="logout()">Salir</button>
-  </div>
+  <div class="mz-header"><div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Panel de perfiles</span></div></div><button class="btn white sm" onclick="logout()">Salir</button></div>
   <div class="content">
     <div class="banner warn"><span>Los perfiles se editan en <strong>Airtable</strong>. Aquí solo se visualizan.</span></div>
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1rem">
@@ -332,12 +281,9 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
   </div>
 </div>
 
-<!-- ===================== ALTA ===================== -->
+<!-- ALTA -->
 <div class="screen" id="s-signup">
-  <div class="mz-header">
-    <div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Únete al juego</span><span class="mz-tag">Crea tu ficha</span></div></div>
-    <button class="btn white sm" onclick="goBackFromSignup()">Volver</button>
-  </div>
+  <div class="mz-header"><div class="mz-brand"><div class="mz-mark"><i class="ti ti-puzzle"></i></div><div><span class="mz-name">Únete al juego</span><span class="mz-tag">Crea tu ficha</span></div></div><button class="btn white sm" onclick="goBackFromSignup()">Volver</button></div>
   <div class="mz-hero"><h1>¡Hazte visible!</h1><p>Rellena tu ficha y pasa a formar parte del juego</p></div>
   <div class="content">
     <div id="signup-form">
@@ -366,218 +312,219 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
 </div>
 
 </div>
-
 <script>
-/* ============================================================ CONFIG ============================================================ */
-var DEFAULT_CONFIG = { proxyUrl:'', empresaNombre:'Tu Empresa', empresaColor:'#d4ac39', empresaLogo:'', adminUser:'rrhh', adminPass:'onboarding2024' };
-var CONFIG = Object.assign({}, DEFAULT_CONFIG, (window.CONFIG || {}));
+/* CONFIG */
+var DEFAULT_CONFIG={proxyUrl:'',empresaNombre:'Tu Empresa',empresaColor:'#d4ac39',empresaLogo:'',adminUser:'rrhh',adminPass:'onboarding2024'};
+var CONFIG=Object.assign({},DEFAULT_CONFIG,(window.CONFIG||{}));
 
-var GAME_CATS = [
-  { field:'como_soy',       label:'¿Cómo soy?',        icon:'😊' },
-  { field:'donde_naci',     label:'¿Dónde nací?',       icon:'📍' },
-  { field:'hobby',          label:'Mi hobby',           icon:'🎸' },
-  { field:'plan_perfecto',  label:'Mi plan perfecto',   icon:'✨' },
-  { field:'peor_pesadilla', label:'Mi peor pesadilla',  icon:'👻' }
+var ALL_CATS=[
+  {field:'como_soy',      label:'¿Cómo soy?',       icon:'😊'},
+  {field:'donde_naci',    label:'¿Dónde nací?',      icon:'📍'},
+  {field:'hobby',         label:'Mi hobby',          icon:'🎸'},
+  {field:'plan_perfecto', label:'Mi plan perfecto',  icon:'✨'},
+  {field:'peor_pesadilla',label:'Mi peor pesadilla', icon:'👻'}
+];
+var CATS_TO_PLAY=3;
+var PLAYERS_COUNT=4;
+
+var ALL_CLUE_FIELDS=[
+  {field:'como_soy',label:'¿Cómo soy?',icon:'ti-mood-smile'},
+  {field:'donde_naci',label:'¿Dónde nací?',icon:'ti-map-pin'},
+  {field:'hobby',label:'Mi hobby',icon:'ti-heart'},
+  {field:'plan_perfecto',label:'Mi plan perfecto',icon:'ti-sparkles'},
+  {field:'peor_pesadilla',label:'Mi peor pesadilla',icon:'ti-ghost'},
+  {field:'rol_empresa',label:'Mi rol en la empresa',icon:'ti-briefcase'}
 ];
 
-var ALL_CLUE_FIELDS = [
-  { field:'como_soy',       label:'¿Cómo soy?',          icon:'ti-mood-smile' },
-  { field:'donde_naci',     label:'¿Dónde nací?',         icon:'ti-map-pin' },
-  { field:'hobby',          label:'Mi hobby',             icon:'ti-heart' },
-  { field:'plan_perfecto',  label:'Mi plan perfecto',     icon:'ti-sparkles' },
-  { field:'peor_pesadilla', label:'Mi peor pesadilla',    icon:'ti-ghost' },
-  { field:'rol_empresa',    label:'Mi rol en la empresa', icon:'ti-briefcase' }
-];
+var CLUE_FIELDS=(Array.isArray(CONFIG.pistas)&&CONFIG.pistas.length)
+  ?CONFIG.pistas.map(function(c){return{field:c.campo||c.field,icon:c.icono||c.icon||'ti-star',label:c.etiqueta||c.label||''};})
+  :ALL_CLUE_FIELDS;
 
-var CLUE_FIELDS = (Array.isArray(CONFIG.pistas) && CONFIG.pistas.length)
-  ? CONFIG.pistas.map(function(c){ return { field:c.campo||c.field, icon:c.icono||c.icon||'ti-star', label:c.etiqueta||c.label||'' }; })
-  : ALL_CLUE_FIELDS;
-
-/* ============================================================ FRASES ============================================================ */
-var RESULT_PHRASES = {
+/* FRASES */
+var RESULT_PHRASES={
   perfect:[{emoji:'🏆',phrase:'¡Sin un solo fallo! Ya eres parte del equipo.',sub:'O los conocías de antes… ¡trampos@!'},{emoji:'🎯',phrase:'Cien por cien de aciertos. Así se hace.',sub:'Bienvenida/o al equipo, crack.'}],
-  good:[{emoji:'😎',phrase:'¡Muy bien! Ya tienes cara a casi todos.',sub:'El café te ayudará a completar la colección.'},{emoji:'👏',phrase:'¡Gran trabajo! Pocos fallos y muchas caras reconocidas.',sub:'Sigue así en la próxima ronda.'}],
+  good:[{emoji:'😎',phrase:'¡Muy bien! Ya tienes cara a casi todos.',sub:'El café te ayudará a completar la colección.'},{emoji:'👏',phrase:'¡Gran trabajo! Pocos fallos, muchas caras reconocidas.',sub:'Sigue así en la próxima ronda.'}],
   ok:[{emoji:'🙂',phrase:'Mitad y mitad. La aventura empieza.',sub:'Aquí hay mucha gente por descubrir todavía.'},{emoji:'🧩',phrase:'La mitad del equipo descifrada.',sub:'La otra mitad te espera en la próxima partida.'}],
   low:[{emoji:'😅',phrase:'Tranquila/o, el equipo es grande y los nombres se mezclan.',sub:'Sigue jugando y en dos días los conoces todos.'},{emoji:'🌱',phrase:'Todo empieza aquí.',sub:'El equipo ya sabe quién eres tú. Ahora toca al revés.'}]
 };
-function getResultPhrase(correct,total){ var pct=correct/total; var b=pct===1?RESULT_PHRASES.perfect:pct>=0.7?RESULT_PHRASES.good:pct>=0.4?RESULT_PHRASES.ok:RESULT_PHRASES.low; return b[Math.floor(Math.random()*b.length)]; }
+function getResultPhrase(correct,total){var pct=correct/total;var b=pct===1?RESULT_PHRASES.perfect:pct>=0.7?RESULT_PHRASES.good:pct>=0.4?RESULT_PHRASES.ok:RESULT_PHRASES.low;return b[Math.floor(Math.random()*b.length)];}
 
-/* ============================================================ SONIDOS ============================================================ */
+/* SONIDOS */
 var audioCtx=null;
-function getAudioCtx(){ if(!audioCtx) try{ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} return audioCtx; }
-function playTone(freq,type,duration,vol){ var ctx=getAudioCtx(); if(!ctx) return; try{ var o=ctx.createOscillator(),g=ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.type=type||'sine'; o.frequency.value=freq; g.gain.setValueAtTime(vol||0.18,ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+duration); o.start(); o.stop(ctx.currentTime+duration); }catch(e){} }
-function soundCorrect(){ playTone(523,.18,'sine'); setTimeout(function(){ playTone(659,.18,'sine'); },110); }
-function soundReveal(){ playTone(523,.14,'sine'); setTimeout(function(){ playTone(659,.14,'sine'); },90); setTimeout(function(){ playTone(784,.14,'sine'); },180); setTimeout(function(){ playTone(1047,.38,'sine',.22); },280); }
-function soundWrong(){ playTone(220,.16,'sawtooth',.14); setTimeout(function(){ playTone(180,.22,'sawtooth',.11); },110); }
-function soundRoulette(){ playTone(440+Math.random()*200,.06,'sine',.1); }
-function soundRouletteEnd(){ playTone(660,.1,'sine',.2); setTimeout(function(){ playTone(880,.25,'sine',.18); },120); }
+function getAudioCtx(){if(!audioCtx)try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}return audioCtx;}
+function playTone(freq,type,dur,vol){var ctx=getAudioCtx();if(!ctx)return;try{var o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type=type||'sine';o.frequency.value=freq;g.gain.setValueAtTime(vol||0.18,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+dur);o.start();o.stop(ctx.currentTime+dur);}catch(e){}}
+function soundCorrect(){playTone(523,.18,'sine');setTimeout(function(){playTone(659,.18,'sine');},110);}
+function soundReveal(){playTone(523,.13,'sine');setTimeout(function(){playTone(659,.13,'sine');},85);setTimeout(function(){playTone(784,.13,'sine');},170);setTimeout(function(){playTone(1047,.36,'sine',.22);},260);}
+function soundWrong(){playTone(220,.15,'sawtooth',.13);setTimeout(function(){playTone(180,.2,'sawtooth',.1);},110);}
+function soundRouletteTick(){playTone(440+Math.random()*160,.05,'sine',.09);}
+function soundRouletteLand(){playTone(660,.1,'sine',.18);setTimeout(function(){playTone(880,.22,'sine',.16);},110);}
 
-/* ============================================================ ESTADO ============================================================ */
-var people=[], playerEmail='', playerRegistered=false, seenIds=[], loaded=false, lastDrawnId=null;
+/* ESTADO */
+var people=[],playerEmail='',playerRegistered=false,seenIds=[],loaded=false,lastDrawnId=null;
 var gPlayers=[];
-var gCatOrder=[];       // orden de las 5 categorías sorteado
-var gCatIdx=0;          // categoría actual (índice en gCatOrder)
+var gSelectedCats=[];   // 3 categorías sorteadas (objetos de ALL_CATS)
+var gCatIdx=0;          // índice de la categoría actual en gSelectedCats
 var gCluePending=[];    // pistas pendientes de la categoría actual
-var gRevealed=[];       // [bool×4] si cada jugador está revelado
-var gTotalCorrect=0, gTotalWrong=0;
+var gHits=[];           // [n,n,n,n] aciertos por jugador en categoría actual
+var gTotalCorrect=0,gTotalWrong=0;
 var gCurrentClue=null;
-var gBlocked=false;     // bloqueo entre clics
+var gBlocked=false;
+var gRevealedCount=0;   // cuántos jugadores tienen ya foto
 
-var PLAYERS_COUNT=4;
-var CATS_COUNT=5;
-
-/* ============================================================ INIT ============================================================ */
+/* INIT */
 (function init(){
-  if(CONFIG.empresaColor) document.documentElement.style.setProperty('--mz-yellow',CONFIG.empresaColor);
-  var bn=document.getElementById('brand-name'); if(bn&&CONFIG.empresaNombre) bn.textContent=CONFIG.empresaNombre;
+  if(CONFIG.empresaColor)document.documentElement.style.setProperty('--mz-yellow',CONFIG.empresaColor);
+  var bn=document.getElementById('brand-name');if(bn&&CONFIG.empresaNombre)bn.textContent=CONFIG.empresaNombre;
   document.getElementById('adm-hint-u').textContent=CONFIG.adminUser;
-  if(CONFIG.empresaLogo){ var marks=document.querySelectorAll('.mz-mark'); for(var i=0;i<marks.length;i++){ var img=document.createElement('img'); img.src=CONFIG.empresaLogo; img.alt=CONFIG.empresaNombre||'Logo'; img.className='mz-logo-img'; var td=marks[i].nextElementSibling; marks[i].parentNode.replaceChild(img,marks[i]); if(td) td.style.display='none'; } }
-  if(location.hash==='#admin') goAdminLogin();
+  if(CONFIG.empresaLogo){var marks=document.querySelectorAll('.mz-mark');for(var i=0;i<marks.length;i++){var img=document.createElement('img');img.src=CONFIG.empresaLogo;img.alt=CONFIG.empresaNombre||'Logo';img.className='mz-logo-img';var td=marks[i].nextElementSibling;marks[i].parentNode.replaceChild(img,marks[i]);if(td)td.style.display='none';}}
+  if(location.hash==='#admin')goAdminLogin();
 })();
 
-/* ============================================================ HELPERS ============================================================ */
-function inits(n){ return (n||'').trim().split(' ').slice(0,2).map(function(w){ return w[0]||''; }).join('').toUpperCase()||'?'; }
-function firstName(n){ return (n||'').trim().split(' ')[0]; }
-function shuffle(a){ return a.slice().sort(function(){ return Math.random()-.5; }); }
-function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function complete(p){ var ok=true; GAME_CATS.forEach(function(c){ if(!getClue(p,c.field)) ok=false; }); return !!(p.name && ok); }
-function getClue(p,field){ var c=p.clues.find(function(x){ return x.field===field; }); return c&&c.text?c.text:''; }
-function allClues(p){ return p.clues.filter(function(c){ return c.text&&c.text.trim(); }); }
-function extractPhoto(val){ if(!val) return ''; if(Array.isArray(val)&&val.length){ var a=val[0]; if(a&&a.thumbnails&&a.thumbnails.large&&a.thumbnails.large.url) return a.thumbnails.large.url; if(a&&a.url) return a.url; return ''; } if(typeof val==='string') return val.trim(); return ''; }
+/* HELPERS */
+function inits(n){return(n||'').trim().split(' ').slice(0,2).map(function(w){return w[0]||'';}).join('').toUpperCase()||'?';}
+function firstName(n){return(n||'').trim().split(' ')[0];}
+function shuffle(a){return a.slice().sort(function(){return Math.random()-.5;});}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function complete(p){var ok=true;ALL_CATS.forEach(function(c){if(!getField(p,c.field))ok=false;});return !!(p.name&&ok);}
+function getField(p,field){var c=p.clues.find(function(x){return x.field===field;});return c&&c.text?c.text:'';}
+function allClues(p){return p.clues.filter(function(c){return c.text&&c.text.trim();});}
+function extractPhoto(val){if(!val)return'';if(Array.isArray(val)&&val.length){var a=val[0];if(a&&a.thumbnails&&a.thumbnails.large&&a.thumbnails.large.url)return a.thumbnails.large.url;if(a&&a.url)return a.url;return'';}if(typeof val==='string')return val.trim();return'';}
 
 var LOADING_MSGS=['🕵️ Reuniendo pistas sobre el equipo…','🔍 Interrogando la base de datos…','🗂️ Abriendo los expedientes…','☕ Preparando los cafés…','🧩 Encajando las piezas del equipo…'];
 var loadMsgTimer=null;
-function startLoadingMsgs(){ var el=document.getElementById('load-main'); if(!el) return; stopLoadingMsgs(); var msgs=shuffle(LOADING_MSGS),i=0; el.textContent=msgs[0]; loadMsgTimer=setInterval(function(){ i=(i+1)%msgs.length; el.textContent=msgs[i]; },1800); }
-function stopLoadingMsgs(){ if(loadMsgTimer){ clearInterval(loadMsgTimer); loadMsgTimer=null; } }
-function showScreen(id){ var els=document.querySelectorAll('.screen'); for(var i=0;i<els.length;i++) els[i].classList.remove('active'); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); if(id==='s-loading') startLoadingMsgs(); else stopLoadingMsgs(); }
-function toast(m){ var t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },2500); }
+function startLoadingMsgs(){var el=document.getElementById('load-main');if(!el)return;stopLoadingMsgs();var msgs=shuffle(LOADING_MSGS),i=0;el.textContent=msgs[0];loadMsgTimer=setInterval(function(){i=(i+1)%msgs.length;el.textContent=msgs[i];},1800);}
+function stopLoadingMsgs(){if(loadMsgTimer){clearInterval(loadMsgTimer);loadMsgTimer=null;}}
+function showScreen(id){var els=document.querySelectorAll('.screen');for(var i=0;i<els.length;i++)els[i].classList.remove('active');document.getElementById(id).classList.add('active');window.scrollTo(0,0);if(id==='s-loading')startLoadingMsgs();else stopLoadingMsgs();}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
 
-/* ============================================================ MAPEO ============================================================ */
-function mapRecord(rec){ var f=rec.fields||{}; return { id:rec.id, name:(f.nombre||'').trim(), email:(f.email||'').trim(), photo:extractPhoto(f.foto), clues:ALL_CLUE_FIELDS.map(function(cf){ return { field:cf.field, label:cf.label, icon:cf.icon, text:(f[cf.field]||'').toString().trim() }; }) }; }
+/* MAPEO */
+function mapRecord(rec){var f=rec.fields||{};return{id:rec.id,name:(f.nombre||'').trim(),email:(f.email||'').trim(),photo:extractPhoto(f.foto),clues:ALL_CLUE_FIELDS.map(function(cf){return{field:cf.field,label:cf.label,icon:cf.icon,text:(f[cf.field]||'').toString().trim()};});};}
 
-/* ============================================================ RED ============================================================ */
-function proxyGet(params){ var proxy=CONFIG.proxyUrl; if(!proxy) return Promise.reject(new Error('Falta proxyUrl en config.js')); var url=proxy+(proxy.indexOf('?')>=0?'&':'?')+params; return fetch(url,{method:'GET'}).then(function(res){ if(!res.ok) throw new Error('Proxy error '+res.status); return res.json(); }).then(function(data){ if(data&&data.error) throw new Error(data.error); return data; }); }
-function loadFromAirtable(){ return proxyGet('action=perfiles').then(function(data){ return (data.records||[]).map(function(r){ return mapRecord(r); }); }); }
-function checkEmailRegistered(email){ return proxyGet('action=checkEmail&email='+encodeURIComponent(email)); }
-function loadSeenIds(email){ return proxyGet('action=partidas&email='+encodeURIComponent(email)).then(function(data){ return data.vistos||[]; }); }
-function savePartida(log){ var proxy=CONFIG.proxyUrl; if(!proxy||!log.length) return Promise.resolve(); return fetch(proxy+(proxy.indexOf('?')>=0?'&':'?')+'action=partida',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email_jugador:playerEmail,perfiles:log})}).catch(function(e){ console.warn('savePartida:',e); }); }
-function reloadData(stayInAdmin){ showScreen('s-loading'); document.getElementById('load-sub').textContent='Cargando perfiles…'; loadFromAirtable().then(function(list){ people=list; loaded=true; if(stayInAdmin){ renderAdmin(); showScreen('s-admin'); } else enterPlayer(); }).catch(function(err){ document.getElementById('err-msg').textContent=err.message||'Error desconocido'; showScreen('s-error'); }); }
+/* RED */
+function proxyGet(params){var proxy=CONFIG.proxyUrl;if(!proxy)return Promise.reject(new Error('Falta proxyUrl en config.js'));var url=proxy+(proxy.indexOf('?')>=0?'&':'?')+params;return fetch(url,{method:'GET'}).then(function(res){if(!res.ok)throw new Error('Proxy error '+res.status);return res.json();}).then(function(data){if(data&&data.error)throw new Error(data.error);return data;});}
+function loadFromAirtable(){return proxyGet('action=perfiles').then(function(data){return(data.records||[]).map(function(r){return mapRecord(r);});});}
+function checkEmailRegistered(email){return proxyGet('action=checkEmail&email='+encodeURIComponent(email));}
+function loadSeenIds(email){return proxyGet('action=partidas&email='+encodeURIComponent(email)).then(function(data){return data.vistos||[];});}
+function savePartida(log){var proxy=CONFIG.proxyUrl;if(!proxy||!log.length)return Promise.resolve();return fetch(proxy+(proxy.indexOf('?')>=0?'&':'?')+'action=partida',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email_jugador:playerEmail,perfiles:log})}).catch(function(e){console.warn('savePartida:',e);});}
+function reloadData(stayInAdmin){showScreen('s-loading');document.getElementById('load-sub').textContent='Cargando perfiles…';loadFromAirtable().then(function(list){people=list;loaded=true;if(stayInAdmin){renderAdmin();showScreen('s-admin');}else enterPlayer();}).catch(function(err){document.getElementById('err-msg').textContent=err.message||'Error desconocido';showScreen('s-error');});}
 
-/* ============================================================ LOGIN ============================================================ */
-function playerLogin(){ var email=document.getElementById('l-email').value.trim(); if(!email||email.indexOf('@')<1){ toast('Introduce tu email'); return; } playerEmail=email; showScreen('s-loading'); document.getElementById('load-sub').textContent='Comprobando tu perfil…'; Promise.all([loadFromAirtable(),checkEmailRegistered(email),loadSeenIds(email)]).then(function(r){ people=r[0]; loaded=true; playerRegistered=r[1].registrado; seenIds=r[2]; enterPlayer(); }).catch(function(err){ document.getElementById('err-msg').textContent=err.message||'Error al cargar datos'; showScreen('s-error'); }); }
-function goAdminLogin(){ document.getElementById('login-err').style.display='none'; showScreen('s-admin-login'); }
-function adminLogin(){ var u=document.getElementById('l-user').value,p=document.getElementById('l-pass').value; if(u!==CONFIG.adminUser||p!==CONFIG.adminPass){ document.getElementById('login-err').style.display='block'; return; } document.getElementById('login-err').style.display='none'; if(loaded){ renderAdmin(); showScreen('s-admin'); } else reloadData(true); }
+/* LOGIN */
+function playerLogin(){var email=document.getElementById('l-email').value.trim();if(!email||email.indexOf('@')<1){toast('Introduce tu email');return;}playerEmail=email;showScreen('s-loading');document.getElementById('load-sub').textContent='Comprobando tu perfil…';Promise.all([loadFromAirtable(),checkEmailRegistered(email),loadSeenIds(email)]).then(function(r){people=r[0];loaded=true;playerRegistered=r[1].registrado;seenIds=r[2];enterPlayer();}).catch(function(err){document.getElementById('err-msg').textContent=err.message||'Error al cargar datos';showScreen('s-error');});}
+function goAdminLogin(){document.getElementById('login-err').style.display='none';showScreen('s-admin-login');}
+function adminLogin(){var u=document.getElementById('l-user').value,p=document.getElementById('l-pass').value;if(u!==CONFIG.adminUser||p!==CONFIG.adminPass){document.getElementById('login-err').style.display='block';return;}document.getElementById('login-err').style.display='none';if(loaded){renderAdmin();showScreen('s-admin');}else reloadData(true);}
 
 function enterPlayer(){
   var valid=people.filter(complete);
-  var unseen=valid.filter(function(p){ return seenIds.indexOf(p.id)<0; });
+  var unseen=valid.filter(function(p){return seenIds.indexOf(p.id)<0;});
   var first=playerEmail.split('@')[0];
   document.getElementById('gi-welcome').textContent='¡Hola'+(first?', '+first:'')+'!';
   document.getElementById('gi-progress').style.display='none';
   document.getElementById('gi-warn').style.display='none';
   document.getElementById('gi-done').style.display='none';
   document.getElementById('gi-btn').disabled=false;
-  if(valid.length<PLAYERS_COUNT){ document.getElementById('gi-warn').style.display='flex'; document.getElementById('gi-btn').disabled=true; }
-  else if(unseen.length===0){ document.getElementById('gi-done').style.display='flex'; seenIds=[]; }
-  else{ var seen=valid.length-unseen.length; if(seen>0){ document.getElementById('gi-progress-txt').textContent='Ya conoces a '+seen+' de '+valid.length+' compañeros. Te quedan '+unseen.length+' por descubrir.'; document.getElementById('gi-progress').style.display='flex'; } }
+  if(valid.length<PLAYERS_COUNT){document.getElementById('gi-warn').style.display='flex';document.getElementById('gi-btn').disabled=true;}
+  else if(unseen.length===0){document.getElementById('gi-done').style.display='flex';seenIds=[];}
+  else{var seen=valid.length-unseen.length;if(seen>0){document.getElementById('gi-progress-txt').textContent='Ya conoces a '+seen+' de '+valid.length+' compañeros. Te quedan '+unseen.length+' por descubrir.';document.getElementById('gi-progress').style.display='flex';}}
   showScreen('s-game-intro');
 }
+function logout(){document.getElementById('l-email').value='';document.getElementById('l-user').value='';document.getElementById('l-pass').value='';playerEmail='';playerRegistered=false;seenIds=[];loaded=false;people=[];if(location.hash)history.replaceState(null,'',location.pathname+location.search);showScreen('s-login');}
 
-function logout(){ document.getElementById('l-email').value=''; document.getElementById('l-user').value=''; document.getElementById('l-pass').value=''; playerEmail=''; playerRegistered=false; seenIds=[]; loaded=false; people=[]; if(location.hash) history.replaceState(null,'',location.pathname+location.search); showScreen('s-login'); }
-
-/* ============================================================ JUEGO ============================================================ */
+/* JUEGO */
 function startGame(){
   var valid=people.filter(complete);
-  var unseen=valid.filter(function(p){ return seenIds.indexOf(p.id)<0; });
-  if(unseen.length===0) unseen=valid;
-  if(unseen.length<PLAYERS_COUNT){ toast('Necesitas al menos '+PLAYERS_COUNT+' perfiles jugables'); return; }
+  var unseen=valid.filter(function(p){return seenIds.indexOf(p.id)<0;});
+  if(unseen.length===0)unseen=valid;
+  if(unseen.length<PLAYERS_COUNT){toast('Necesitas al menos '+PLAYERS_COUNT+' perfiles jugables');return;}
   gPlayers=shuffle(unseen).slice(0,PLAYERS_COUNT);
-  gRevealed=[false,false,false,false];
-  gCatOrder=shuffle(GAME_CATS);
+  gSelectedCats=shuffle(ALL_CATS).slice(0,CATS_TO_PLAY);
   gCatIdx=0;
-  gTotalCorrect=0; gTotalWrong=0;
-  gCurrentClue=null; gBlocked=false;
+  gHits=[0,0,0,0];
+  gTotalCorrect=0;gTotalWrong=0;
+  gCurrentClue=null;gBlocked=false;gRevealedCount=0;
   showScreen('s-game');
   updateProgressBar();
-  startRoulette();
+  showRoulette(true);
 }
 
-/* ── RULETA ── */
-function startRoulette(){
+/* RULETA */
+function showRoulette(isFirst){
   document.getElementById('g-roulette').style.display='block';
   document.getElementById('g-players').style.display='none';
   document.getElementById('g-clue-wrap').style.display='none';
   document.getElementById('g-feedback').style.display='none';
-  renderRouletteProgress();
 
-  var ticks=18, i=0, allCats=GAME_CATS, prev=null;
-  var target=gCatOrder[gCatIdx];
+  var target=gSelectedCats[gCatIdx];
+  var eyebrow=isFirst?'Empezamos descubriendo…':'Siguiente categoría…';
 
-  function pickDiff(){ var c; do{ c=allCats[Math.floor(Math.random()*allCats.length)]; }while(prev&&c.field===prev.field); prev=c; return c; }
+  document.getElementById('g-roulette').innerHTML=
+    '<div class="roulette-wrap">'
+    +'<div class="roulette-eyebrow">'+eyebrow+'</div>'
+    +'<div class="roulette-card" id="roulette-card"><div class="roulette-icon" id="roulette-icon">✨</div><div class="roulette-label" id="roulette-label">…</div></div>'
+    +'<div class="roulette-landed" id="roulette-landed"></div>'
+    +'</div>';
 
+  var ticks=22,i=0,prev=null;
+  function pickDiff(){var c;do{c=ALL_CATS[Math.floor(Math.random()*ALL_CATS.length)];}while(prev&&c.field===prev.field);prev=c;return c;}
   function step(){
     if(i<ticks){
       var c=pickDiff();
       document.getElementById('roulette-icon').textContent=c.icon;
       document.getElementById('roulette-label').textContent=c.label;
-      soundRoulette();
+      soundRouletteTick();
       var t=i/ticks;
-      var delay=60+(t*t*t)*320;
-      i++; setTimeout(step,delay);
+      var delay=55+(t*t*t)*340;
+      i++;setTimeout(step,delay);
     } else {
       document.getElementById('roulette-icon').textContent=target.icon;
       document.getElementById('roulette-label').textContent=target.label;
-      soundRouletteEnd();
-      setTimeout(function(){ startCategory(target); },900);
+      soundRouletteLand();
+      document.getElementById('roulette-landed').textContent='¡Descubramos quién tiene este '+target.label.toLowerCase()+'!';
+      setTimeout(function(){startCategory();},1100);
     }
   }
   step();
 }
 
-function renderRouletteProgress(){
-  var el=document.getElementById('roulette-progress'); el.innerHTML='';
-  for(var i=0;i<CATS_COUNT;i++){
-    var d=document.createElement('div');
-    d.className='roulette-dot'+(i<gCatIdx?' done':i===gCatIdx?' active':'');
-    el.appendChild(d);
-  }
-}
-
-/* ── CATEGORÍA ── */
-function startCategory(cat){
+/* CATEGORÍA */
+function startCategory(){
+  var cat=gSelectedCats[gCatIdx];
+  document.getElementById('g-header-info').textContent='Categoría '+(gCatIdx+1)+'/'+CATS_TO_PLAY;
   document.getElementById('g-roulette').style.display='none';
-  document.getElementById('g-cat-counter').textContent='Categoría '+(gCatIdx+1)+'/'+CATS_COUNT;
 
-  // Construir pool de pistas de esta categoría (una por jugador), mezcladas
+  // Pool de pistas de esta categoría, una por jugador, mezcladas
   gCluePending=shuffle(gPlayers.map(function(p,pi){
-    return { personIdx:pi, text:getClue(p,cat.field), catLabel:cat.label, catIcon:cat.icon };
+    return{personIdx:pi,text:getField(p,cat.field),catLabel:cat.label,catIcon:cat.icon};
   }));
 
-  // Reset revelados de esta categoría (los jugadores mantienen foto si ya la tienen de categorías anteriores)
   renderPlayers();
   document.getElementById('g-players').style.display='grid';
   document.getElementById('g-feedback').style.display='none';
-
-  setTimeout(function(){ nextClue(); },200);
+  setTimeout(function(){nextClue();},200);
 }
 
-/* ── JUGADORES ── */
+/* JUGADORES */
 function renderPlayers(){
-  var grid=document.getElementById('g-players'); grid.innerHTML='';
+  var grid=document.getElementById('g-players');grid.innerHTML='';
   gPlayers.forEach(function(p,pi){
-    var slot=document.createElement('div'); slot.className='player-slot'+(gRevealed[pi]?' revealed':''); slot.id='player-slot-'+pi;
-    var av=document.createElement('div'); av.className='player-av'+(gRevealed[pi]?' revealed-border':''); av.id='player-av-'+pi;
-    if(gRevealed[pi]){
-      if(p.photo){ var img=document.createElement('img'); img.src=p.photo; img.alt=p.name; av.appendChild(img); }
-      else{ av.innerHTML='<span style="font-size:18px;font-weight:800;color:var(--mz-black)">'+inits(p.name)+'</span>'; av.style.background='var(--mz-yellow)'; }
+    var revealed=gHits[pi]>=CATS_TO_PLAY;
+    var slot=document.createElement('div');slot.className='player-slot'+(revealed?' done':'');slot.id='player-slot-'+pi;
+    var av=document.createElement('div');av.className='player-av'+(revealed?' revealed':'');av.id='player-av-'+pi;
+    if(revealed){
+      if(p.photo){var img=document.createElement('img');img.src=p.photo;img.alt=p.name;av.appendChild(img);}
+      else{av.innerHTML='<span style="font-size:18px;font-weight:800;color:var(--mz-black)">'+inits(p.name)+'</span>';av.style.background='var(--mz-yellow)';}
     } else {
       av.innerHTML=silhouetteSVG();
     }
-    var nameEl=document.createElement('div'); nameEl.className='player-firstname'; nameEl.textContent=firstName(p.name);
-    slot.appendChild(av); slot.appendChild(nameEl);
-    if(!gRevealed[pi]){
-      (function(idx){ slot.onclick=function(){ handlePlayerClick(idx); }; })(pi);
+    var nameEl=document.createElement('div');nameEl.className='player-firstname';nameEl.textContent=firstName(p.name);
+
+    // Puntos de progreso (3 dots)
+    var dotsEl=document.createElement('div');dotsEl.className='player-dots';dotsEl.id='player-dots-'+pi;
+    for(var d=0;d<CATS_TO_PLAY;d++){
+      var dot=document.createElement('div');dot.className='pdot'+(d<gHits[pi]?' active':'');dotsEl.appendChild(dot);
     }
+
+    slot.appendChild(av);slot.appendChild(nameEl);slot.appendChild(dotsEl);
+    if(!revealed){(function(idx){slot.onclick=function(){handlePlayerClick(idx);};})(pi);}
     grid.appendChild(slot);
   });
 }
@@ -590,15 +537,24 @@ function silhouetteSVG(){
     +'</svg>';
 }
 
-/* ── PISTAS ── */
+function updateDots(pi){
+  var dotsEl=document.getElementById('player-dots-'+pi);if(!dotsEl)return;
+  var dots=dotsEl.querySelectorAll('.pdot');
+  for(var d=0;d<dots.length;d++){
+    if(d<gHits[pi])dots[d].classList.add('active');
+    else dots[d].classList.remove('active');
+  }
+}
+
+/* PISTAS */
 function nextClue(){
   hideFeedback();
   if(gCluePending.length===0){
-    // Todas las pistas de esta categoría resueltas → siguiente categoría
+    // Categoría completada → siguiente
     gCatIdx++;
     updateProgressBar();
-    if(gCatIdx>=CATS_COUNT){ endGame(); return; }
-    setTimeout(function(){ startRoulette(); },400);
+    if(gCatIdx>=CATS_TO_PLAY){endGame();return;}
+    setTimeout(function(){showRoulette(false);},400);
     return;
   }
   gCurrentClue=gCluePending.shift();
@@ -616,10 +572,11 @@ function renderClue(clue){
     +'</div>';
 }
 
-/* ── RESPUESTA ── */
+/* RESPUESTA */
 function handlePlayerClick(playerIdx){
-  if(gBlocked||!gCurrentClue) return;
-  if(gRevealed[playerIdx]){ toast('Esta persona ya está descubierta'); return; }
+  if(gBlocked||!gCurrentClue)return;
+  var revealed=gHits[playerIdx]>=CATS_TO_PLAY;
+  if(revealed){toast('Esta persona ya está descubierta');return;}
   gBlocked=true;
 
   var correct=gCurrentClue.personIdx===playerIdx;
@@ -627,26 +584,24 @@ function handlePlayerClick(playerIdx){
   if(correct){
     soundCorrect();
     gTotalCorrect++;
+    gHits[playerIdx]++;
     flashSlot(playerIdx,'correct-flash');
+    updateDots(playerIdx);
     showFeedback(true,'¡Correcto!');
 
-    // Revelar foto tras breve pausa
-    setTimeout(function(){
-      gRevealed[playerIdx]=true;
-      revealPlayer(playerIdx);
-      setTimeout(function(){ nextClue(); },600);
-    },400);
-
+    if(gHits[playerIdx]>=CATS_TO_PLAY){
+      setTimeout(function(){revealPlayer(playerIdx);setTimeout(function(){nextClue();},700);},400);
+    } else {
+      setTimeout(function(){nextClue();},700);
+    }
   } else {
     soundWrong();
     gTotalWrong++;
     flashSlot(playerIdx,'wrong-flash');
     showFeedback(false,'No es ese/a — la pista vuelve al final');
-
-    // Devolver pista al final del pool
     gCluePending.push(gCurrentClue);
     gCurrentClue=null;
-    setTimeout(function(){ nextClue(); },900);
+    setTimeout(function(){nextClue();},900);
   }
 }
 
@@ -655,35 +610,28 @@ function revealPlayer(pi){
   var av=document.getElementById('player-av-'+pi);
   var slot=document.getElementById('player-slot-'+pi);
   soundReveal();
-  if(p.photo){ var img=document.createElement('img'); img.src=p.photo; img.alt=p.name; av.innerHTML=''; av.appendChild(img); }
-  else{ av.innerHTML='<span style="font-size:18px;font-weight:800;color:var(--mz-black)">'+inits(p.name)+'</span>'; av.style.background='var(--mz-yellow)'; }
-  av.classList.add('revealed-border','reveal-anim');
-  if(slot){ slot.classList.add('revealed'); slot.onclick=null; }
+  if(p.photo){var img=document.createElement('img');img.src=p.photo;img.alt=p.name;av.innerHTML='';av.appendChild(img);}
+  else{av.innerHTML='<span style="font-size:18px;font-weight:800;color:var(--mz-black)">'+inits(p.name)+'</span>';av.style.background='var(--mz-yellow)';}
+  av.classList.add('revealed','reveal-anim');
+  if(slot){slot.classList.add('done');slot.onclick=null;}
+  gRevealedCount++;
 }
 
-function flashSlot(pi,cls){
-  var slot=document.getElementById('player-slot-'+pi); if(!slot) return;
-  slot.classList.remove('correct-flash','wrong-flash'); void slot.offsetWidth; slot.classList.add(cls);
-}
+function flashSlot(pi,cls){var slot=document.getElementById('player-slot-'+pi);if(!slot)return;slot.classList.remove('correct-flash','wrong-flash');void slot.offsetWidth;slot.classList.add(cls);}
+function showFeedback(ok,msg){var el=document.getElementById('g-feedback');el.className='feedback-bar '+(ok?'ok':'ko');el.textContent=msg;el.style.display='block';}
+function hideFeedback(){var el=document.getElementById('g-feedback');if(el)el.style.display='none';}
+function updateProgressBar(){document.getElementById('g-pbar').style.width=Math.round(gCatIdx/CATS_TO_PLAY*100)+'%';}
 
-function showFeedback(ok,msg){ var el=document.getElementById('g-feedback'); el.className='feedback-bar '+(ok?'ok':'ko'); el.textContent=msg; el.style.display='block'; }
-function hideFeedback(){ var el=document.getElementById('g-feedback'); if(el) el.style.display='none'; }
-
-function updateProgressBar(){
-  var pct=Math.round(gCatIdx/CATS_COUNT*100);
-  document.getElementById('g-pbar').style.width=pct+'%';
-}
-
-/* ============================================================ FIN ============================================================ */
+/* FIN */
 function endGame(){
-  var log=gPlayers.map(function(p){ return { perfil_id:p.id, acertado:true }; });
-  savePartida(log).then(function(){ gPlayers.forEach(function(p){ if(seenIds.indexOf(p.id)<0) seenIds.push(p.id); }); });
+  var log=gPlayers.map(function(p){return{perfil_id:p.id,acertado:true};});
+  savePartida(log).then(function(){gPlayers.forEach(function(p){if(seenIds.indexOf(p.id)<0)seenIds.push(p.id);});});
   showResult();
 }
 
-/* ============================================================ RESULTADO ============================================================ */
+/* RESULTADO */
 function showResult(){
-  var total=CATS_COUNT*PLAYERS_COUNT;
+  var total=CATS_TO_PLAY*PLAYERS_COUNT;
   var phr=getResultPhrase(gTotalCorrect,total);
   document.getElementById('r-emoji').textContent=phr.emoji;
   document.getElementById('r-phrase').textContent=phr.phrase;
@@ -692,8 +640,8 @@ function showResult(){
   document.getElementById('r-wrong').textContent=gTotalWrong;
   document.getElementById('r-join-wrap').style.display=playerRegistered?'none':'block';
 
-  var profEl=document.getElementById('r-profiles'); profEl.innerHTML='';
-  gPlayers.forEach(function(p){ var d=document.createElement('div'); d.className='profile-card'; d.innerHTML=profileCardHTML(p); profEl.appendChild(d); });
+  var profEl=document.getElementById('r-profiles');profEl.innerHTML='';
+  gPlayers.forEach(function(p){var d=document.createElement('div');d.className='profile-card';d.innerHTML=profileCardHTML(p);profEl.appendChild(d);});
   document.getElementById('r-profiles-wrap').style.display='block';
 
   lastDrawnId=null;
@@ -708,60 +656,31 @@ function showResult(){
   showScreen('s-result');
 }
 
-/* ============================================================ CAFÉ ============================================================ */
-function drawCoffee(){
-  var pool=gPlayers; if(lastDrawnId&&pool.length>1) pool=gPlayers.filter(function(p){ return p.id!==lastDrawnId; });
-  var chosen=pool[Math.floor(Math.random()*pool.length)]; lastDrawnId=chosen.id;
-  document.getElementById('cd-launch').style.display='none';
-  document.getElementById('cd-match').style.display='none';
-  document.getElementById('cd-match').classList.remove('revealed');
-  document.getElementById('cd-actions').style.display='none';
-  document.getElementById('cd-closing').style.display='none';
-  document.getElementById('cd-headline').innerHTML='¿Con quién te toca el café?';
-  runRoulette(gPlayers,chosen,function(){ landMatch(chosen); });
-}
-function faceHTML(p){ var av=p.photo?'<div class="cd-av"><img src="'+esc(p.photo)+'" alt=""></div>':'<div class="cd-av">'+inits(p.name)+'</div>'; return '<div class="cd-face">'+av+'<div class="cd-name">'+esc(p.name)+'</div></div>'; }
-function runRoulette(cands,chosen,done){ var el=document.getElementById('draw-spinner'); el.className='cd-spinner spinning'; var ticks=cands.length>1?20:1,i=0,prev=null; function pickDiff(){ if(cands.length<2) return chosen; var c; do{ c=cands[Math.floor(Math.random()*cands.length)]; }while(prev&&c.id===prev.id); prev=c; return c; } function step(){ if(i<ticks){ el.innerHTML=faceHTML(pickDiff()); var t=i/ticks; var delay=120+(t*t*t)*360; i++; setTimeout(step,delay); } else { el.className='cd-spinner landed'; el.innerHTML=faceHTML(chosen); done(); } } step(); }
-function landMatch(chosen){
-  var clues=allClues(chosen); var pista=clues.length?clues[Math.floor(Math.random()*clues.length)]:null;
-  document.getElementById('cd-card').innerHTML='<div class="profile-card" style="margin:0">'+profileCardHTML(chosen)+'</div>';
-  var match=document.getElementById('cd-match'); match.style.display='block';
-  var slot=document.getElementById('cd-coffee-slot');
-  if(chosen.email){ window.__coffeeMatch={name:chosen.name,email:chosen.email,pista:pista}; slot.innerHTML='<button class="btn coffee" onclick="inviteCoffee()">Quedar para el café con '+esc(firstName(chosen.name))+'</button>'; }
-  else{ slot.innerHTML='<p class="cd-empty">'+esc(firstName(chosen.name))+' no tiene email — ¡búscale en persona!</p>'; }
-  setTimeout(function(){ match.classList.add('revealed'); },450);
-  document.getElementById('cd-actions').style.display='block';
-  document.getElementById('cd-redraw').style.display=gPlayers.length>1?'inline-flex':'none';
-  setTimeout(function(){ document.getElementById('cd-closing').style.display='block'; },700);
-}
-function inviteCoffee(){
-  var m=window.__coffeeMatch; if(!m||!m.email) return;
-  var empresa=CONFIG.empresaNombre||'el equipo';
-  var pistaLine=m.pista?'\n\nJugando al juego de onboarding he descubierto que '+m.pista.text+'. ¡Tenemos mucho de qué hablar!':'';
-  var subject=encodeURIComponent('¡Hola '+m.name+', nos ha tocado un café!');
-  var body=encodeURIComponent('Hola '+m.name+',\n\nMe acabo de incorporar a '+empresa+' y, jugando al juego de onboarding, nos ha tocado tomar un café juntos esta semana.'+pistaLine+'\n\n¿Te va bien que lo concretemos? Me apetece conocerte.\n\nUn saludo');
-  window.open('https://outlook.office.com/mail/deeplink/compose?to='+encodeURIComponent(m.email)+'&subject='+subject+'&body='+body,'_blank');
-  document.getElementById('cd-coffee-slot').innerHTML='<div class="banner ok" style="text-align:left;margin-bottom:0"><i class="ti ti-circle-check"></i><span>Correo preparado. Envíalo para quedar con <strong>'+esc(firstName(m.name))+'</strong>.</span></div>';
-}
+/* CAFÉ */
+function drawCoffee(){var pool=gPlayers;if(lastDrawnId&&pool.length>1)pool=gPlayers.filter(function(p){return p.id!==lastDrawnId;});var chosen=pool[Math.floor(Math.random()*pool.length)];lastDrawnId=chosen.id;document.getElementById('cd-launch').style.display='none';document.getElementById('cd-match').style.display='none';document.getElementById('cd-match').classList.remove('revealed');document.getElementById('cd-actions').style.display='none';document.getElementById('cd-closing').style.display='none';document.getElementById('cd-headline').innerHTML='¿Con quién te toca el café?';runRoulette(gPlayers,chosen,function(){landMatch(chosen);});}
+function faceHTML(p){var av=p.photo?'<div class="cd-av"><img src="'+esc(p.photo)+'" alt=""></div>':'<div class="cd-av">'+inits(p.name)+'</div>';return'<div class="cd-face">'+av+'<div class="cd-name">'+esc(p.name)+'</div></div>';}
+function runRoulette(cands,chosen,done){var el=document.getElementById('draw-spinner');el.className='cd-spinner spinning';var ticks=cands.length>1?20:1,i=0,prev=null;function pickDiff(){if(cands.length<2)return chosen;var c;do{c=cands[Math.floor(Math.random()*cands.length)];}while(prev&&c.id===prev.id);prev=c;return c;}function step(){if(i<ticks){el.innerHTML=faceHTML(pickDiff());var t=i/ticks;var delay=120+(t*t*t)*360;i++;setTimeout(step,delay);}else{el.className='cd-spinner landed';el.innerHTML=faceHTML(chosen);done();}}step();}
+function landMatch(chosen){var clues=allClues(chosen);var pista=clues.length?clues[Math.floor(Math.random()*clues.length)]:null;document.getElementById('cd-card').innerHTML='<div class="profile-card" style="margin:0">'+profileCardHTML(chosen)+'</div>';var match=document.getElementById('cd-match');match.style.display='block';var slot=document.getElementById('cd-coffee-slot');if(chosen.email){window.__coffeeMatch={name:chosen.name,email:chosen.email,pista:pista};slot.innerHTML='<button class="btn coffee" onclick="inviteCoffee()">Quedar para el café con '+esc(firstName(chosen.name))+'</button>';}else{slot.innerHTML='<p class="cd-empty">'+esc(firstName(chosen.name))+' no tiene email — ¡búscale en persona!</p>';}setTimeout(function(){match.classList.add('revealed');},450);document.getElementById('cd-actions').style.display='block';document.getElementById('cd-redraw').style.display=gPlayers.length>1?'inline-flex':'none';setTimeout(function(){document.getElementById('cd-closing').style.display='block';},700);}
+function inviteCoffee(){var m=window.__coffeeMatch;if(!m||!m.email)return;var empresa=CONFIG.empresaNombre||'el equipo';var pistaLine=m.pista?'\n\nJugando al juego de onboarding he descubierto que '+m.pista.text+'. ¡Tenemos mucho de qué hablar!':'';var subject=encodeURIComponent('¡Hola '+m.name+', nos ha tocado un café!');var body=encodeURIComponent('Hola '+m.name+',\n\nMe acabo de incorporar a '+empresa+' y, jugando al juego de onboarding, nos ha tocado tomar un café juntos esta semana.'+pistaLine+'\n\n¿Te va bien que lo concretemos? Me apetece conocerte.\n\nUn saludo');window.open('https://outlook.office.com/mail/deeplink/compose?to='+encodeURIComponent(m.email)+'&subject='+subject+'&body='+body,'_blank');document.getElementById('cd-coffee-slot').innerHTML='<div class="banner ok" style="text-align:left;margin-bottom:0"><i class="ti ti-circle-check"></i><span>Correo preparado. Envíalo para quedar con <strong>'+esc(firstName(m.name))+'</strong>.</span></div>';}
 
 function profileCardHTML(p){
   var avEl=p.photo?'<div class="avatar-lg"><img src="'+esc(p.photo)+'" alt="'+esc(p.name)+'"></div>':'<div class="avatar-lg">'+inits(p.name)+'</div>';
-  var body=allClues(p).map(function(c){ return '<div class="profile-clue"><span><strong style="color:var(--mz-black)">'+esc(c.label)+':</strong> '+esc(c.text)+'</span></div>'; }).join('');
-  return '<div class="profile-card-header">'+avEl+'<div><div class="profile-card-name">'+esc(p.name)+'</div></div></div><div class="profile-card-body">'+body+'</div>';
+  var body=allClues(p).map(function(c){return'<div class="profile-clue"><span><strong style="color:var(--mz-black)">'+esc(c.label)+':</strong> '+esc(c.text)+'</span></div>';}).join('');
+  return'<div class="profile-card-header">'+avEl+'<div><div class="profile-card-name">'+esc(p.name)+'</div></div></div><div class="profile-card-body">'+body+'</div>';
 }
 
-/* ============================================================ ADMIN ============================================================ */
-function renderAdmin(){ document.getElementById('a-total').textContent=people.length; document.getElementById('a-complete').textContent=people.filter(complete).length; var list=document.getElementById('a-list'); list.innerHTML=''; if(!people.length){ list.innerHTML='<p style="font-size:12px;color:var(--mz-gray)">No hay perfiles todavía.</p>'; return; } people.forEach(function(p){ var ok=complete(p); var nClues=allClues(p).length; var av=p.photo?'<div class="adm-av"><img src="'+esc(p.photo)+'" alt="'+esc(p.name)+'"></div>':'<div class="adm-av">'+inits(p.name)+'</div>'; var row=document.createElement('div'); row.className='adm-row'; row.innerHTML=av+'<div style="flex:1;min-width:0"><div class="adm-name">'+esc(p.name||'(sin nombre)')+'</div><div class="adm-sub">'+nClues+'/'+ALL_CLUE_FIELDS.length+' pistas'+(p.email?' · '+esc(p.email):'')+'</div></div><span class="tag '+(ok?'ok':'ko')+'">'+(ok?'jugable':'incompleto')+'</span>'; list.appendChild(row); }); }
+/* ADMIN */
+function renderAdmin(){document.getElementById('a-total').textContent=people.length;document.getElementById('a-complete').textContent=people.filter(complete).length;var list=document.getElementById('a-list');list.innerHTML='';if(!people.length){list.innerHTML='<p style="font-size:12px;color:var(--mz-gray)">No hay perfiles todavía.</p>';return;}people.forEach(function(p){var ok=complete(p);var nClues=allClues(p).length;var av=p.photo?'<div class="adm-av"><img src="'+esc(p.photo)+'" alt="'+esc(p.name)+'"></div>':'<div class="adm-av">'+inits(p.name)+'</div>';var row=document.createElement('div');row.className='adm-row';row.innerHTML=av+'<div style="flex:1;min-width:0"><div class="adm-name">'+esc(p.name||'(sin nombre)')+'</div><div class="adm-sub">'+nClues+'/'+ALL_CLUE_FIELDS.length+' pistas'+(p.email?' · '+esc(p.email):'')+'</div></div><span class="tag '+(ok?'ok':'ko')+'">'+(ok?'jugable':'incompleto')+'</span>';list.appendChild(row);});}
 
-/* ============================================================ ALTA ============================================================ */
-var signupPhoto='', signupFromResult=false;
-function handlePhotoPick(input){ var file=input.files&&input.files[0]; if(!file) return; if(!/^image\//.test(file.type)){ toast('Selecciona una imagen'); input.value=''; return; } var reader=new FileReader(); reader.onload=function(e){ var img=new Image(); img.onload=function(){ var max=1024,w=img.width,h=img.height; if(w>=h&&w>max){ h=Math.round(h*max/w); w=max; } else if(h>w&&h>max){ w=Math.round(w*max/h); h=max; } var canvas=document.createElement('canvas'); canvas.width=w; canvas.height=h; canvas.getContext('2d').drawImage(img,0,0,w,h); signupPhoto=canvas.toDataURL('image/jpeg',.85); document.getElementById('su-foto-img').src=signupPhoto; document.getElementById('su-foto-preview').style.display='block'; document.getElementById('su-foto-clear').style.display='inline-flex'; }; img.src=e.target.result; }; reader.readAsDataURL(file); }
-function clearPhoto(){ signupPhoto=''; var f=document.getElementById('su-foto'); if(f) f.value=''; document.getElementById('su-foto-preview').style.display='none'; document.getElementById('su-foto-img').src=''; document.getElementById('su-foto-clear').style.display='none'; }
-function openSignup(){ signupFromResult=true; var box=document.getElementById('su-clues'); box.innerHTML=CLUE_FIELDS.map(function(cf){ return '<div class="field"><label>'+esc(cf.label||cf.field)+' *</label><textarea id="su-f-'+esc(cf.field)+'" rows="2" placeholder="Escribe tu respuesta…"></textarea></div>'; }).join(''); document.getElementById('su-nombre').value=''; document.getElementById('su-email').value=playerEmail||''; clearPhoto(); document.getElementById('su-err').style.display='none'; document.getElementById('signup-form').style.display='block'; document.getElementById('signup-done').style.display='none'; document.getElementById('su-submit').disabled=false; document.getElementById('su-submit').innerHTML='Enviar mi ficha'; showScreen('s-signup'); }
-function goBackFromSignup(){ if(signupFromResult) showScreen('s-result'); else logout(); }
-function submitSignup(){ var err=document.getElementById('su-err'),errMsg=document.getElementById('su-err-msg'); function fail(msg){ errMsg.textContent=msg; err.style.display='block'; } var nombre=document.getElementById('su-nombre').value.trim(); var email=document.getElementById('su-email').value.trim(); if(!nombre) return fail('Pon tu nombre.'); if(!email||email.indexOf('@')<1||email.indexOf('.')<0) return fail('Pon un email válido.'); var body={nombre:nombre,email:email}; var faltan=[]; CLUE_FIELDS.forEach(function(cf){ var el=document.getElementById('su-f-'+cf.field); var val=el?el.value.trim():''; if(!val) faltan.push(cf.label||cf.field); body[cf.field]=val; }); if(faltan.length) return fail('Te falta rellenar: '+faltan.join(', ')+'.'); if(signupPhoto){ var c=signupPhoto.indexOf(','); body.foto={ filename:'foto.jpg', contentType:'image/jpeg', data:c>=0?signupPhoto.slice(c+1):signupPhoto }; } err.style.display='none'; var btn=document.getElementById('su-submit'); btn.disabled=true; btn.innerHTML='Enviando…'; var proxy=CONFIG.proxyUrl; fetch(proxy+(proxy.indexOf('?')>=0?'&':'?')+'action=perfil',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); }).then(function(r){ if(!r.ok||(r.data&&r.data.error)) throw new Error((r.data&&r.data.error)||'No se pudo enviar.'); document.getElementById('signup-form').style.display='none'; document.getElementById('signup-done').style.display='block'; window.scrollTo(0,0); }).catch(function(e){ btn.disabled=false; btn.innerHTML='Enviar mi ficha'; fail(e.message||'No se pudo enviar.'); }); }
+/* ALTA */
+var signupPhoto='',signupFromResult=false;
+function handlePhotoPick(input){var file=input.files&&input.files[0];if(!file)return;if(!/^image\//.test(file.type)){toast('Selecciona una imagen');input.value='';return;}var reader=new FileReader();reader.onload=function(e){var img=new Image();img.onload=function(){var max=1024,w=img.width,h=img.height;if(w>=h&&w>max){h=Math.round(h*max/w);w=max;}else if(h>w&&h>max){w=Math.round(w*max/h);h=max;}var canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(img,0,0,w,h);signupPhoto=canvas.toDataURL('image/jpeg',.85);document.getElementById('su-foto-img').src=signupPhoto;document.getElementById('su-foto-preview').style.display='block';document.getElementById('su-foto-clear').style.display='inline-flex';};img.src=e.target.result;};reader.readAsDataURL(file);}
+function clearPhoto(){signupPhoto='';var f=document.getElementById('su-foto');if(f)f.value='';document.getElementById('su-foto-preview').style.display='none';document.getElementById('su-foto-img').src='';document.getElementById('su-foto-clear').style.display='none';}
+function openSignup(){signupFromResult=true;var box=document.getElementById('su-clues');box.innerHTML=CLUE_FIELDS.map(function(cf){return'<div class="field"><label>'+esc(cf.label||cf.field)+' *</label><textarea id="su-f-'+esc(cf.field)+'" rows="2" placeholder="Escribe tu respuesta…"></textarea></div>';}).join('');document.getElementById('su-nombre').value='';document.getElementById('su-email').value=playerEmail||'';clearPhoto();document.getElementById('su-err').style.display='none';document.getElementById('signup-form').style.display='block';document.getElementById('signup-done').style.display='none';document.getElementById('su-submit').disabled=false;document.getElementById('su-submit').innerHTML='Enviar mi ficha';showScreen('s-signup');}
+function goBackFromSignup(){if(signupFromResult)showScreen('s-result');else logout();}
+function submitSignup(){var err=document.getElementById('su-err'),errMsg=document.getElementById('su-err-msg');function fail(msg){errMsg.textContent=msg;err.style.display='block';}var nombre=document.getElementById('su-nombre').value.trim();var email=document.getElementById('su-email').value.trim();if(!nombre)return fail('Pon tu nombre.');if(!email||email.indexOf('@')<1||email.indexOf('.')<0)return fail('Pon un email válido.');var body={nombre:nombre,email:email};var faltan=[];CLUE_FIELDS.forEach(function(cf){var el=document.getElementById('su-f-'+cf.field);var val=el?el.value.trim():'';if(!val)faltan.push(cf.label||cf.field);body[cf.field]=val;});if(faltan.length)return fail('Te falta rellenar: '+faltan.join(', ')+'.');if(signupPhoto){var c=signupPhoto.indexOf(',');body.foto={filename:'foto.jpg',contentType:'image/jpeg',data:c>=0?signupPhoto.slice(c+1):signupPhoto};}err.style.display='none';var btn=document.getElementById('su-submit');btn.disabled=true;btn.innerHTML='Enviando…';var proxy=CONFIG.proxyUrl;fetch(proxy+(proxy.indexOf('?')>=0?'&':'?')+'action=perfil',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(res){return res.json().then(function(d){return{ok:res.ok,data:d};});}).then(function(r){if(!r.ok||(r.data&&r.data.error))throw new Error((r.data&&r.data.error)||'No se pudo enviar.');document.getElementById('signup-form').style.display='none';document.getElementById('signup-done').style.display='block';window.scrollTo(0,0);}).catch(function(e){btn.disabled=false;btn.innerHTML='Enviar mi ficha';fail(e.message||'No se pudo enviar.');});}
 
-window.addEventListener('load',function(){ if(!CONFIG.proxyUrl) console.warn('[Onboarding V3] Falta proxyUrl en config.js'); });
+window.addEventListener('load',function(){if(!CONFIG.proxyUrl)console.warn('[Onboarding V3] Falta proxyUrl en config.js');});
 </script>
 </body>
 </html>
