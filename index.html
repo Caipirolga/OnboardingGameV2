@@ -233,7 +233,6 @@ input:focus,textarea:focus{outline:none;border-color:var(--mz-yellow)}
     <!-- Café -->
     <div class="coffee-draw">
       <div class="cd-headline" id="cd-headline"></div>
-      <p style="font-size:13px;color:var(--mz-white);font-weight:700;margin-bottom:16px">¿Te animas a tomarte un café?</p>
       <div class="cd-spinner" id="draw-spinner"><div class="cd-face"><div class="cd-av"><i class="ti ti-coffee" style="font-size:46px"></i></div></div></div>
       <button class="btn primary" id="cd-launch" style="margin-top:16px" onclick="drawCoffee()">Sí quiero</button>
       <div class="cd-veil-wrap" id="cd-match" style="display:none"><div class="cd-veil"><i class="ti ti-question-mark"></i></div><div id="cd-card"></div></div>
@@ -775,7 +774,7 @@ function showResult(){
   gPlayers.forEach(function(p){var d=document.createElement('div');d.className='profile-card';d.innerHTML=profileCardHTML(p);profEl.appendChild(d);});
   document.getElementById('r-profiles-wrap').style.display='block';
   lastDrawnId=null;
-  document.getElementById('cd-headline').innerHTML='Nada conecta más que una conversación cara a cara.';
+  document.getElementById('cd-headline').innerHTML='Nada conecta más que una conversación cara a cara.<br><span style="font-size:13px;font-weight:600">¿Te animas a tomarte un café?</span>';
   document.getElementById('draw-spinner').className='cd-spinner idle';
   document.getElementById('draw-spinner').innerHTML='<div class="cd-face"><div class="cd-av"><i class="ti ti-coffee" style="font-size:46px"></i></div></div>';
   document.getElementById('cd-launch').style.display='inline-flex';
