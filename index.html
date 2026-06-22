@@ -782,8 +782,6 @@ function showResult(){
   document.getElementById('cd-match').style.display='none';
   document.getElementById('cd-match').classList.remove('revealed');
   document.getElementById('cd-actions').style.display='none';
-  var closingEl=document.getElementById('cd-closing');
-  if(closingEl)closingEl.style.display='none';
   showScreen('s-result');
 }
 
@@ -796,7 +794,6 @@ function drawCoffee(){
   document.getElementById('cd-match').style.display='none';
   document.getElementById('cd-match').classList.remove('revealed');
   document.getElementById('cd-actions').style.display='none';
-  document.getElementById('cd-closing').style.display='none';
   document.getElementById('cd-headline').innerHTML='Tomarme un café con…';
   runRoulette(gPlayers,chosen,function(){landMatch(chosen);});
 }
@@ -841,11 +838,6 @@ function landMatch(chosen){
   setTimeout(function(){match.classList.add('revealed');},450);
   document.getElementById('cd-actions').style.display='block';
   document.getElementById('cd-redraw').style.display=gPlayers.length>1?'inline-flex':'none';
-  setTimeout(function(){
-    var closingEl=document.getElementById('cd-closing');
-    if(closingEl)closingEl.style.display='block';
-  },700);
-  setTimeout(function(){document.getElementById('cd-closing').style.display='block';},700);
 }
 function inviteCoffee(){
   var m=window.__coffeeMatch;if(!m||!m.email)return;
