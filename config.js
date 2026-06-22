@@ -9,27 +9,26 @@
 window.CONFIG = {
 
   // --- Proxy (Cloudflare Worker) ---
-  // URL de tu Worker. Mantén la barra final '/'.
   proxyUrl: 'https://onboarding-proxy.olga-760.workers.dev/',
 
   // --- Datos de la empresa ---
   empresaNombre: 'Mostaza Comunicación',
-  empresaColor: '#d4ac39',          // color de acento del juego
-  empresaLogo: 'logo.svg',          // ruta o URL del logo. '' = icono por defecto
+  empresaColor: '#d4ac39',
+  empresaLogo: 'logo.svg',
 
   // --- Acceso de administración ---
   adminUser: 'admin',
   adminPass: 'm0stazaM',
 
-  // --- Pistas (orden = orden en que se revelan en el juego) ---
+  // --- Pistas (orden = orden en que aparecen en el formulario) ---
   // campo = nombre EXACTO de la columna en Airtable
   pistas: [
-    { campo: 'como_soy',       icono: 'ti-mood-smile', etiqueta: '¿Cómo soy?' },
-    { campo: 'donde_naci',     icono: 'ti-map-pin',    etiqueta: '¿Dónde nací?' },
-    { campo: 'hobby',          icono: 'ti-heart',      etiqueta: 'Mi hobby' },
-    { campo: 'plan_perfecto',  icono: 'ti-sparkles',   etiqueta: 'Mi plan perfecto' },
-    { campo: 'peor_pesadilla', icono: 'ti-ghost',      etiqueta: 'Mi peor pesadilla' },
-    { campo: 'rol_empresa',    icono: 'ti-briefcase',  etiqueta: 'Mi rol en la empresa' }
+    { campo: 'superpoder',     icono: 'ti-bolt',             etiqueta: 'Mi superpoder' },
+    { campo: 'mania',          icono: 'ti-mood-crazy-happy', etiqueta: 'Mi manía' },
+    { campo: 'hobby',          icono: 'ti-heart',            etiqueta: 'Mi hobby' },
+    { campo: 'plan_perfecto',  icono: 'ti-sparkles',         etiqueta: 'Mi plan perfecto' },
+    { campo: 'peor_pesadilla', icono: 'ti-ghost',            etiqueta: 'Mi peor pesadilla' },
+    { campo: 'rol_empresa',    icono: 'ti-briefcase',        etiqueta: 'Mi rol en la empresa' }
   ]
 
 };
